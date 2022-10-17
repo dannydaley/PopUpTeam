@@ -6,6 +6,9 @@ import clsx from 'clsx'
 import { Container } from '@/components/Container'
 import backgroundImage from '@/images/background-features.jpg'
 import logo from '@/images/screenshots/logo.png'
+import S1 from '@/images/screenshots/S1.png'
+import S2 from '@/images/screenshots/S2.png'
+import S3 from '@/images/screenshots/S3.png'
 
 
 const features = [
@@ -13,25 +16,25 @@ const features = [
     title: 'Progress',
     description:
       "Keep track of everyone's progress and whether or not they've finished their tasks.",
-    image: logo,
+    image: S1,
   },
   {
     title: 'Manage Payments',
     description:
       "All the payroll for your team in one place.",
-    image: logo,
+    image: S2,
   },
   {
     title: 'Arrange Meetings',
     description:
       "Set up one off or recuring meetings all within your dashboard.",
-    image: logo,
+    image: S3,
   },
   {
     title: 'Reporting',
     description:
       'View the latest updates and reports',
-    image: logo,
+    image:{logo},
   },
 ]
 
