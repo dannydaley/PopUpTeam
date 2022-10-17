@@ -10,6 +10,7 @@ import { PrimaryFeatures } from '@/components/PrimaryFeatures'
 import { SecondaryFeatures } from '@/components/SecondaryFeatures'
 import { Testimonials } from '@/components/Testimonials'
 import { Banner } from '@/components/Banner'
+import { CreativeDirectory } from '@/components/CreativeDirectory'
 
 export default function Home() {
   return (
