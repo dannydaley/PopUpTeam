@@ -71,15 +71,6 @@ export default function Register() {
             autoComplete="new-password"
             required
           />
-          <SelectField
-            className="col-span-full"
-            label="How did you hear about us?"
-            id="referral_source"
-            name="referral_source"
-          >
-            <option>Social Media</option>
-            <option>Google</option>
-          </SelectField>
           <div className="col-span-full">
             <Button
               type="submit"
