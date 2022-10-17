@@ -8,6 +8,8 @@ import { Container } from '@/components/Container'
 import { Logo } from '@/components/Logo'
 import { NavLink } from '@/components/NavLink'
 
+import { About } from '@/pages/about' 
+
 function MobileNavLink({ href, children }) {
   return (
     <Popover.Button as={Link} href={href} className="block w-full p-2">
@@ -79,6 +81,7 @@ function MobileNavigation() {
           >
             <MobileNavLink href="#features">Features</MobileNavLink>
             <MobileNavLink href="#testimonials">Testimonials</MobileNavLink>
+            <MobileNavLink href="#about">About</MobileNavLink>
             <MobileNavLink href="#pricing">Pricing</MobileNavLink>
             <hr className="m-2 border-slate-300/40" />
             <MobileNavLink href="/login">Sign in</MobileNavLink>
@@ -95,13 +98,14 @@ export function Header() {
       <Container>
         <nav className="relative z-50 flex justify-between">
           <div className="flex items-center md:gap-x-12">
-            <Link href="#" aria-label="Home">
+            <Link href="/#" aria-label="Home">
               <Logo className="h-10 w-auto" />
             </Link>
             <div className="hidden md:flex md:gap-x-6">
-              <NavLink href="#features">Features</NavLink>
-              <NavLink href="#testimonials">Testimonials</NavLink>
-              <NavLink href="#pricing">Pricing</NavLink>
+              <NavLink href="/#features">Features</NavLink>
+              <NavLink href="/#testimonials">Testimonials</NavLink>
+              <NavLink href="/about">About</NavLink>
+              <NavLink href="/#pricing">Pricing</NavLink>
             </div>
           </div>
           <div className="flex items-center gap-x-5 md:gap-x-8">
