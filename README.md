@@ -90,7 +90,7 @@ Then extract the folder somewhere in your files.
 
 8. And in the previous instance
 
-`$ npm start`
+`$ npm run dev`
 
 9. Finally enter the local URL (http:localhost:3000) into your web browser. Database functionality can be found (http:localhost:3000/dev)
 Additional if you wish to view the database outside of the source code enter the information found in 'server/config/db.js' into mySQLworkbench as a new connection in the same format it appears here.
