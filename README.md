@@ -6,7 +6,7 @@ Development Board - https://tasks.office.com/falmouthac.onmicrosoft.com/Home/Pla
 
 Business Proposal - https://falmouthac-my.sharepoint.com/:w:/r/personal/lw254830_falmouth_ac_uk/Documents/BUSINESS%20PROPOSAL.docx?d=wcbc35bb313de4d5d8861f9718578ae22&csf=1&web=1&e=SqXLP4
 
-Presentation - https://falmouthac-my.sharepoint.com/:w:/r/personal/lw254830_falmouth_ac_uk/Documents/BUSINESS%20PROPOSAL.docx?d=wcbc35bb313de4d5d8861f9718578ae22&csf=1&web=1&e=SqXLP4
+Presentation - https://falmouthac-my.sharepoint.com/:p:/g/personal/lw254830_falmouth_ac_uk/EV9hNp5UwwNNtBTYv3ZOwhMB3BZBQjOfu-hx6oZfkBsprQ?e=CLRXOC
 
 ## Contents
 
@@ -90,7 +90,7 @@ Then extract the folder somewhere in your files.
 
 8. And in the previous instance
 
-`$ npm start`
+`$ npm run dev`
 
 9. Finally enter the local URL (http:localhost:3000) into your web browser. Database functionality can be found (http:localhost:3000/dev)
 Additional if you wish to view the database outside of the source code enter the information found in 'server/config/db.js' into mySQLworkbench as a new connection in the same format it appears here.
