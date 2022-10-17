@@ -16,7 +16,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Dashboard() {
+export default function Businessdashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
