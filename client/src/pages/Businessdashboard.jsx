@@ -5,11 +5,11 @@ import { Logo } from '@/components/Logo'
 
 const navigation = [
   { name: 'Dashboard', href: 'Businessdashboard', icon: HomeIcon, current: true },
-  // { name: 'Team', href: '#', icon: UsersIcon, current: false },
+  { name: 'Directory', href: 'Businessdashboarddirectory', icon: UsersIcon, current: false },
   { name: 'Projects', href: 'Businessdashboardprojects', icon: FolderIcon, current: false },
   { name: 'Calendar', href: 'Businessdashboardcalendar', icon: CalendarIcon, current: false },
   // { name: 'Documents', href: '#', icon: InboxIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
+  // { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
 ]
 
 function classNames(...classes) {

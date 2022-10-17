@@ -5,18 +5,18 @@ import { Logo } from '@/components/Logo'
 
 const navigation = [
   { name: 'Dashboard', href: 'Businessdashboard', icon: HomeIcon, current: false },
-  // { name: 'Team', href: '#', icon: UsersIcon, current: false },
+  { name: 'Directory', href: 'Businessdashboarddirectory', icon: UsersIcon, current: false },
   { name: 'Projects', href: 'Businessdashboardprojects', icon: FolderIcon, current: true },
   { name: 'Calendar', href: 'Businessdashboardcalendar', icon: CalendarIcon, current: false },
   // { name: 'Documents', href: '#', icon: InboxIcon, current: false },
-  { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
+  // { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
 ]
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Businessdashboard() {
+export default function Businessdashboardprojects() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (

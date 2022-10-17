@@ -5,9 +5,9 @@ import { Logo } from '@/components/Logo'
 
 const navigation = [
   { name: 'Dashboard', href: 'Businessdashboard', icon: HomeIcon, current: false },
-  { name: 'Directory', href: 'Businessdashboarddirectory', icon: UsersIcon, current: false },
+  { name: 'Directory', href: 'Businessdashboarddirectory', icon: UsersIcon, current: true },
   { name: 'Projects', href: 'Businessdashboardprojects', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: 'Businessdashboardcalendar', icon: CalendarIcon, current: true },
+  { name: 'Calendar', href: 'Businessdashboardcalendar', icon: CalendarIcon, current: false },
   // { name: 'Documents', href: '#', icon: InboxIcon, current: false },
   // { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
 ]
@@ -16,7 +16,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Businessdashboardcalendar() {
+export default function Businessdashboarddirectory() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
@@ -186,7 +186,7 @@ export default function Businessdashboardcalendar() {
           <main className="flex-1">
             <div className="py-6">
               <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
-                <h1 className="text-2xl font-semibold text-gray-900">Calendar</h1>
+                <h1 className="text-2xl font-semibold text-gray-900">Directory</h1>
               </div>
 
 {/* ENTER RIGHT WINDOW CONTENT HERE */}
