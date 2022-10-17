@@ -1,14 +1,16 @@
 import Head from 'next/head'
 
+import { Fragment, useState } from 'react'
+
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
+
 
 const people = [
   {
     name: 'Louis Wright',
     role: 'Senior Front End Developer',
-    imageUrl:
-      'https://lirp.cdn-website.com/cbaa47a0/dms3rep/multi/opt/vvhb-4389e8b9-e2ca859a-1920w.png',
+    imageUrl:'https://irp.cdn-website.com/cbaa47a0/dms3rep/multi/Louis.png'
   },
 
   {
@@ -97,6 +99,8 @@ export default function About() {
         </div>
       </div>
     </div>
+    <Footer />
     </>
+  
   )
 }
