@@ -1,5 +1,6 @@
 import { MegaphoneIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
+
 export function Banner() {
   return (
     <div className="fixed inset-x-0 bottom-0 pb-2 sm:pb-5">
@@ -11,8 +12,8 @@ export function Banner() {
                 <MegaphoneIcon className="h-6 w-6 text-white" aria-hidden="true" />
               </span>
               <p className="ml-3 truncate font-medium text-white">
-                <span className="md:hidden">We are excited to announce our Beta version is coming soon!</span>
-                <span className="hidden md:inline">We are excited to announce our Beta version is coming soon!</span>
+                <span className="md:hidden">Our Beta version is coming soon!</span>
+                <span className="hidden md:inline">Our Beta version is coming soon!</span>
               </p>
             </div>
             <div className="order-3 mt-2 w-full flex-shrink-0 sm:order-2 sm:mt-0 sm:w-auto">
@@ -22,15 +23,6 @@ export function Banner() {
               >
                 Sign up today
               </a>
-            </div>
-            <div className="order-2 flex-shrink-0 sm:order-3 sm:ml-2">
-              <button
-                type="button"
-                className="-mr-1 flex rounded-md p-2 hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-white"
-              >
-                <span className="sr-only">Dismiss</span>
-                <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
-              </button>
             </div>
           </div>
         </div>
