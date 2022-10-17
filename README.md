@@ -6,7 +6,7 @@ Development Board - https://tasks.office.com/falmouthac.onmicrosoft.com/Home/Pla
 
 Business Proposal - https://falmouthac-my.sharepoint.com/:w:/r/personal/lw254830_falmouth_ac_uk/Documents/BUSINESS%20PROPOSAL.docx?d=wcbc35bb313de4d5d8861f9718578ae22&csf=1&web=1&e=SqXLP4
 
-Presentation - https://falmouthac-my.sharepoint.com/:w:/r/personal/lw254830_falmouth_ac_uk/Documents/BUSINESS%20PROPOSAL.docx?d=wcbc35bb313de4d5d8861f9718578ae22&csf=1&web=1&e=SqXLP4
+Presentation - https://falmouthac-my.sharepoint.com/:p:/g/personal/lw254830_falmouth_ac_uk/EV9hNp5UwwNNtBTYv3ZOwhMB3BZBQjOfu-hx6oZfkBsprQ?e=CLRXOC
 
 ## Contents
 
