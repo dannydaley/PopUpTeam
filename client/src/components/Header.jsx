@@ -10,6 +10,7 @@ import { NavLink } from '@/components/NavLink'
 
 import { About } from '@/pages/about' 
 
+
 function MobileNavLink({ href, children }) {
   return (
     <Popover.Button as={Link} href={href} className="block w-full p-2">
