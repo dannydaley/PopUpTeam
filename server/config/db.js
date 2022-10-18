@@ -1,12 +1,13 @@
 const mysql = require('mysql');
 
 //Database setup
-const db = mysql.createPool({
+const db = mysql.createConnection({
     //Local
     host: 'localhost',
     user: 'root',
+    port: 3306,
     password: 'password',
-    database: ''    
+    database: 'popup'    
 });
 
 module.exports = db;

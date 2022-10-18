@@ -1,0 +1,18 @@
+{
+    "users" : [
+        {
+            "firstName": "Danny",
+            "lastName": "Daley",
+            "username": "Daley90210",
+            "email": "danny@email.com",
+            "password": "b956d8aeff9299ef5fb4476711af0795643802d77f0dc77f836f41a9628ed7987f225ffc68b77cbe9f284877a786d4f8d992c2fc3b53814569f8ebf0304f4b9c",
+            "passwordSalt": "7850f5bd2e00ee524a3c0587843cd8f312d0f6d09b88c4e086276c20c8cbc6b6cde7282ca239d38e0d211b57d10d6313ae6b84106318f55af560b9ca42ffcd34e8c9b93d63a49dd45fa2cf7e37786dd0453cea50143f80dbe0917305bcfbb7fb1d30dcf9cfeaaca15f5616922bae65ce184490d84f5471b1f350e96553b9bf88b826b77ca56d295e20086294ce54d2cef93ca2610508a6c819361d317163355dc7d4082665fc2ca0ca2c50fa7aa4c1f4a02be396e7a50572bd7439502afcdc0eb005451ca7907d15fd0e23bde0a20b7f28044a1c8cc5a297ebe324f7dfffa062901254aeef13aa76341aa3a49e042e7db7161b0c563a4cac5af425f15755ca5b",
+            "aboutMe" : "This is my second account, mainly for testing",
+            "location" : "Alfreton, UK",
+            "education" : "Falmouth University",
+            "work": "Full time student",
+            "profilePicture": "images/uploads/Daley-change-image-1640183949137-977696531.png"
+        }
+
+    ]
+}
