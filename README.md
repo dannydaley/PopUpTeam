@@ -62,33 +62,31 @@ This branch contains:
 
 ### User Guide
 
-1. Firstly download the correct build if you haven’t already from [GitHub](https://github.falmouth.ac.uk/JH248828/Web310_A1)
-
-2. If you have downloaded the optional repository browser clone the repository and pull.
+1. If you have downloaded the optional repository browser clone the repository and pull.
 If you haven’t downloaded the repository browser download a zip folder from the repository under 'code' tab then the 'code' dropdown button then click download zip.
 Then extract the folder somewhere in your files.
 
-3. If you are using an IDE open the entire project folder in the IDE. If you aren’t skip to the next step.
+2. If you are using an IDE open the entire project folder in the IDE. If you aren’t skip to the next step.
 
-4. Within the project folder open your CLI by navigating to where you have stored the project folder.
+3. Within the project folder open your CLI by navigating to where you have stored the project folder.
 
-5. Enter the following into your CLI. (This was done using GitBash and therefore commands might differ.)
+4. Enter the following into your CLI. (This was done using GitBash and therefore commands might differ.)
 
 `$ cd client`
 
 `$ npm install`
 
-6. In a new CLI instance:
+5. In a new CLI instance:
 
 `$ cd server`
 
 `$ npm install`
 
-7. Now in the current
+6. Now in the current
 
 `$ npm run dev`
 
-8. And in the previous instance
+7. And in the previous instance
 
 `$ npm run dev`
 
