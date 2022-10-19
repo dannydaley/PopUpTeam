@@ -97,6 +97,7 @@ export default class Register extends React.Component
             className="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2"
           >
             <TextField
+              className="col-span-full"
               label="Username"
               id="username"
               name="first_name"
