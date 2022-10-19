@@ -1,14 +1,14 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { Bars3Icon, CalendarIcon, ChartBarIcon, FolderIcon, HomeIcon, InboxIcon, UsersIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, CalendarIcon, ChartBarIcon, FolderIcon, Cog6ToothIcon, HomeIcon, InboxIcon, UsersIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Logo } from '@/components/Logo'
 
 const navigation = [
-  { name: 'Dashboard', href: 'Businessdashboard', icon: HomeIcon, current: false },
-  { name: 'Directory', href: 'Businessdashboarddirectory', icon: UsersIcon, current: false },
-  { name: 'Projects', href: 'Businessdashboardprojects', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: 'Businessdashboardcalendar', icon: CalendarIcon, current: true },
-  // { name: 'Documents', href: '#', icon: InboxIcon, current: false },
+  { name: 'Dashboard', href: 'dashboard', icon: HomeIcon, current: true },
+  { name: 'Directory', href: 'directory', icon: UsersIcon, current: false },
+  { name: 'Projects', href: 'projects', icon: FolderIcon, current: false },
+  { name: 'Calendar', href: 'calendar', icon: CalendarIcon, current: false },
+  { name: 'Settings', href: 'settings', icon: Cog6ToothIcon, current: false },
   // { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
 ]
 
@@ -16,7 +16,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Businessdashboardcalendar() {
+export default function dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
@@ -186,7 +186,7 @@ export default function Businessdashboardcalendar() {
           <main className="flex-1">
             <div className="py-6">
               <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
-                <h1 className="text-2xl font-semibold text-gray-900">Calendar</h1>
+                <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
               </div>
 
 {/* ENTER RIGHT WINDOW CONTENT HERE */}

@@ -1,15 +1,15 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { Bars3Icon, CalendarIcon, ChartBarIcon, FolderIcon, HomeIcon, InboxIcon, UsersIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, CalendarIcon, ChartBarIcon, FolderIcon, HomeIcon, Cog6ToothIcon, InboxIcon, UsersIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Logo } from '@/components/Logo'
 import { CreativeDirectory } from '@/components/CreativeDirectory'
 
 const navigation = [
-  { name: 'Dashboard', href: 'Businessdashboard', icon: HomeIcon, current: false },
-  { name: 'Directory', href: 'Businessdashboarddirectory', icon: UsersIcon, current: true },
-  { name: 'Projects', href: 'Businessdashboardprojects', icon: FolderIcon, current: false },
-  { name: 'Calendar', href: 'Businessdashboardcalendar', icon: CalendarIcon, current: false },
-  // { name: 'Documents', href: '#', icon: InboxIcon, current: false },
+  { name: 'Dashboard', href: 'dashboard', icon: HomeIcon, current: false },
+  { name: 'Directory', href: 'directory', icon: UsersIcon, current: true },
+  { name: 'Projects', href: 'projects', icon: FolderIcon, current: false },
+  { name: 'Calendar', href: 'calendar', icon: CalendarIcon, current: false },
+  { name: 'Settings', href: 'settings', icon: Cog6ToothIcon, current: false },
   // { name: 'Reports', href: '#', icon: ChartBarIcon, current: false },
 ]
 
@@ -17,7 +17,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Businessdashboarddirectory() {
+export default function directory() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
