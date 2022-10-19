@@ -15,7 +15,7 @@ app.use(cors());
 // users table setup endpoint
 
 let userDataJSON = require("./config/users.json");
-let postDataJSON = require("./config/posts.json");
+
 app.get('/api/usersSetup', (req, res, next) => {
     db.query(() => {
       //delete the table if it exists..   
@@ -45,43 +45,6 @@ app.get('/api/usersSetup', (req, res, next) => {
     res.send("user-db-done");
   });
 
-  // posts table setup endpoint
-app.get('/postsSetup', (req, res, next) => {   
-    db.query(() => {
-      // delete the table if it exists..
-      db.query('DROP TABLE IF EXISTS `posts`');
-      // recreate the posts table
-      db.query('CREATE TABLE `posts` ( id INTEGER PRIMARY KEY AUTO_INCREMENT, author varchar(255), content text,  date varchar(255), circle varchar(255), recipient varchar(255), likes int, dislikes int, postStrict bool)');
-      //create array of post objects from the dummy data JSON file
-      let posts = postDataJSON.entries;
-      // insert each element in the array of objects into the posts table in the database    
-      posts.forEach((post) => {
-        // SQL query to run
-        db.query('INSERT INTO `posts` (id, author, content, date, circle, recipient, likes, dislikes, postStrict) VALUES(?,?,?,?,?,?,?,?,?)',
-        // values passed in from current iteration of the posts array
-        [ post.id, post.author, post.content, post.date, post.circle, post.recipient ,post.likes, post.dislikes, post.postStrict ]);
-      });
-    });
-    // respond with success page
-    console.log("posts table set up");
-    res.send("posts-db-done");
-  });
-
-  // get all posts posts 
-app.get('/getAllPosts', (req, res, next) => {  
-    // grab all posts data
-    db.query('SELECT * FROM posts', [], (err, postData) => {
-      // if error
-      if (err) {
-        // respond with error status and error message
-        res.status(500).send(err.message);
-        return;
-      }   ;
-      // respond with postData on success 
-      res.json(postData);
-    });
-  });
-  
 
 //Select all rows from table
 app.get('/api/get', (req, res) => {
