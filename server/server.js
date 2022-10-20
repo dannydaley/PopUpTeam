@@ -12,10 +12,10 @@ app.use(cors());
 
 
 
-// users table setup endpoint
-
+// Json file containing dummy data for easier db setup and testing
 let userDataJSON = require("./config/users.json");
 
+// users table setup endpoint
 app.get('/api/usersSetup', (req, res, next) => {
     db.query(() => {
       //delete the table if it exists..   
@@ -27,8 +27,6 @@ app.get('/api/usersSetup', (req, res, next) => {
       });
       //create array of users from the dummy data JSON file
       let users = userDataJSON.users; 
-
-
       //insert each element in the array of objects into the users table in the database
       users.forEach((user) => {
         // SQL query to run
@@ -40,8 +38,6 @@ app.get('/api/usersSetup', (req, res, next) => {
       });
     });
     // respond with success page
-
-    console.log("users table set up");
     res.send("user-db-done");
   });
 
