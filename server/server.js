@@ -10,37 +10,38 @@ app.use(express.json());
 app.use(cors());
 
 
-
+//#region DATABASE SET UP ENDPOINTS
 
 // Json file containing dummy data for easier db setup and testing
 let userDataJSON = require("./config/users.json");
 
 // users table setup endpoint
 app.get('/api/usersSetup', (req, res, next) => {
-    db.query(() => {
-      //delete the table if it exists..   
-      db.query('DROP TABLE IF EXISTS users');
-      //recreate the users table  
-      db.query('CREATE TABLE users (id INTEGER PRIMARY KEY AUTO_INCREMENT, username varchar(255) UNIQUE, firstName varchar(255), lastName varchar(255), email varchar(255) UNIQUE, password varchar(255), passwordSalt varchar(512), aboutMe text, location varchar(255), education varchar(255), work varchar(255), profilePicture varchar(255))', (err, rows) => {
-          if (err) console.log(err);
-          console.log(rows)
-      });
-      //create array of users from the dummy data JSON file
-      let users = userDataJSON.users; 
-      //insert each element in the array of objects into the users table in the database
-      users.forEach((user) => {
-        // SQL query to run
-        db.query('INSERT INTO users (username, firstName, lastName, email, password, passwordSalt, aboutMe, location, education, work, profilePicture) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?)', 
-          // values passed in from current iteration of the users array
-          [user.username, user.firstName, user.lastName, user.email, user.password, user.passwordSalt, user.aboutMe, user.location, user.education, user.work, user.profilePicture ], (err) => {
-              if (err) console.log(err);
-          });
-      });
+  db.query(() => {
+    //delete the table if it exists..   
+    db.query('DROP TABLE IF EXISTS users');
+    //recreate the users table  
+    db.query('CREATE TABLE users (id INTEGER PRIMARY KEY AUTO_INCREMENT, username varchar(255) UNIQUE, firstName varchar(255), lastName varchar(255), email varchar(255) UNIQUE, password varchar(255), passwordSalt varchar(512), aboutMe text, location varchar(255), education varchar(255), work varchar(255), profilePicture varchar(255))', (err, rows) => {
+        if (err) console.log(err);
+        console.log(rows)
     });
-    // respond with success page
-    res.send("user-db-done");
+    //create array of users from the dummy data JSON file
+    let users = userDataJSON.users; 
+    //insert each element in the array of objects into the users table in the database
+    users.forEach((user) => {
+      // SQL query to run
+      db.query('INSERT INTO users (username, firstName, lastName, email, password, passwordSalt, aboutMe, location, education, work, profilePicture) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?)', 
+        // values passed in from current iteration of the users array
+        [user.username, user.firstName, user.lastName, user.email, user.password, user.passwordSalt, user.aboutMe, user.location, user.education, user.work, user.profilePicture ], (err) => {
+            if (err) console.log(err);
+        });
+    });
   });
+  // respond with success page
+  res.send("user-db-done");
+});
 
+//#endregion DATABASE SET UP ENDPOINTS
 
 //#region SECURITY
 
@@ -68,6 +69,7 @@ function passwordHash(thePassword, theSalt) {
 
 //#endregion SECURITY
   
+//#region SESSION SETUP
 
 // Session setup
 var session = require('cookie-session');
@@ -89,6 +91,8 @@ var userSession = {
 
 app.use(cookieParser());
 app.use(session(userSession));
+
+//#endregion SESSION SETUP
 
 //#region SIGN UP & SIGN IN 
 
