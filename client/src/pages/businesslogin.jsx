@@ -7,7 +7,7 @@ import { TextField } from '@/components/Fields'
 import { Logo } from '@/components/Logo'
 import { useRouter } from 'next/router'
 
-export default Login = () => {
+export default function Login()  {
   const router = useRouter();
 
   //variable stores current input of fiels
@@ -21,7 +21,8 @@ export default Login = () => {
   let onPasswordChange = event =>  passwordInput = event.target.value;
 
   //function called on submit
-  let onSubmitSignIn = () => {
+  let onSubmitSignIn = (event) => {
+    event.preventDefault();
     //access backend sign in endpoint  
     fetch('http://localhost:8080' + '/signin', {
       method: 'post',
@@ -91,8 +92,7 @@ export default Login = () => {
               <Button                
                 variant="solid"
                 color="blue"
-                className="w-full"
-                onSubmit={onSubmitSignIn}                            
+                className="w-full"                         
                 onClick={onSubmitSignIn}
               >
                 <span>

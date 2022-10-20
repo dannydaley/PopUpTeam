@@ -183,10 +183,13 @@ app.post('/signin', (req, res) => {
   });
 });
 
+//endpoint for sign out and session destruction
 app.post('/signout', (req, res) => {
+  console.log("clicked")
   // delete session
   req.session = null;
   // respond with success
+  console.log("signed out");
   res.json("success");
 });
 

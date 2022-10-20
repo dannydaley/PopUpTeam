@@ -2,6 +2,7 @@ import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { Bars3Icon, CalendarIcon, ChartBarIcon, FolderIcon, Cog6ToothIcon, HomeIcon, InboxIcon, UsersIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Logo } from '@/components/Logo'
+import { useRouter } from 'next/router'
 
 const navigation = [
   { name: 'Dashboard', href: 'dashboard', icon: HomeIcon, current: true },
@@ -18,6 +19,29 @@ function classNames(...classes) {
 
 export default function dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  let router = useRouter();
+
+  //function called on submit
+  let onSignOut = () => {
+    //access backend sign out endpoint  
+    fetch('http://localhost:8080' + '/signout', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      //convert data to JSON
+      body: JSON.stringify({
+        //pass in entry variables
+        username: ''
+      })
+    })
+    .then(response => response.json())
+      .then(data => {
+        if (data === 'success') {   
+          // reroute to index on success
+            router.push('/')
+        }
+      })
+    }
 
   return (
     <>
@@ -163,10 +187,10 @@ export default function dashboard() {
                   <div className="ml-3">
                     <p className="text-sm font-medium text-white">USER FULL NAME</p>
                     <div className="ml-3 columns-2">
-                    <p className="text-xs font-medium text-indigo-200 hover:text-white">View profile</p>
-                    <p className="text-xs font-medium text-indigo-200 hover:text-white">Logout</p>
-                </div>
-                </div>
+                      <p className="text-xs font-medium text-indigo-200 hover:text-white">View profile</p>
+                      <p onClick={onSignOut} className="text-xs font-medium text-indigo-200 hover:text-white" >Logout</p>
+                    </div>
+                  </div>
                 </div>
               </a>
             </div>
