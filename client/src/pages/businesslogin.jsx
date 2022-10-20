@@ -5,60 +5,43 @@ import { AuthLayout } from '@/components/AuthLayout'
 import { Button } from '@/components/Button'
 import { TextField } from '@/components/Fields'
 import { Logo } from '@/components/Logo'
+import { useRouter } from 'next/router'
 
-export default class Login extends React.Component {
+export default Login = () => {
+  const router = useRouter();
 
-  constructor(props) {
-    
-    super(props);    
-    this.state = {
-      signInEmail: '',
-      signInPassword: ''
-    }
-  }
+  //variable stores current input of fiels
+  let emailInput;
+  //function that updates the input holding variable on every change event
+  let onEmailChange = event => emailInput = event.target.value;
 
-  onEmailChange = (event) => {
-    this.setState({signInEmail: event.target.value})
-}
+  //variable stores current input of fiels
+  let passwordInput;
+  //function that updates the input holding variable on every change event
+  let onPasswordChange = event =>  passwordInput = event.target.value;
 
-onPasswordChange = (event) => {
-  this.setState({signInPassword: event.target.value})
-}
-
-// applySession = (firstName, lastName, username, profilePicture) => {
-//   this.props.updateSession(firstName, lastName, username, profilePicture)
-//   this.props.onRouteChange('home')  
-// }
-
-// componentDidMount() {     
-// fetch('http://localhost:8080' + '/refreshSessionStatus', {
-// status: 'session-exists'
-// }).then(response => response.json())
-// .then(data => data.status === "session-exists" ? this.applySession(data.firstName, data.lastName, data.username, data.profilePicture) :''
-// )
-// }
-
-onSubmitSignIn = () => {
-  fetch('http://localhost:8080' + '/signin', {
-    method: 'post',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      'email': this.state.signInEmail,
-      'password': this.state.signInPassword
-    })
+  //function called on submit
+  let onSubmitSignIn = () => {
+    //access backend sign in endpoint  
+    fetch('http://localhost:8080' + '/signin', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      //convert data to JSON
+      body: JSON.stringify({
+        //pass in entry variables
+        'email': emailInput,
+        'password': passwordInput
+      })
     })
     .then(response => response.json())
-      .then(data => {   
+      .then(data => {       
         if (data.status === 'success') {   
-          console.log(data)  
-          // this.props.updateSession(data.firstName, data.lastName, data.username, data.profilePicture);
-          // this.props.onRouteChange('home')
+          // reroute on success
+            router.push('/dashboard')
         }
-  })
-}
+      })
+    }
 
-
-  render () {
     return (
       <>
         <Head>
@@ -92,7 +75,7 @@ onSubmitSignIn = () => {
               name="email"
               type="email"
               autoComplete="email"
-              onChange={this.onEmailChange}
+              onChange={onEmailChange}
               required
             />
             <TextField
@@ -101,17 +84,16 @@ onSubmitSignIn = () => {
               name="password"
               type="password"
               autoComplete="current-password"
-              onChange={this.onPasswordChange}
+              onChange={onPasswordChange}
               required
             />
             <div>
-              <Button
-                type="submit"
+              <Button                
                 variant="solid"
                 color="blue"
                 className="w-full"
-                onSubmit={()=> this.onSubmitSignIn()}                            
-                onClick={()=> this.onSubmitSignIn()}
+                onSubmit={onSubmitSignIn}                            
+                onClick={onSubmitSignIn}
               >
                 <span>
                   Sign in <span aria-hidden="true">&rarr;</span>
@@ -122,6 +104,4 @@ onSubmitSignIn = () => {
         </AuthLayout>
       </>
     )
-  }
 }
-
