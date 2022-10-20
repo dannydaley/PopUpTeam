@@ -15,7 +15,7 @@ const people = [
 
   {
     name: 'Danny Daley',
-    role: 'ROLE GOES HERE',
+    role: 'Full Stack Engineer',
     imageUrl:
       '',
   },

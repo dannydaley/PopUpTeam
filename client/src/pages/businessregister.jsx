@@ -14,31 +14,39 @@ export default function Register() {
   //set up router for page changes
   const router = useRouter();
 
-
+  //collect data from text input field
   let signUpEmail;
   const onEmailChange = event => signUpEmail = event.target.value;
-
+  
+  //collect data from text input field
   let signUpUserName;
   const onUserNameChange = event => signUpUserName = event.target.value;
-
+  
+  //collect data from text input field
   let signUpFirstName;
   const onFirstNameChange = event => signUpFirstName = event.target.value;
-
+  
+  //collect data from text input field
   let signUpLastName;
   const onLastNameChange = event => signUpLastName = event.target.value;
-
+  
+  //collect data from text input field
   let signUpPassword;
   const onPasswordChange = event => signUpPassword = event.target.value;
-
+  
+  //collect data from text input field
   let signUpConfirmPassword;
   const onPasswordConfirmChange = event => signUpConfirmPassword = event.target.value
 
-
+  //triggered by form submit button
   const onSubmitSignUp = (event) => {
+    //prevent default behaviour of button, prevent http load and keeps sensitive data from url bar
     event.preventDefault();
+    // set up the fetch request to server
     fetch('http://localhost:8080' + '/signUp', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
+        // pass in data from text fields
         body: JSON.stringify({
             'signUpEmail': signUpEmail,
             'signUpUserName': signUpUserName,
@@ -48,6 +56,7 @@ export default function Register() {
             'confirmSignUpPassword': signUpConfirmPassword   
         })
     })
+    // conver response to json
     .then(response => response.json())
     .then(data => {
       //run the correct response according the status brought back
@@ -66,8 +75,7 @@ export default function Register() {
         default:
           alert('There was an error on signup')
       }}
-          )
-}
+    )}
 
     return (
       <>
