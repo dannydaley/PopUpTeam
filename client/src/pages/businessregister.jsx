@@ -11,7 +11,9 @@ import { useRouter } from 'next/router'
 export default function Register() { 
   
 
+  //set up router for page changes
   const router = useRouter();
+
 
   let signUpEmail;
   const onEmailChange = event => signUpEmail = event.target.value;
@@ -48,6 +50,7 @@ export default function Register() {
     })
     .then(response => response.json())
     .then(data => {
+      //run the correct response according the status brought back
       switch(data.status) {
         case 'success':
           alert("account created successfully, you can log in.");
