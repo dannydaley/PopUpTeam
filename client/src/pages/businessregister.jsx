@@ -5,67 +5,67 @@ import { AuthLayout } from '@/components/AuthLayout'
 import { Button } from '@/components/Button'
 import { SelectField, TextField } from '@/components/Fields'
 import { Logo } from '@/components/Logo'
+import { data } from 'autoprefixer'
+import { useRouter } from 'next/router'
 
-export default class Register extends React.Component 
-  {
-    constructor(props) {
-      super(props);
-      this.state = {
-          signUpEmail: '',
-          signUpUserName: '',
-          signUpFirstName: '',
-          signUpLastName: '',
-          signUpPassword: '',
-          confirmSignUpPassword: ''            
-      }
-  }
+export default function Register() { 
+  
 
-  onEmailChange = (event) => {
-    this.setState({signUpEmail: event.target.value})
-  }
-  onUserNameChange = (event) => {
-    this.setState({signUpUserName: event.target.value})
-  }
-  onFirstNameChange = (event) => {
-    this.setState({signUpFirstName: event.target.value})
-  }
-  onLastNameChange = (event) => {
-    this.setState({signUpLastName: event.target.value})
-  }
-  onPasswordChange = (event) => {
-    this.setState({signUpPassword: event.target.value})
-  }
-  onPasswordConfirmChange = (event) => {
-    this.setState({confirmSignUpPassword: event.target.value})
-  }
+  const router = useRouter();
+
+  let signUpEmail;
+  const onEmailChange = event => signUpEmail = event.target.value;
+
+  let signUpUserName;
+  const onUserNameChange = event => signUpUserName = event.target.value;
+
+  let signUpFirstName;
+  const onFirstNameChange = event => signUpFirstName = event.target.value;
+
+  let signUpLastName;
+  const onLastNameChange = event => signUpLastName = event.target.value;
+
+  let signUpPassword;
+  const onPasswordChange = event => signUpPassword = event.target.value;
+
+  let signUpConfirmPassword;
+  const onPasswordConfirmChange = event => signUpConfirmPassword = event.target.value
 
 
-  onSubmitSignUp = () => {
+  const onSubmitSignUp = (event) => {
+    event.preventDefault();
     fetch('http://localhost:8080' + '/signUp', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-            'signUpEmail': this.state.signUpEmail,
-            'signUpUserName': this.state.signUpUserName,
-            'signUpFirstName': this.state.signUpFirstName,
-            'signUpLastName': this.state.signUpLastName,
-            'signUpPassword': this.state.signUpPassword,
-            'confirmSignUpPassword': this.state.confirmSignUpPassword   
+            'signUpEmail': signUpEmail,
+            'signUpUserName': signUpUserName,
+            'signUpFirstName': signUpFirstName,
+            'signUpLastName': signUpLastName,
+            'signUpPassword': signUpPassword,
+            'confirmSignUpPassword': signUpConfirmPassword   
         })
     })
     .then(response => response.json())
-    // .then(data => {
-    //     if (data.status === 'success') {            
-    //         this.props.updateSession(data.firstName, data.lastName, data.username, data.profilePicture);
-    //       }
-    //     })
-        .then(
-          console.log('sent')
-          // this.props.onRouteChange('signin')
+    .then(data => {
+      switch(data.status) {
+        case 'success':
+          alert("account created successfully, you can log in.");
+          // reroute on success
+            router.push('/');
+          break;
+        case 'email exists':
+          alert('Email entered already exists');
+          break;
+        case 'username exists':
+          alert('username already exists');
+          break;
+        default:
+          alert('There was an error on signup')
+      }}
           )
 }
 
-  render () {
     return (
       <>
         <Head>
@@ -103,7 +103,7 @@ export default class Register extends React.Component
               name="first_name"
               type="text"
               autoComplete="username"
-              onChange={this.onUserNameChange}
+              onChange={onUserNameChange}
               required
             />
             <TextField
@@ -112,7 +112,7 @@ export default class Register extends React.Component
               name="first_name"
               type="text"
               autoComplete="given-name"
-              onChange={this.onFirstNameChange}
+              onChange={onFirstNameChange}
               required
             />
             <TextField
@@ -121,7 +121,7 @@ export default class Register extends React.Component
               name="last_name"
               type="text"
               autoComplete="family-name"
-              onChange={this.onLastNameChange}
+              onChange={onLastNameChange}
               required
             />
             <TextField
@@ -131,7 +131,7 @@ export default class Register extends React.Component
               name="email"
               type="email"
               autoComplete="email"
-              onChange={this.onEmailChange}
+              onChange={onEmailChange}
               required
             />
             <TextField
@@ -141,7 +141,7 @@ export default class Register extends React.Component
               name="password"
               type="password"
               autoComplete="new-password"
-              onChange={this.onPasswordChange}
+              onChange={onPasswordChange}
               required
             />
             <TextField
@@ -151,7 +151,7 @@ export default class Register extends React.Component
               name="confirmPassword"
               type="password"
               autoComplete="new-password"
-              onChange={this.onPasswordConfirmChange}
+              onChange={onPasswordConfirmChange}
               required
             />
             <div className="col-span-full">
@@ -160,8 +160,8 @@ export default class Register extends React.Component
                 variant="solid"
                 color="blue"
                 className="w-full"
-                value="Sign Up" 
-                onClick={() => this.onSubmitSignUp()}
+                value="Sign Up"                 
+                onClick={onSubmitSignUp}
               >
                 <span>
                   Sign up <span aria-hidden="true">&rarr;</span>
@@ -175,4 +175,4 @@ export default class Register extends React.Component
 
   }
 
-}
+

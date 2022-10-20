@@ -97,7 +97,6 @@ app.use(session(userSession));
 //#region SIGN UP & SIGN IN 
 
 app.post('/signUp', (req, res) => {  
-  console.log(req.body)
   // default profile picture applied to all users profilePicture field in the users table of the db on account creation
   let defaultProfilePicture = "images/defaults/defaultUser.png";
   //set up variables from the request for better readability
@@ -116,16 +115,21 @@ app.post('/signUp', (req, res) => {
       (err, rows) => {
       if (err) {
         console.log("failed to add user to database")
+        console.log(err)
         // if username already exists in database
-        if (err.message === "SQLITE_CONSTRAINT: UNIQUE constraint failed: users.username") {
+        if (err.sqlMessage === "Duplicate entry '" + signUpUserName + "' for key 'users.username'") {
           console.log("USERNAME ALREADY EXISTS");
-          res.json("duplicate username");
+          res.json({
+            status: "username exists"
+          });
           return
         };
         // if email already exists in database
-        if (err.message === "SQLITE_CONSTRAINT: UNIQUE constraint failed: users.email") {
+        if (err.sqlMessage === "Duplicate entry '" + signUpEmail + "' for key 'users.email'") {
           console.log("EMAIL ALREADY EXISTS");
-          res.json("duplicate email");
+          res.json({
+            status: "email exists"}
+            );
           return;
         };
         // if any other error case, respond with status and error message
@@ -133,7 +137,9 @@ app.post('/signUp', (req, res) => {
         return;
       };
       //respond with success 
-      res.json('sign up success');   
+      res.json({
+        status: 'success'
+      });   
     });
   //response if password fields dont match    
   } else {    
