@@ -14,6 +14,8 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronLeftIcon, EnvelopeIcon, FunnelIcon, MagnifyingGlassIcon, PhoneIcon } from '@heroicons/react/20/solid'
 
+import Message from './Message';
+
 const user = {
   name: 'Tom Cook',
   imageUrl:
@@ -153,6 +155,8 @@ function classNames(...classes) {
 export function CreativeDirectory() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
+  const [renderMessage, setRenderMessage] = useState(false);
+
   return (
     <>
       {/*
@@ -285,11 +289,17 @@ export function CreativeDirectory() {
                         <div className="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
                           <button
                             type="button"
+                            onClick={() => setRenderMessage(!renderMessage)}
                             className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
                           >
                             <EnvelopeIcon className="-ml-1 mr-2 h-5 w-5 text-gray-400" aria-hidden="true" />
-                            <span>Message</span>
+                            {renderMessage ? (
+                              <span>Close Message</span>
+                            ) : (
+                              <span>Message</span>
+                            )}
                           </button>
+                        
                           {/* <button
                             type="button"
                             className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
@@ -306,73 +316,80 @@ export function CreativeDirectory() {
                   </div>
                 </div>
 
-                {/* Tabs */}
-                <div className="mt-6 sm:mt-2 2xl:mt-5">
-                  <div className="border-b border-gray-200">
-                    <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-                      <nav className="-mb-px flex space-x-8" aria-label="Tabs">
-                        {tabs.map((tab) => (
-                          <a
-                            key={tab.name}
-                            href={tab.href}
-                            className={classNames(
-                              tab.current
-                                ? 'border-blue-600 text-gray-900'
-                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-                              'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
-                            )}
-                            aria-current={tab.current ? 'page' : undefined}
-                          >
-                            {tab.name}
-                          </a>
+                {/* If state is true render Messaging component */}
+                {renderMessage ? (
+                  <Message /> 
+                ) : (
+                  <>
+                    {/* Tabs */}
+                    <div className="mt-6 sm:mt-2 2xl:mt-5">
+                      <div className="border-b border-gray-200">
+                        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+                          <nav className="-mb-px flex space-x-8" aria-label="Tabs">
+                            {tabs.map((tab) => (
+                              <a
+                                key={tab.name}
+                                href={tab.href}
+                                className={classNames(
+                                  tab.current
+                                    ? 'border-blue-600 text-gray-900'
+                                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
+                                  'whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm'
+                                )}
+                                aria-current={tab.current ? 'page' : undefined}
+                              >
+                                {tab.name}
+                              </a>
+                            ))}
+                          </nav>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Description list */}
+                    <div className="mx-auto mt-6 max-w-5xl px-4 sm:px-6 lg:px-8">
+                      <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
+                        {Object.keys(profile.fields).map((field) => (
+                          <div key={field} className="sm:col-span-1">
+                            <dt className="text-sm font-medium text-gray-500">{field}</dt>
+                            <dd className="mt-1 text-sm text-gray-900">{profile.fields[field]}</dd>
+                          </div>
                         ))}
-                      </nav>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Description list */}
-                <div className="mx-auto mt-6 max-w-5xl px-4 sm:px-6 lg:px-8">
-                  <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-                    {Object.keys(profile.fields).map((field) => (
-                      <div key={field} className="sm:col-span-1">
-                        <dt className="text-sm font-medium text-gray-500">{field}</dt>
-                        <dd className="mt-1 text-sm text-gray-900">{profile.fields[field]}</dd>
-                      </div>
-                    ))}
-                    <div className="sm:col-span-2">
-                      <dt className="text-sm font-medium text-gray-500">About</dt>
-                      <dd
-                        className="mt-1 max-w-prose space-y-5 text-sm text-gray-900"
-                        dangerouslySetInnerHTML={{ __html: profile.about }}
-                      />
-                    </div>
-                  </dl>
-                </div>
-
-                {/* Team member list */}
-                <div className="mx-auto mt-8 max-w-5xl px-4 pb-12 sm:px-6 lg:px-8">
-                  <h2 className="text-sm font-medium text-gray-500">Previously worked with</h2>
-                  <div className="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    {team.map((person) => (
-                      <div
-                        key={person.handle}
-                        className="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:border-gray-400"
-                      >
-                        <div className="flex-shrink-0">
-                          <img className="h-10 w-10 rounded-full" src={person.imageUrl} alt="" />
+                        <div className="sm:col-span-2">
+                          <dt className="text-sm font-medium text-gray-500">About</dt>
+                          <dd
+                            className="mt-1 max-w-prose space-y-5 text-sm text-gray-900"
+                            dangerouslySetInnerHTML={{ __html: profile.about }}
+                          />
                         </div>
-                        <div className="min-w-0 flex-1">
-                          <a href="#" className="focus:outline-none">
-                            <span className="absolute inset-0" aria-hidden="true" />
-                            <p className="text-sm font-medium text-gray-900">{person.name}</p>
-                            <p className="truncate text-sm text-gray-500">{person.role}</p>
-                          </a>
-                        </div>
+                      </dl>
+                    </div>
+
+                    {/* Team member list */}
+                    <div className="mx-auto mt-8 max-w-5xl px-4 pb-12 sm:px-6 lg:px-8">
+                      <h2 className="text-sm font-medium text-gray-500">Previously worked with</h2>
+                      <div className="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                        {team.map((person) => (
+                          <div
+                            key={person.handle}
+                            className="relative flex items-center space-x-3 rounded-lg border border-gray-300 bg-white px-6 py-5 shadow-sm focus-within:ring-2 focus-within:ring-blue-600 focus-within:ring-offset-2 hover:border-gray-400"
+                          >
+                            <div className="flex-shrink-0">
+                              <img className="h-10 w-10 rounded-full" src={person.imageUrl} alt="" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <a href="#" className="focus:outline-none">
+                                <span className="absolute inset-0" aria-hidden="true" />
+                                <p className="text-sm font-medium text-gray-900">{person.name}</p>
+                                <p className="truncate text-sm text-gray-500">{person.role}</p>
+                              </a>
+                            </div>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                </div>
+                    </div>
+                  </>
+                )}
               </article>
             </main>
             <aside className="hidden w-96 flex-shrink-0 border-r border-gray-200 xl:order-first xl:flex xl:flex-col">
