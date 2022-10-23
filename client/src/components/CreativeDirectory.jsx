@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {
   Bars3Icon,
@@ -14,7 +14,11 @@ import {
 } from '@heroicons/react/24/outline'
 import { ChevronLeftIcon, EnvelopeIcon, FunnelIcon, MagnifyingGlassIcon, PhoneIcon } from '@heroicons/react/20/solid'
 
+import Router from 'next/router'
 import Message from './Message';
+
+import io from 'socket.io-client';
+const socket = io.connect('http://localhost:8080');
 
 const user = {
   name: 'Tom Cook',
@@ -157,6 +161,16 @@ export function CreativeDirectory() {
 
   const [renderMessage, setRenderMessage] = useState(false);
 
+  const [recipient, setRecipient] = useState('');
+
+  //Replace this with currently logged username string
+  const username = "John Smith";
+
+  const selectRecipient = () => {
+    //Emits recipient to back end
+    socket.emit('select_recipient', profile.name);
+  };
+
   return (
     <>
       {/*
@@ -289,7 +303,15 @@ export function CreativeDirectory() {
                         <div className="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
                           <button
                             type="button"
-                            onClick={() => setRenderMessage(!renderMessage)}
+                            onClick={() => {
+                              setRenderMessage(!renderMessage),
+                              selectRecipient(),
+
+                              //Push profile picture URL to Message component
+                              Router.push({
+                                query: {profile: profile.imageUrl}
+                              })
+                            }}                              
                             className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
                           >
                             <EnvelopeIcon className="-ml-1 mr-2 h-5 w-5 text-gray-400" aria-hidden="true" />
@@ -318,7 +340,7 @@ export function CreativeDirectory() {
 
                 {/* If state is true render Messaging component */}
                 {renderMessage ? (
-                  <Message /> 
+                  <Message socket={socket} sender={username} recipient={profile.name}/> 
                 ) : (
                   <>
                     {/* Tabs */}

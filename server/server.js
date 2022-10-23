@@ -1,14 +1,53 @@
 const express = require('express');
 const cors = require('cors');
+const http = require('http');
+const { Server } = require('socket.io');
 const db = require('./config/db');
 
 const app = express();
+const server = http.createServer(app);
+
 const PORT = process.env.PORT || 8080;
 
 //Dependencies
 app.use(express.json());
 app.use(cors());
 
+//Socket setup
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST'],
+  }
+})
+
+//#region Socket server
+//On connection
+io.on('connection', (socket) => {
+  //Log user ids
+  console.log(`user connected: ${socket.id})`);
+
+  //On message button click
+  socket.on('select_recipient', (data) => {
+    //Assign and log recipient
+    socket.join(data);
+    console.log(`Recipient: ${data}`);
+  });
+
+  //On message send
+  socket.on('send_message', (data) => {
+    //Emit to recipient
+    socket.to(data.recipient).emit('receive_message', data);
+  });
+
+  //On disconnect
+  socket.on("disconnect", () => {
+    //Log user ids
+    console.log(`user disconnected: ${socket.id}`);
+  });
+});
+
+//#endregion
 
 //#region DATABASE SET UP ENDPOINTS
 
@@ -201,15 +240,9 @@ app.post('/signout', (req, res) => {
 
 //#endregion SIGN UP & SIGN IN 
 
+//#region Socket.io
 
-//Select all rows from table
-app.get('/api/get', (req, res) => {
-    const selectAll = 'SELECT * FROM users';
-    db.query(selectAll, [],(err, rows) => {        
-        if (err) throw err;
-        res.send(rows);
-    });
-});
+//#endregion
 
 app.get('/getAllUsers', (req, res, next) => {
     // grab all user data
@@ -225,29 +258,7 @@ app.get('/getAllUsers', (req, res, next) => {
     });
   });
 
-//Insert into database
-app.post('/api/insert', (req, res) => {
-    const row = req.body.row; //Row to insert
-    const insertRow = "INSERT INTO users (test) VALUES (?)"; //Insert query
-
-    db.query(insertRow, [row], (err, rows) => { //Insert row into database
-        if (err) throw err;
-        console.log('inserted: ' + row); //Print row inserted
-    });
-});
-
-//Delete from database
-app.delete('/api/delete/:row', (req, res) => {
-    const row = req.params.row;
-    const deleteRow = "DELETE FROM users WHERE test = ?";
-
-    db.query(deleteRow, [row], (err, rows) => {
-        if (err) throw err;
-        console.log('deleted: ' + row);
-    });
-});
-
 //Server port
-app.listen(process.env.PORT || PORT, () => {
-    console.log('Server started on port ' + PORT);
+server.listen(process.env.PORT || PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });
