@@ -17,9 +17,9 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function directory() {
+export default function directory(...pageProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-
+console.log(pageProps)
   return (
     <>
 
@@ -106,7 +106,7 @@ export default function directory() {
                           />
                         </div>
                         <div className="ml-3">
-                          <p className="text-base font-medium text-white">USER FULL NAME</p>
+                          <p className="text-base font-medium text-white">{pageProps[0].userFirstName} {pageProps[0].userLastName}</p>
                           <p className="text-sm font-medium text-indigo-200 group-hover:text-white">View profile</p>
                         </div>
                       </div>
@@ -162,7 +162,7 @@ export default function directory() {
                     />
                   </div>
                   <div className="ml-3">
-                    <p className="text-sm font-medium text-white">USER FULL NAME</p>
+                    <p className="text-sm font-medium text-white">{pageProps[0].userFirstName} {pageProps[0].userLastName}</p>
                     <div className="ml-3 columns-2">
                     <p className="text-xs font-medium text-indigo-200 hover:text-white">View profile</p>
                     <p className="text-xs font-medium text-indigo-200 hover:text-white">Logout</p>

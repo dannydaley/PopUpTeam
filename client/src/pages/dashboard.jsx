@@ -17,7 +17,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function dashboard() {
+export default function dashboard(...pageProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   let router = useRouter();
@@ -42,6 +42,8 @@ export default function dashboard() {
         }
       })
     }
+  console.log(pageProps[0])
+  
 
   return (
     <>
@@ -129,7 +131,7 @@ export default function dashboard() {
                           />
                         </div>
                         <div className="ml-3">
-                          <p className="text-base font-medium text-white">USER FULL NAME</p>
+                          <p className="text-base font-medium text-white">!!</p>
                           <p className="text-sm font-medium text-indigo-200 group-hover:text-white">View profile</p>
                         </div>
                       </div>
@@ -153,7 +155,7 @@ export default function dashboard() {
                 <img
                   className="h-8 w-auto"
                   // WHITE LOGO VARIATION BELOW
-                  src= ""
+                  src=""
                   alt="PopUpTeam"
                 />
               </div>
@@ -180,12 +182,12 @@ export default function dashboard() {
                     <img
                       className="inline-block h-9 w-9 rounded-full"
                       // USER PROFILE PHOTO BELOW
-                      src=""
+                      src={"http://localhost:8080/public/" + pageProps[0].userProfilePicture}
                       alt=""
                     />
                   </div>
                   <div className="ml-3">
-                    <p className="text-sm font-medium text-white">USER FULL NAME</p>
+                    <p className="text-sm font-medium text-white">{pageProps[0].userFirstName} {pageProps[0].userLastName}</p>
                     <div className="ml-3 columns-2">
                       <p className="text-xs font-medium text-indigo-200 hover:text-white">View profile</p>
                       <p onClick={onSignOut} className="text-xs font-medium text-indigo-200 hover:text-white" >Logout</p>

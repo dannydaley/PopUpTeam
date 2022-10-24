@@ -7,7 +7,7 @@ import { TextField } from '@/components/Fields'
 import { Logo } from '@/components/Logo'
 import { useRouter } from 'next/router'
 
-export default function Login()  {
+export default function Login(...pageProps)  {
   const router = useRouter();
 
   //variable stores current input of fiels
@@ -36,7 +36,12 @@ export default function Login()  {
     })
     .then(response => response.json())
       .then(data => {       
-        if (data.status === 'success') {   
+        if (data.status === 'success') {  
+          pageProps[0].setUserFirstName(data.firstName)
+          pageProps[0].setUserLastName(data.lastName)
+          pageProps[0].setUserUserName(data.username)
+          pageProps[0].setUserProfilePicture(data.profilePicture)
+
           // reroute on success
             router.push('/dashboard')
         }

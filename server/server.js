@@ -6,7 +6,8 @@ const { Server } = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
-
+var path = require('path');
+app.use("/public", express.static(path.join(__dirname, 'public')));
 const PORT = process.env.PORT || 8080;
 
 //Dependencies
@@ -252,6 +253,7 @@ app.post('/signin', (req, res) => {
       req.session.userData.userLastName=  user.lastName;
       req.session.userData.loggedInUsername= user.username;
       req.session.userData.userProfilePicture= user.profilePicture;      
+      console.log(req.session.userData)
       //respond with user data on succesful login
       res.json({
         status: 'success',

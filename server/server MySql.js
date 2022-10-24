@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
   });
 
   //On message send
-  socket.on('send_message', (data) => {
+  socket.on('John_message', (data) => {
     //Emit to recipient
     socket.to(data.recipient).emit('receive_message', data);
   });
