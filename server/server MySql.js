@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const http = require('http');
 const { Server } = require('socket.io');
-// const db = require('./config/db');
+const db = require('./config/db');
 
 const app = express();
 const server = http.createServer(app);
@@ -31,18 +31,17 @@ io.on('connection', (socket) => {
   socket.on('select_recipient', (data) => {
     //Assign and log recipient
     socket.join(data);
+    console.log(`Recipient: ${data}`);
   });
 
   //On message send
   socket.on('send_message', (data) => {
-    //Log message
-    console.log(data)
     //Emit to recipient
     socket.to(data.recipient).emit('receive_message', data);
   });
 
   //On disconnect
-  socket.on('disconnect_client', () => {
+  socket.on("disconnect", () => {
     //Log user ids
     console.log(`user disconnected: ${socket.id}`);
   });
@@ -83,25 +82,16 @@ let upload = multer({ storage: storage});
 
 //#region DATABASE SET UP ENDPOINTS
 
-// SQLite 3 setup for test db while in development
-var sqlite3 = require('sqlite3').verbose();
-
-// set up variable for access to database
-let db = new sqlite3.Database('./sqlite.db');
-
-// set app.locals database to the initialised variable
-app.locals.db = db;
-
 // Json file containing dummy data for easier db setup and testing
 let userDataJSON = require("./config/users.json");
 
 // users table setup endpoint
 app.get('/api/usersSetup', (req, res, next) => {
-  db.serialize(() => {
+  db.query(() => {
     //delete the table if it exists..   
-    db.run('DROP TABLE IF EXISTS users');
+    db.query('DROP TABLE IF EXISTS users');
     //recreate the users table  
-    db.run('CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, username varchar(255) UNIQUE, firstName varchar(255), lastName varchar(255), email varchar(255) UNIQUE, password varchar(255), passwordSalt varchar(512), aboutMe text, location varchar(255), education varchar(255), work varchar(255), profilePicture varchar(255))', (err, rows) => {
+    db.query('CREATE TABLE users (id INTEGER PRIMARY KEY AUTO_INCREMENT, username varchar(255) UNIQUE, firstName varchar(255), lastName varchar(255), email varchar(255) UNIQUE, password varchar(255), passwordSalt varchar(512), aboutMe text, location varchar(255), education varchar(255), work varchar(255), profilePicture varchar(255))', (err, rows) => {
         if (err) console.log(err);
         console.log(rows)
     });
@@ -110,7 +100,7 @@ app.get('/api/usersSetup', (req, res, next) => {
     //insert each element in the array of objects into the users table in the database
     users.forEach((user) => {
       // SQL query to run
-      db.run('INSERT INTO users (username, firstName, lastName, email, password, passwordSalt, aboutMe, location, education, work, profilePicture) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?)', 
+      db.query('INSERT INTO users (username, firstName, lastName, email, password, passwordSalt, aboutMe, location, education, work, profilePicture) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?)', 
         // values passed in from current iteration of the users array
         [user.username, user.firstName, user.lastName, user.email, user.password, user.passwordSalt, user.aboutMe, user.location, user.education, user.work, user.profilePicture ], (err) => {
             if (err) console.log(err);
@@ -189,7 +179,7 @@ app.post('/signUp', (req, res) => {
     //assign default profile picture
     let profilePicture = defaultProfilePicture;
     //Create a new user in the user database with the fields from the form, the default profile picture and the generated password hash and salt
-    db.run("INSERT INTO users (email, username, firstName,lastName, password, passwordSalt, profilePicture) VALUES(?,?,?,?,?,?,?)",
+    db.query("INSERT INTO users (email, username, firstName,lastName, password, passwordSalt, profilePicture) VALUES(?,?,?,?,?,?,?)",
      [ signUpEmail, signUpUserName, signUpFirstName, signUpLastName, storePassword, passwordSalt, profilePicture ],
       (err, rows) => {
       if (err) {
@@ -230,13 +220,13 @@ app.post('/signin', (req, res) => {
   // pull data from request body for better readbility
   let { email, password } = req.body;
   // search if user exists using email address
-  db.run("SELECT * FROM users WHERE email = ?", email, (err, userData) => {
+  db.query("SELECT * FROM users WHERE email = ?", email, (err, userData) => {
     if (err) {
       console.log("error at database");
       res.status(500).send(err)
     }
     //assign any returned rows to user variable
-    let user = userData;
+    let user = userData[0] 
     //if a user exists, and their stored password matches the output of the hashing function
     // with their password entry..  
     if (user!== undefined && user.password === passwordHash(password, user.passwordSalt)) {
@@ -286,7 +276,7 @@ app.post('/signout', (req, res) => {
 
 app.get('/getAllUsers', (req, res, next) => {
     // grab all user data
-    db.run("SELECT * FROM users", [], (err, userData) => {
+    db.query("SELECT * FROM users", [], (err, userData) => {
       // if error
       if (err) {
         // respond with error status and error message
