@@ -49,8 +49,13 @@ io.on('connection', (socket) => {
 
 //#endregion
 
+//#region IMAGES AND IMAGE UPLOAD HANDLING
+
 //set up multer middleware for image uploads
 var multer  = require('multer');
+
+// default profile picture applied to all users profilePicture field in the users table of the db on account creation
+let defaultProfilePicture = "images/defaults/defaultUser.png";
 
 // set up storage for file uploads
 const storage = multer.diskStorage({
@@ -72,6 +77,8 @@ const storage = multer.diskStorage({
 
 // set up multer function to be called on uploads
 let upload = multer({ storage: storage});
+
+//#endregion IMAGES AND IMAGE UPLOAD HANDLING
 
 //#region DATABASE SET UP ENDPOINTS
 
@@ -160,8 +167,7 @@ app.use(session(userSession));
 //#region SIGN UP & SIGN IN 
 
 app.post('/signUp', (req, res) => {  
-  // default profile picture applied to all users profilePicture field in the users table of the db on account creation
-  let defaultProfilePicture = "images/defaults/defaultUser.png";
+
   //set up variables from the request for better readability
   let { signUpEmail, signUpUserName,signUpFirstName, signUpLastName, signUpPassword, confirmSignUpPassword } = req.body;
   //if both password fields match
