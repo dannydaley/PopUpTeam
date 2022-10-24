@@ -70,6 +70,9 @@ const storage = multer.diskStorage({
      req.body.imageLocations += fileName + ","}
 });
 
+// set up multer function to be called on uploads
+let upload = multer({ storage: storage});
+
 //#region DATABASE SET UP ENDPOINTS
 
 // Json file containing dummy data for easier db setup and testing
