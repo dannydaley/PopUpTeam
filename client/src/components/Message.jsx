@@ -1,10 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
+import { ArrowLongUpIcon } from '@heroicons/react/24/outline';
 
 export default function Message({socket, sender, recipient}) {
     const router = useRouter()
 
     const [profile , setProfile] = useState('');
+    const [name , setName] = useState('');
 
     const [message, setMessage] = useState('');
     const [messageList, setMessageList] = useState([]);
@@ -39,6 +41,8 @@ export default function Message({socket, sender, recipient}) {
     useEffect(() => {
         //Select profile picture as pushed URL from CreativeDirectory
         setProfile(router.query.profile);
+        //Select name as pushed URL from CreativeDirectory
+        setName(router.query.name);
 
         //Receive message from back-end
         socket.on('receive_message', (data) => {
@@ -58,14 +62,16 @@ export default function Message({socket, sender, recipient}) {
             <div class="flex flex-col h-full max-h-[750px] w-full px-4 py-6">
                 {/* Message list */}
                 <div class="h-full overflow-y-scroll pb-4">
-                    <div class="grid grid-cols-12 gap-y-2">
+                    <p class="text-center italic text-gray-400">Chat started with: <span class="font-semibold">{name}</span></p>
+                    <div class="grid grid-cols-12">
                         {/* Individual message */}
                         {messageList.map((messageContent) => {
                             return (
                                 messageContent.sender === sender ? (
                                     /* Sender */
-                                    <div class="col-start-6 col-end-13 p-3 rounded-lg">
-                                        <div class="flex items-center justify-start flex-row-reverse">
+                                    <div class="col-start-6 col-end-13 p-2 rounded-lg">
+                                        <div class="flex justify-start flex-row-reverse">
+                                            {/* Profile picture */}
                                             <div class="flex items-center justify-center h-10 w-10 rounded-full bg-blue-600 flex-shrink-0">
                                                 {/* Replace src with currently logged users profile picture */}
                                                 <img 
@@ -75,8 +81,13 @@ export default function Message({socket, sender, recipient}) {
                                                 ></img>
                                             </div>
             
-                                            <div class="relative mr-3 text-sm bg-blue-100 py-2 px-4 shadow rounded-xl">
-                                                <div ref={bottomRef}>{messageContent.message}</div>
+                                            {/* Message content */}
+                                            <div class="flex flex-col space-y-1.5">
+                                                <div class="relative mr-3 text-sm bg-blue-100 py-2 px-4 shadow rounded-xl">
+                                                    <p ref={bottomRef}>{messageContent.message}</p>
+                                                </div>
+
+                                                <p class="text-xs text-gray-400 italic text-right mr-4">{messageContent.time}</p>
                                             </div>
                                         </div>
 
@@ -84,8 +95,7 @@ export default function Message({socket, sender, recipient}) {
                                 ) : (
                                     /* Recipient */
                                     <div class="col-start-1 col-end-8 p-3 rounded-lg">
-                                        <div class="flex flex-row items-center">
-                                            {/* Profile picture */}
+                                        <div class="flex flex-row">
                                             <div class="flex items-center justify-center h-10 w-10 flex-shrink-0">
                                                 <img
                                                     src={profile}
@@ -94,13 +104,14 @@ export default function Message({socket, sender, recipient}) {
                                                 ></img>
                                             </div>
 
-                                            {/* Message content */}
-                                            <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                                                <div ref={bottomRef}>{messageContent.message}</div>
-                                            </div>
-                                            
-                                        </div>
+                                            <div class="flex flex-col space-y-2">
+                                                <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                                                    <p ref={bottomRef}>{messageContent.message}</p>
+                                                </div>
 
+                                                <p class="text-xs text-gray-400 italic text-right ml-4">{messageContent.time}</p>
+                                            </div>
+                                        </div>
                                     </div>
                                 )
                             )
@@ -139,6 +150,18 @@ export default function Message({socket, sender, recipient}) {
                             </svg>
                         </button>
                     </div>
+                </div>
+
+                {/* Back to top button */}
+                <div class="flex justify-center my-5">
+                    <button
+                        onClick={() => {document.documentElement.scrollTop = 0;}}
+                        class="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
+                    >
+                        Back to top
+
+                        <ArrowLongUpIcon class="h-4 w-4" aria-hidden="true" />
+                    </button>
                 </div>
             </div>
         </>

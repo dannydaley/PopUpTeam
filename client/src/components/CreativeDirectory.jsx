@@ -158,11 +158,9 @@ function classNames(...classes) {
 }
 
 export function CreativeDirectory() {
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const [renderMessage, setRenderMessage] = useState(false);
-
-  const [recipient, setRecipient] = useState('');
 
   //Replace this with currently logged username string
   const username = "John Smith";
@@ -310,7 +308,7 @@ export function CreativeDirectory() {
 
                               //Push profile picture URL to Message component
                               Router.push({
-                                query: {profile: profile.imageUrl}
+                                query: {profile: profile.imageUrl, name: profile.name}
                               })
                             }}                              
                             className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
