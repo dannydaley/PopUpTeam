@@ -49,6 +49,9 @@ io.on('connection', (socket) => {
 
 //#endregion
 
+//set up multer middleware for image uploads
+var multer  = require('multer');
+
 //#region DATABASE SET UP ENDPOINTS
 
 // Json file containing dummy data for easier db setup and testing
