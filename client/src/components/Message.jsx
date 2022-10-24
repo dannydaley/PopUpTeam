@@ -60,6 +60,22 @@ export default function Message({socket, sender, recipient}) {
                     <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
                         <nav className="-mb-px flex space-x-8" aria-label="Tabs">
                             <a
+                                key="Profile"
+                                href="#"
+                                className="border-white-600 text-gray-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                                aria-current={false ? 'page' : undefined}
+                            >
+                                Profile
+                            </a>
+                            <a
+                                key="pastprojects"
+                                href="#"
+                                className="border-white-600 text-gray-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                                aria-current={false ? 'page' : undefined}
+                            >
+                                Past Projects
+                            </a>
+                            <a
                                 key="messages"
                                 href="#"
                                 className="border-blue-600 text-gray-900 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"

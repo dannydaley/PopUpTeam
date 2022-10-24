@@ -29,6 +29,7 @@ const user = {
 const tabs = [
   { name: 'Profile', href: '#', current: true },
   { name: 'Past Projects', href: '#', current: false },
+  { name: 'Messages', href: '#', current: false },
 ]
 const profile = {
   name: 'Ricardo Cooper',
