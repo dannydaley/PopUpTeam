@@ -230,13 +230,17 @@ app.post('/signin', (req, res) => {
   // pull data from request body for better readbility
   let { email, password } = req.body;
   // search if user exists using email address
-  db.run("SELECT * FROM users WHERE email = ?", email, (err, userData) => {
+  console.log(req.body)
+
+  db.get("SELECT * FROM users WHERE email = ?", email, (err, userData) => {
     if (err) {
       console.log("error at database");
       res.status(500).send(err)
     }
     //assign any returned rows to user variable
+
     let user = userData;
+    console.log('userdata = ' + userData)
     //if a user exists, and their stored password matches the output of the hashing function
     // with their password entry..  
     if (user!== undefined && user.password === passwordHash(password, user.passwordSalt)) {
@@ -286,7 +290,7 @@ app.post('/signout', (req, res) => {
 
 app.get('/getAllUsers', (req, res, next) => {
     // grab all user data
-    db.run("SELECT * FROM users", [], (err, userData) => {
+    db.get("SELECT * FROM users", [], (err, userData) => {
       // if error
       if (err) {
         // respond with error status and error message
