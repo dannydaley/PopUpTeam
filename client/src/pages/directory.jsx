@@ -3,6 +3,7 @@ import { Dialog, Transition } from '@headlessui/react'
 import { Bars3Icon, CalendarIcon, ChartBarIcon, FolderIcon, HomeIcon, Cog6ToothIcon, InboxIcon, UsersIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Logo } from '@/components/Logo'
 import { CreativeDirectory } from '@/components/CreativeDirectory'
+import { useRouter } from 'next/router'
 
 const navigation = [
   { name: 'Dashboard', href: 'dashboard', icon: HomeIcon, current: false },
@@ -19,7 +20,30 @@ function classNames(...classes) {
 
 export default function directory(...pageProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
+  let router = useRouter();
 console.log(pageProps)
+  //function called on submit
+  let onSignOut = () => {
+    //access backend sign out endpoint  
+    fetch('http://localhost:8080' + '/signout', {
+      method: 'post',
+      headers: {'Content-Type': 'application/json'},
+      //convert data to JSON
+      body: JSON.stringify({
+        //pass in entry variables
+        username: ''
+      })
+    })
+    .then(response => response.json())
+      .then(data => {
+        if (data === 'success') {   
+          // reroute to index on success
+            router.push('/')
+        }
+      })
+    }
+  console.log(pageProps[0])
   return (
     <>
 
@@ -122,6 +146,7 @@ console.log(pageProps)
         </Transition.Root>
 
         {/* Static sidebar for desktop */}
+  
         <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex min-h-0 flex-1 flex-col bg-indigo-700">
@@ -130,7 +155,7 @@ console.log(pageProps)
                 <img
                   className="h-8 w-auto"
                   // WHITE LOGO VARIATION BELOW
-                  src= ""
+                  src=""
                   alt="PopUpTeam"
                 />
               </div>
@@ -157,17 +182,17 @@ console.log(pageProps)
                     <img
                       className="inline-block h-9 w-9 rounded-full"
                       // USER PROFILE PHOTO BELOW
-                      src=""
+                      src={"http://localhost:8080/public/" + pageProps[0].userProfilePicture}
                       alt=""
                     />
                   </div>
                   <div className="ml-3">
                     <p className="text-sm font-medium text-white">{pageProps[0].userFirstName} {pageProps[0].userLastName}</p>
                     <div className="ml-3 columns-2">
-                    <p className="text-xs font-medium text-indigo-200 hover:text-white">View profile</p>
-                    <p className="text-xs font-medium text-indigo-200 hover:text-white">Logout</p>
-                </div>
-                </div>
+                      <p className="text-xs font-medium text-indigo-200 hover:text-white">View profile</p>
+                      <p onClick={onSignOut} className="text-xs font-medium text-indigo-200 hover:text-white" >Logout</p>
+                    </div>
+                  </div>
                 </div>
               </a>
             </div>

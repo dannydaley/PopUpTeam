@@ -43,11 +43,15 @@ export default function dashboard(...pageProps) {
       })
     }
   console.log(pageProps[0])
-  
+  let userData = {
+    userFirstName: pageProps[0].userFirstName,
+    userLastName: pageProps[0].userLastName,
+    userProfilePicture: pageProps[0].userProfilePicture
+  }
+
 
   return (
     <>
-
       <div>
         <Transition.Root show={sidebarOpen} as={Fragment}>
           <Dialog as="div" className="relative z-40 md:hidden" onClose={setSidebarOpen}>
