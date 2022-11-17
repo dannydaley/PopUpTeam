@@ -37,10 +37,12 @@ export default function Login(...pageProps)  {
     .then(response => response.json())
       .then(data => {       
         if (data.status === 'success') {  
+          console.log("from sigin:" + data.firstName)
           pageProps[0].setUserFirstName(data.firstName)
           pageProps[0].setUserLastName(data.lastName)
           pageProps[0].setUserUserName(data.username)
           pageProps[0].setUserProfilePicture(data.profilePicture)
+
 
           // reroute on success
             router.push('/dashboard')

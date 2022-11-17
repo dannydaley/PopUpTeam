@@ -4,9 +4,9 @@ import { useState } from 'react';
 
 export default function App({ Component, pageProps }) {
   const [userFirstName, setUserFirstName] = useState('firstname');
-  const [userLastName, setUserLastName] = useState('lastname');
-  let [userUserName, setUserUserName] = useState('username');
-  let [userProfilePicture, setUserProfilePicture] = useState('./');
+  const  [userLastName, setUserLastName] = useState('lastname');
+  const [userUserName, setUserUserName] = useState('username');
+  const  [userProfilePicture, setUserProfilePicture] = useState('./');
 
   return   <Component {...pageProps} 
     userFirstName={userFirstName}

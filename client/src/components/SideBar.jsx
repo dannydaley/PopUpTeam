@@ -17,9 +17,9 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function sideBar(...pageProps) {
+function SideBar(...pageProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
-
+console.log(pageProps[0].userFirstName)
   let router = useRouter();
 
   //function called on submit
@@ -42,7 +42,7 @@ export default function sideBar(...pageProps) {
         }
       })
     }
-  console.log(pageProps[0])
+
   
 
   return (
@@ -214,3 +214,5 @@ export default function sideBar(...pageProps) {
     </>
   )
 }
+
+export default SideBar;
