@@ -1,8 +1,8 @@
 import useId from 'react-use-id';
-import { Tab } from '@headlessui/react'
-import clsx from 'clsx'
+import { Tab } from '@headlessui/react';
+import clsx from 'clsx';
 
-import Container from '../Container'
+import Container from '../Container';
 
 const features = [
     {
@@ -90,7 +90,7 @@ const features = [
             )
         },
     },
-]
+];
 
 function Feature({ feature, isActive, className, ...props }) {
     return (
@@ -121,8 +121,8 @@ function Feature({ feature, isActive, className, ...props }) {
             </p>
             <p className="mt-4 text-sm text-slate-600">{feature.description}</p>
         </div>
-    )
-}
+    );
+};
 
 function FeaturesMobile() {
     return (
@@ -144,8 +144,8 @@ function FeaturesMobile() {
                 </div>
             ))}
         </div>
-    )
-}
+    );
+};
 
 function FeaturesDesktop() {
     return (
@@ -199,8 +199,8 @@ function FeaturesDesktop() {
                 </>
             )}
         </Tab.Group>
-    )
-}
+    );
+};
 
 export default function SecondaryFeatures() {
     return (
@@ -223,5 +223,5 @@ export default function SecondaryFeatures() {
                 <FeaturesDesktop />
             </Container>
         </section>
-    )
-}
+    );
+};

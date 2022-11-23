@@ -1,7 +1,7 @@
-import { Fragment, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import { XMarkIcon} from '@heroicons/react/24/outline'
-import { ChevronLeftIcon, EnvelopeIcon, FunnelIcon, MagnifyingGlassIcon, PhoneIcon } from '@heroicons/react/20/solid'
+import { Fragment, useState } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { XMarkIcon} from '@heroicons/react/24/outline';
+import { ChevronLeftIcon, EnvelopeIcon, FunnelIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
 
 import Message from './Message';
 
@@ -13,13 +13,13 @@ const user = {
     name: 'Tom Cook',
     imageUrl:
         'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
+};
 
 const tabs = [
     { name: 'Profile', href: '#', current: true },
     { name: 'Past Projects', href: '#', current: false },
     { name: 'Messages', href: '#', current: false },
-]
+];
 
 const profile = {
     name: 'Ricardo Cooper',
@@ -40,7 +40,7 @@ const profile = {
         HourlyRate: '$50',
         Birthday: 'June 8, 1990',
     },
-}
+};
 
 const directory = {
     A: [
@@ -112,7 +112,7 @@ const directory = {
     ],
     Y: [
     ],
-}
+};
 
 const team = [
     {
@@ -143,11 +143,11 @@ const team = [
         imageUrl:
             'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
     },
-]
+];
 
 function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-}
+    return classes.filter(Boolean).join(' ');
+};
 
 export default function CreativeDirectory() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -162,17 +162,9 @@ export default function CreativeDirectory() {
     };
 
     return (
-        <>
-            {/*
-                This example requires updating your template:
+        <div class="flex">
+            <SideBar />
 
-                ```
-                <html class="h-full bg-white">
-                <body class="h-full overflow-hidden">
-                ```
-            */}
-            <div class="flex">
-                <SideBar />
             <div className="flex w-screen h-auto">
                 <Transition.Root show={sidebarOpen} as={Fragment}>
                     <Dialog as="div" className="relative z-40 lg:hidden" onClose={setSidebarOpen}>
@@ -465,7 +457,6 @@ export default function CreativeDirectory() {
                     </div>
                 </div>
             </div>
-            </div>
-        </>
-    )
-}
+        </div>
+    );
+};

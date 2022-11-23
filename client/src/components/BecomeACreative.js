@@ -41,7 +41,8 @@ const solutions = [
     href: '#',
     icon: QuestionMarkCircleIcon,
   },
-]
+];
+
 const features = [
   {
     name: 'Unlimited Inboxes',
@@ -83,13 +84,15 @@ const features = [
     description: 'Ac tincidunt sapien vehicula erat auctor pellentesque rhoncus. Et magna sit morbi lobortis.',
     icon: HeartIcon,
   },
-]
+];
+
 const metrics = [
   { id: 1, stat: '8K+', emphasis: 'Companies', rest: 'use laoreet amet lacus nibh integer quis.' },
   { id: 2, stat: '25K+', emphasis: 'Countries around the globe', rest: 'lacus nibh integer quis.' },
   { id: 3, stat: '98%', emphasis: 'Customer satisfaction', rest: 'laoreet amet lacus nibh integer quis.' },
   { id: 4, stat: '12M+', emphasis: 'Issues resolved', rest: 'lacus nibh integer quis.' },
-]
+];
+
 const footerNavigation = {
   solutions: [
     { name: 'Marketing', href: '#' },
@@ -178,11 +181,11 @@ const footerNavigation = {
       ),
     },
   ],
-}
+};
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
+  return classes.filter(Boolean).join(' ');
+};
 
 export default function BecomeACreative() {
   return (
@@ -398,5 +401,5 @@ export default function BecomeACreative() {
         </main>
       </div>
     </>
-  )
-}
+  );
+};

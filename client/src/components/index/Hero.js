@@ -1,5 +1,5 @@
-import Button from '../Button'
-import Container from '../Container'
+import Button from '../Button';
+import Container from '../Container';
 
 export default function Hero() {
     return (
@@ -76,5 +76,5 @@ export default function Hero() {
                 </ul>
             </div>
         </Container>
-    )
-}
+    );
+};

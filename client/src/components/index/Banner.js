@@ -1,4 +1,4 @@
-import { MegaphoneIcon } from '@heroicons/react/24/outline'
+import { MegaphoneIcon } from '@heroicons/react/24/outline';
 
 export default function Banner() {
   return (
@@ -27,5 +27,5 @@ export default function Banner() {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

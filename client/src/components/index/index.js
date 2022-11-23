@@ -22,8 +22,8 @@ export default class Home extends React.Component {
             userLastName: '',
             loggedInUsername: '',
             userProfilePicture: ''
-        }
-    }
+        };
+    };
 
     updateSession = (firstName, lastName, userName, userProfilePicture) => {
         this.setState({
@@ -32,9 +32,9 @@ export default class Home extends React.Component {
             loggedInUsername: userName,
             userProfilePicture: userProfilePicture,
             isSignedIn: true
-        })     
-        console.log(this.state)
-    }
+        });     
+        console.log(this.state);
+    };
 
     onRouteChange = (route) => {
         if (route === 'signout') {
@@ -44,40 +44,40 @@ export default class Home extends React.Component {
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                          sender: this.props.loggedInUsername
-                }) 
-            })            
+                })
+            })      
         } else if (route === 'home') {
-            this.setState({isSignedIn: true})
-            console.log(this.state)
+            this.setState({isSignedIn: true});
+            console.log(this.state);
         }
-        this.setState({route: route})
-    }
+        this.setState({route: route});
+    };
     
     render () {
-            return (
-                <>
-                    <Helmet>
-                        <title>PopUpTeam - Finding a team made simple for small businesses</title>
-                        <meta
-                            name="description"
-                            content="Finding a team made simple for small businesses"
-                        />
-                    </Helmet>
+        return (
+            <>
+                <Helmet>
+                    <title>PopUpTeam - Finding a team made simple for small businesses</title>
+                    <meta
+                        name="description"
+                        content="Finding a team made simple for small businesses"
+                    />
+                </Helmet>
 
-                    <Header onRouteChange={this.onRouteChange} route={this.state.route} updateSession={this.updateSession} />
-                    <>
-                        <Hero />
-                        <PrimaryFeatures />
-                        {/* <SecondaryFeatures /> */}
-                        <CallToAction />
-                        <Testimonials />
-                        <Pricing />
-                        <Faqs />
-                    </>
-                    
-                    <Banner />
-                    <Footer />
+                <Header onRouteChange={this.onRouteChange} route={this.state.route} updateSession={this.updateSession} />
+                <>
+                    <Hero />
+                    <PrimaryFeatures />
+                    {/* <SecondaryFeatures /> */}
+                    <CallToAction />
+                    <Testimonials />
+                    <Pricing />
+                    <Faqs />
                 </>
-            )
-        }
-}
+                
+                <Banner />
+                <Footer />
+            </>
+        );
+    };
+};

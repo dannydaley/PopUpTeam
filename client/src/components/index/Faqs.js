@@ -1,4 +1,4 @@
-import Container from '../Container'
+import Container from '../Container';
 
 const faqs = [
     [
@@ -52,7 +52,7 @@ const faqs = [
                 'KEY FEATURE',
         },
     ],
-]
+];
 
 export default function Faqs() {
     return (
@@ -103,5 +103,5 @@ export default function Faqs() {
         </ul>
       </Container>
     </section>
-  )
-}
+  );
+};

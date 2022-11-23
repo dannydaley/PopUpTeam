@@ -13,8 +13,8 @@ function MobileNavLink({ href, children }) {
         <Popover.Button as={Link} href={href} className="block w-full p-2">
             {children}
         </Popover.Button>
-    )
-}
+    );
+};
 
 function MobileNavIcon({ open }) {
     return (
@@ -40,8 +40,8 @@ function MobileNavIcon({ open }) {
                 )}
             />
         </svg>
-    )
-}
+    );
+};
 
 function MobileNavigation() {
     return (
@@ -88,41 +88,41 @@ function MobileNavigation() {
                 </Transition.Child>
             </Transition.Root>
         </Popover>
-    )
-}
+    );
+};
 
 export default function Header(props) {
     return (
-     <header className="py-10">
-            <Container>
-                <nav className="relative z-50 flex justify-between">
-                    <div className="flex items-center md:gap-x-12">
-                        <Link href="/#" aria-label="Home">
-                            <Logo className="h-10 w-auto" />
-                        </Link>
-                        <div className="hidden md:flex md:gap-x-6">
-                            <NavLink href="/#features">Features</NavLink>
-                            <NavLink href="/#testimonials">Testimonials</NavLink>
-                            <NavLink href="/about">About</NavLink>
-                            <NavLink href="/#pricing">Pricing</NavLink>
-                            <NavLink href="/become-a-creative">Become a creative</NavLink>
+        <header className="py-10">
+                <Container>
+                    <nav className="relative z-50 flex justify-between">
+                        <div className="flex items-center md:gap-x-12">
+                            <Link href="/#" aria-label="Home">
+                                <Logo className="h-10 w-auto" />
+                            </Link>
+                            <div className="hidden md:flex md:gap-x-6">
+                                <NavLink href="/#features">Features</NavLink>
+                                <NavLink href="/#testimonials">Testimonials</NavLink>
+                                <NavLink href="/about">About</NavLink>
+                                <NavLink href="/#pricing">Pricing</NavLink>
+                                <NavLink href="/become-a-creative">Become a creative</NavLink>
+                            </div>
                         </div>
-                    </div>
-                    <div className="flex items-center gap-x-5 md:gap-x-8">
-                        <div className="hidden md:block">
-                            <NavLink {...props} href="/business-login">Sign in</NavLink>
+                        <div className="flex items-center gap-x-5 md:gap-x-8">
+                            <div className="hidden md:block">
+                                <NavLink {...props} href="/business-login">Sign in</NavLink>
+                            </div>
+                            <Button href="/business-register" color="blue">
+                                <span>
+                                    Get started <span className="hidden lg:inline">today</span>
+                                </span>
+                            </Button>
+                            <div className="-mr-1 md:hidden">
+                                <MobileNavigation />
+                            </div>
                         </div>
-                        <Button href="/business-register" color="blue">
-                            <span>
-                                Get started <span className="hidden lg:inline">today</span>
-                            </span>
-                        </Button>
-                        <div className="-mr-1 md:hidden">
-                            <MobileNavigation />
-                        </div>
-                    </div>
-                </nav>
-            </Container>
+                    </nav>
+                </Container>
         </header>
-    )
-}
+    );
+};

@@ -1,4 +1,4 @@
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet';
 
 export default function Error() {
   return (
@@ -41,5 +41,5 @@ export default function Error() {
         </footer>
       </div>
     </>
-  )
-}
+  );
+};

@@ -20,7 +20,7 @@ const io = new Server(server, {
         origin: '*',
         methods: ['GET', 'POST'],
     }
-})
+});
 
 //#region Socket server
 //On connection

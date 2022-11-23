@@ -32,7 +32,7 @@ const people = [
   },
 
   // More people...
-]
+];
 
 export default function About() {
   return (
@@ -101,5 +101,5 @@ export default function About() {
     <Footer />
     </>
   
-  )
-}
+  );
+};

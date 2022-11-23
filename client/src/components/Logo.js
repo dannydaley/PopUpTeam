@@ -13,5 +13,5 @@ export default function Logo() {
                 transform="matrix(.1 0 0 -.1 0 802)"
             ></path>
         </svg>
-    )
-}
+    );
+};

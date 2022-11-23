@@ -90,7 +90,7 @@ const navigation = {
             ),
         },
     ],
-}
+};
 
 export default function Footer() {
     const navigate = useNavigate();
@@ -196,5 +196,5 @@ export default function Footer() {
                 </div>
             </div>
         </footer>
-    )
-}
+    );
+};

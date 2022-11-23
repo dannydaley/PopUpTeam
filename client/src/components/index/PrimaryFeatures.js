@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
-import { Tab } from '@headlessui/react'
-import clsx from 'clsx'
+import { useEffect, useState } from 'react';
+import { Tab } from '@headlessui/react';
+import clsx from 'clsx';
 
-import Container from '../Container'
+import Container from '../Container';
 
 const features = [
     {
@@ -29,7 +29,7 @@ const features = [
             'View the latest updates and reports',
         image: '../images/screenshots/logo.png',
     },
-]
+];
 
 export default function PrimaryFeatures() {
     let [tabOrientation, setTabOrientation] = useState('horizontal')
@@ -145,4 +145,4 @@ export default function PrimaryFeatures() {
             </Container>
         </section>
     )
-}
+};
