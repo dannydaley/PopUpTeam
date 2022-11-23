@@ -1,70 +1,70 @@
 import Container from '../Container'
 
 const faqs = [
-  [
-    {
-      question: 'FAQ',
-      answer:
-        'KEY FEATURE',
-    },
-    {
-      question: 'FAQ',
-      answer: 'KEY FEATURE',
-    },
-    {
-      question: 'FAQ',
-      answer:
-        'KEY FEATURE',
-    },
-  ],
-  [
-    {
-      question: 'FAQ',
-      answer:
-        'KEY FEATURE',
-    },
-    {
-      question:
-        'FAQ',
-      answer:
-        'KEY FEATURE',
-    },
-    {
-      question:
-        'FAQ',
-      answer:
-        'KEY FEATURE',
-    },
-  ],
-  [
-    {
-      question: 'FAQ',
-      answer:
-        'KEY FEATURE',
-    },
-    {
-      question: 'FAQ',
-      answer: 'KEY FEATURE',
-    },
-    {
-      question: 'FAQ',
-      answer:
-        'KEY FEATURE',
-    },
-  ],
+    [
+        {
+            question: 'FAQ',
+            answer:
+                'KEY FEATURE',
+        },
+        {
+            question: 'FAQ',
+            answer: 'KEY FEATURE',
+        },
+        {
+            question: 'FAQ',
+            answer:
+                'KEY FEATURE',
+        },
+    ],
+    [
+        {
+            question: 'FAQ',
+            answer:
+                'KEY FEATURE',
+        },
+        {
+            question:
+                'FAQ',
+            answer:
+                'KEY FEATURE',
+        },
+        {
+            question:
+                'FAQ',
+            answer:
+                'KEY FEATURE',
+        },
+    ],
+    [
+        {
+            question: 'FAQ',
+            answer:
+                'KEY FEATURE',
+        },
+        {
+            question: 'FAQ',
+            answer: 'KEY FEATURE',
+        },
+        {
+            question: 'FAQ',
+            answer:
+                'KEY FEATURE',
+        },
+    ],
 ]
 
 export default function Faqs() {
-  return (
-    <section
-      id="faq"
-      aria-labelledby="faq-title"
-      className="relative overflow-hidden bg-slate-50 py-20 sm:py-32"
-    >
-      <img
-        className="absolute top-0 left-1/2 max-w-none translate-x-[-30%] -translate-y-1/4"
-        src="../images/background-faqs.jpg"
-        alt=""
+    return (
+        <section
+            id="faq"
+            aria-labelledby="faq-title"
+            className="relative overflow-hidden bg-slate-50 py-20 sm:py-32"
+        >
+            <img
+                className="absolute top-0 left-1/2 max-w-none translate-x-[-30%] -translate-y-1/4"
+                src="../images/background-faqs.jpg"
+            alt=""
         width={1558}
         height={946}
         unoptimized

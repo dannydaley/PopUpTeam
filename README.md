@@ -11,15 +11,15 @@ Presentation - https://falmouthac-my.sharepoint.com/:p:/g/personal/lw254830_falm
 ## Contents
 
 - [PopUpTeam](#popupteam)
-  - [Contents](#contents)
-  - [Main Features](#main-features)
-  - [Repository Layout](#repository-layout)
-    - [Main](#main)
-    - [Documentation](#documentation)
-  - [Installation](#installation)
-    - [Prerequisites](#prerequisites)
-    - [User Guide](#user-guide)
-  - [Commit Message Key](#commit-message-key)
+    - [Contents](#contents)
+    - [Main Features](#main-features)
+    - [Repository Layout](#repository-layout)
+        - [Main](#main)
+        - [Documentation](#documentation)
+    - [Installation](#installation)
+        - [Prerequisites](#prerequisites)
+        - [User Guide](#user-guide)
+    - [Commit Message Key](#commit-message-key)
 
 
 ## Main Features
