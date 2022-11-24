@@ -68,7 +68,7 @@ export default class Home extends React.Component {
                 <>
                     <Hero />
                     <PrimaryFeatures />
-                    {/* <SecondaryFeatures /> */}
+                    <SecondaryFeatures />
                     <CallToAction />
                     <Testimonials />
                     <Pricing />

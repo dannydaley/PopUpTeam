@@ -1,4 +1,3 @@
-import useId from 'react-use-id';
 import { Tab } from '@headlessui/react';
 import clsx from 'clsx';
 
@@ -12,12 +11,10 @@ const features = [
             'DESCRIPTION TO BE ADDED',
         image: '../images/screenshots/profit-loss.png',
         icon: function ReportingIcon() {
-            let id = useId()
             return (
                 <>
                     <defs>
                         <linearGradient
-                            id={id}
                             x1="11.5"
                             y1={18}
                             x2={36}
@@ -30,7 +27,6 @@ const features = [
                     </defs>
                     <path
                         d="m30 15-4 5-4-11-4 18-4-11-4 7-4-5"
-                        stroke={`url(#${id})`}
                         strokeWidth={2}
                         strokeLinecap="round"
                         strokeLinejoin="round"
