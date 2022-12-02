@@ -9,7 +9,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 };
 
-export default function SideBar(...pageProps) {
+export default function SideBar(props) {
     const [sidebarOpen, setSidebarOpen] = useState(false)
     const navigate = useNavigate()
     const location = useLocation()
@@ -209,12 +209,12 @@ export default function SideBar(...pageProps) {
                                     <img
                                         className="inline-block h-9 w-9 rounded-full"
                                         // USER PROFILE PHOTO BELOW
-                                        src={"http://localhost:8080/public/" + pageProps[0].userProfilePicture}
+                                        src={"http://localhost:8080/public/" + props.userData.profilePicture}
                                         alt=""
                                     />
                                 </div>
                                 <div className="ml-3">
-                                    <p className="text-sm font-medium text-white">{pageProps[0].userFirstName} {pageProps[0].userLastName}</p>
+                                    <p className="text-sm font-medium text-white">{props.userData.firstName} {props.userData.lastName}</p>
                                     <div className="ml-3 columns-2">
                                         <p className="text-xs font-medium text-indigo-200 hover:text-white">View profile</p>
                                         <p onClick={onSignOut} className="text-xs font-medium text-indigo-200 hover:text-white" >Logout</p>
@@ -228,3 +228,4 @@ export default function SideBar(...pageProps) {
         </>
     );
 };
+         

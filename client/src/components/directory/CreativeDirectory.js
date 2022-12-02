@@ -149,7 +149,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 };
 
-export default function CreativeDirectory() {
+export default function CreativeDirectory(props) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [renderMessage, setRenderMessage] = useState(false);
 
@@ -163,7 +163,7 @@ export default function CreativeDirectory() {
 
     return (
         <div class="flex">
-            <SideBar />
+            <SideBar userData={props.userData} />
 
             <div className="flex w-screen h-auto">
                 <Transition.Root show={sidebarOpen} as={Fragment}>

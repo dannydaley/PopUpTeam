@@ -1,4 +1,4 @@
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, Navigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 
 import AuthLayout from './AuthLayout'
@@ -6,7 +6,7 @@ import Button from '../Button'
 import TextField from './Fields'
 import Logo from '../Logo'
 
-export default function Login(...pageProps)  {
+export default function Login(props)  {
   const navigate = useNavigate()
   //variable stores current input of fiels
   let emailInput;
@@ -33,17 +33,12 @@ export default function Login(...pageProps)  {
       })
     })
     .then(response => response.json())
-      .then(data => {       
-        if (data.status === 'success') {  
-          console.log("from sigin:" + data.firstName)
-          pageProps[0].setUserFirstName(data.firstName)
-          pageProps[0].setUserLastName(data.lastName)
-          pageProps[0].setUserUserName(data.username)
-          pageProps[0].setUserProfilePicture(data.profilePicture)
-
-
+      .then(data => {     
+        console.log(data)
+        if (data.status === 'success') {     
+          props.updateUserInfo(data.username, data.firstName, data.lastName, data.aboutMe, data.profilePicture)
           // reroute on success
-            navigate('/dashboard')
+            navigate('/directory')
         }
       })
     }
@@ -75,6 +70,14 @@ export default function Login(...pageProps)  {
             </div>
           </div>
           <form action="#" className="mt-10 grid grid-cols-1 gap-y-8">
+            <input
+                          label="Email address"
+              id="email"
+              name="email"
+              type="email"
+              autoComplete="email"
+              onChange={onEmailChange}
+              required/>
             <TextField
               label="Email address"
               id="email"
@@ -84,6 +87,15 @@ export default function Login(...pageProps)  {
               onChange={onEmailChange}
               required
             />
+            <input
+              label="Password"
+              id="password"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              onChange={onPasswordChange}
+              required            
+            />
             <TextField
               label="Password"
               id="password"
@@ -91,7 +103,7 @@ export default function Login(...pageProps)  {
               type="password"
               autoComplete="current-password"
               onChange={onPasswordChange}
-              required
+              required 
             />
             <div>
               <Button                

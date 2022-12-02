@@ -13,8 +13,23 @@ import CreativeDirectory from './components/directory/CreativeDirectory';
 import NewProject from './components/directory/NewProject';
 import Error from './components/404';
 
-export default function App() {
-    return (
+export default class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: '',
+            firstName: '',
+            lastName: '',
+            aboutMe: '',
+            profilePicture: ''
+        }
+    }
+
+    updateUserInfo = (username, firstName, lastName, aboutMe, profilePicture) => {
+        this.setState({ username: username, firstName, lastName, aboutMe, profilePicture })
+    }
+    render() {        
+            return (
         <>            
             <Routes>
                 {/* Index */}
@@ -23,14 +38,19 @@ export default function App() {
                 <Route path="/become-a-creative" element={<BecomeACreative />} />
 
                 {/* Authentication */}
-                <Route path="/business-login" element={<Login />} />
+                        <Route path="/business-login"
+                            element={<Login
+                                updateUserInfo={this.updateUserInfo} />} />
                 <Route path="/business-register" element={<Register />} />
 
                 {/* Directory */}
-                <Route path="/directory" element={<CreativeDirectory />} />
+                        <Route path="/directory" element={<CreativeDirectory
+                            userData={this.state} />} />
                 <Route path="/projects" element={<NewProject />} />
                 <Route path="*" element={<Error />}/>
             </Routes>
         </>
     );
+    }
+
 };
