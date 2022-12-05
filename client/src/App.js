@@ -2,16 +2,16 @@ import React from 'react';
 import './App.css';
 import { Routes, Route } from "react-router-dom";
 
-import Home from './components/index';
-import About from './components/about';
-import BecomeACreative from './components/BecomeACreative';
+import Home from './pages/Index';
+import About from './pages/About';
+import BecomeACreative from './pages/BecomeACreative';
 
-import Login from './components/authentication/BusinessLogin';
-import Register from './components/authentication/BusinessRegister';
+import Login from './pages/BusinessLogin';
+import Register from './pages/BusinessRegister';
 
-import CreativeDirectory from './components/directory/CreativeDirectory';
-import NewProject from './components/directory/NewProject';
-import Error from './components/404';
+import CreativeDirectory from './pages/CreativeDirectory';
+import NewProject from './pages/NewProject';
+import Error from './pages/404';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -22,15 +22,15 @@ export default class App extends React.Component {
             lastName: '',
             aboutMe: '',
             profilePicture: ''
-        }
-    }
+        };
+    };
 
     updateUserInfo = (username, firstName, lastName, aboutMe, profilePicture) => {
-        this.setState({ username: username, firstName, lastName, aboutMe, profilePicture })
-    }
+        this.setState({ username: username, firstName, lastName, aboutMe, profilePicture });
+    };
+
     render() {        
-            return (
-        <>            
+        return (          
             <Routes>
                 {/* Index */}
                 <Route path="/" element={<Home />}/>
@@ -49,8 +49,6 @@ export default class App extends React.Component {
                 <Route path="/projects" element={<NewProject />} />
                 <Route path="*" element={<Error />}/>
             </Routes>
-        </>
-    );
-    }
-
+        );
+    };
 };

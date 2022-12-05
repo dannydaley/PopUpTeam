@@ -1,10 +1,10 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 
-import AuthLayout from './AuthLayout';
-import Button from '../Button';
-import TextField from './Fields';
-import Logo from '../Logo';
+import AuthLayout from '../components/authentication/AuthLayout';
+import Button from '../components/Button';
+import TextField from '../components/authentication/Fields';
+import Logo from '../components/Logo';
 
 export default function Login(props)  {
   const navigate = useNavigate()

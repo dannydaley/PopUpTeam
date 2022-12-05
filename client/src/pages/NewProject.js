@@ -1,6 +1,6 @@
 import { PlusIcon } from '@heroicons/react/20/solid';
 
-import SideBar from './SideBar';
+import SideBar from '../components/directory/SideBar';
 
 export default function NewProject() {
     return (

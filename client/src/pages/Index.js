@@ -1,16 +1,16 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 
-import CallToAction from './CallToAction';
-import Faqs from './Faqs';
-import Footer from '../Footer';
-import Header from '../Header';
-import Hero from './Hero';
-import Pricing from './Pricing';
-import PrimaryFeatures from './PrimaryFeatures';
-import SecondaryFeatures from './SecondaryFeatures';
-import Testimonials from './Testimonials';
-import Banner from './Banner';
+import CallToAction from '../components/index/CallToAction';
+import Faqs from '../components/index/Faqs';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import Hero from '../components/index/Hero';
+import Pricing from '../components/index/Pricing';
+import PrimaryFeatures from '../components/index/PrimaryFeatures';
+import SecondaryFeatures from '../components/index/SecondaryFeatures';
+import Testimonials from '../components/index/Testimonials';
+import Banner from '../components/index/Banner';
 
 export default class Home extends React.Component {
     constructor() {
