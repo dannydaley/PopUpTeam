@@ -18,10 +18,10 @@ const people = [
   },
 
   {
-    name: 'Yordan',
-    role: 'ROLE GOES HERE',
+    name: 'Yordan Hristov',
+    role: 'Full Stack Engineer',
     imageUrl:
-      '',
+      'https://www.dantcho.com/static/40c34ea1ac284ebf87aaf0833e20410c/77cab/me.webp',
   },
 
   {
