@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Helmet from "react-helmet";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import AddIcon from "../images/addIcon";
 import SettingsIcon from "../images/settingsIcon";
+import axios from "../lib/axios";
 
 const KanbanPage = () => {
+	useEffect(() => {
+		axios
+			.get("/kanban/")
+			.then((results) => {
+				console.log(results);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}, []);
 	return (
 		<>
 			<Helmet>
