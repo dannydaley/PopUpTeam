@@ -13,6 +13,8 @@ import CreativeDirectory from './pages/CreativeDirectory';
 import NewProject from './pages/NewProject';
 import Error from './pages/404';
 
+import KanbanPage from './pages/Kanban';
+
 export default class App extends React.Component {
     constructor(props) {
         super(props);
@@ -48,6 +50,9 @@ export default class App extends React.Component {
                             userData={this.state} />} />
                 <Route path="/projects" element={<NewProject />} />
                 <Route path="*" element={<Error />}/>
+
+                {/* Kanban */}
+                <Route path="/kanban" element={<KanbanPage />} />
             </Routes>
         );
     };
