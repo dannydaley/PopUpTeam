@@ -9,7 +9,7 @@ import axios from "../lib/axios";
 const KanbanPage = () => {
 	useEffect(() => {
 		axios
-			.get("/kanban/")
+			.get("/get-projects")
 			.then((results) => {
 				console.log(results);
 			})
