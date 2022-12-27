@@ -6,6 +6,10 @@ router.get("/", function (req, res, next) {
 	res.send("Kanban server 3000");
 });
 
-router.get("/get-projects", ProjectController.getAllProjects);
+router.get("/projects", ProjectController.getAllProjects);
+router.get("/project", ProjectController.createProject);
+router.post("/project", ProjectController.createProject);
+router.put("/project", ProjectController.updateProject);
+router.delete("/project", ProjectController.deleteProject);
 
 module.exports = router;

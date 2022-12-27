@@ -3,23 +3,6 @@ var path = require("path");
 var cors = require("cors");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-var { Sequelize } = require("sequelize");
-
-// Setup database connection
-const sequelize = new Sequelize({
-	dialect: "sqlite",
-	storage: "./database.sqlite",
-});
-
-// Test database connection
-sequelize
-	.authenticate()
-	.then(() => {
-		console.log("Database connection successful");
-	})
-	.catch((err) => {
-		console.error(`Database connection error: ${err}`);
-	});
 
 // CORS settings
 var corsOptions = {
@@ -31,9 +14,6 @@ var corsOptions = {
 var indexRouter = require("./routes/index");
 
 var app = express();
-
-// Pass database instance for controllers
-app.set("db", sequelize);
 
 app.use(cors(corsOptions));
 app.use(logger("dev"));
