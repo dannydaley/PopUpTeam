@@ -82,15 +82,27 @@ Then extract the folder somewhere in your files.
 
 `$ npm install`
 
-6. Now in the current
+6. In a third CLI instance:
+
+`$ cd kanban-server`
+
+`$ npm install`
+
+`$ npx sequelize db:migrate` - This is generally unnecessary (Creates database file)
+
+7. Now in the current
 
 `$ npm run dev`
 
-7. And in the previous instance
+8. And in the previous instance
 
 `$ npm run dev`
 
-9. Finally enter the local URL (http:localhost:3000) into your web browser. Database functionality can be found (http:localhost:3000/dev)
+9. Finally in the third instance
+
+`$ npm run start`
+
+10. Finally enter the local URL (http:localhost:3000) into your web browser. Database functionality can be found (http:localhost:3000/dev)
 Additional if you wish to view the database outside of the source code enter the information found in 'server/config/db.js' into mySQLworkbench as a new connection in the same format it appears here.
 
 ## Commit Message Key
