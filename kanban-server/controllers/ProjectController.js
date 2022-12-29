@@ -1,4 +1,4 @@
-const { Project } = require("../models");
+const { Project, Column } = require("../models");
 
 const getAllProjects = async (req, res) => {
 	const projects = await Project.findAll();
@@ -7,7 +7,7 @@ const getAllProjects = async (req, res) => {
 
 const createProject = async (req, res) => {
 	const projectTitle = req.body.projectTitle;
-	const project = await Project.create({ title: projectTitle });
+	const project = await Project.create({ title: projectTitle, content: null });
 	res.status(200).json({ data: project });
 };
 
@@ -23,12 +23,18 @@ const updateProject = async (req, res) => {
 			},
 		}
 	);
-	res.status(200);
+
+	res.status(200).json("OK");
 };
 
 const deleteProject = async (req, res) => {
 	const projectId = req.body.projectId;
-	console.log(projectId);
+
+	await Column.destroy({
+		where: {
+			parent_id: projectId,
+		},
+	});
 
 	await Project.destroy({
 		where: {
@@ -36,7 +42,7 @@ const deleteProject = async (req, res) => {
 		},
 	});
 
-	res.status(200);
+	res.status(200).json("OK");
 };
 
 module.exports = {
