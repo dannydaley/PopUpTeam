@@ -36,6 +36,7 @@ const KanbanPage = () => {
 			.put("/project", {
 				projectId: selectedProjectId,
 				newProjectTitle: newProjectTitle,
+				newContent: null,
 			})
 			.then((result) => {
 				console.log(result);

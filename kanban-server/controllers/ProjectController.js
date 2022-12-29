@@ -12,11 +12,35 @@ const createProject = async (req, res) => {
 };
 
 const updateProject = async (req, res) => {
-	const newProjectTitle = req.body.newProjectTitle;
 	const projectId = req.body.projectId;
+	let newProjectTitle = req.body.newProjectTitle;
+	let newProjectContent = req.body.newContent;
+	let content = "";
+
+	const project = Project.findOne({
+		attributes: ["title", "content"],
+		where: {
+			id: projectId,
+		},
+	});
+
+	if (newProjectTitle == null) {
+		newProjectTitle = project.title;
+	}
+	if (newProjectContent == null) {
+		content = project.content;
+	} else {
+		content += newProjectContent.map((id, index, array) => {
+			if (index + 1 === array.length) {
+				return id;
+			} else {
+				return `${id},`;
+			}
+		});
+	}
 
 	await Project.update(
-		{ title: newProjectTitle },
+		{ title: newProjectTitle, content: content },
 		{
 			where: {
 				id: projectId,

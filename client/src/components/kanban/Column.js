@@ -3,10 +3,31 @@ import SettingsIcon from "../../images/settingsIcon";
 import Popup from "reactjs-popup";
 import axios from "../../lib/axios";
 import BinIcon from "../../images/binIcon";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import HoldIcon from "../../images/holdIcon";
 
-const Column = ({ column, getColumns }) => {
+const Column = ({ column, getColumns, dragId }) => {
 	const [newColumnTitle, setNewColumnTitle] = useState("");
 	const optionsPopUp = useRef();
+
+	//Dnd Stuff starts here
+
+	const {
+		attributes,
+		listeners,
+		setNodeRef,
+		transform,
+		transition,
+		isDragging,
+	} = useSortable({ id: dragId });
+	const style = {
+		transform: CSS.Transform.toString(transform),
+		transition,
+		opacity: isDragging ? 0.5 : 1,
+	};
+
+	//Dnd Stuff ends here
 
 	const handleDeleteColumn = () => {
 		axios
@@ -40,8 +61,22 @@ const Column = ({ column, getColumns }) => {
 		getColumns();
 	};
 	return (
-		<div className="flex flex-col gap-2 rounded border border-gray-200 bg-gray-100 px-5 py-3 shadow-md w-273px min-w-273px">
-			<h3 className="font-bold text-gray-500">{column.title}</h3>
+		<div
+			ref={setNodeRef}
+			style={style}
+			className="z-10 flex flex-col gap-2 rounded border border-gray-200 bg-gray-100 px-5 py-3 shadow-md w-273px min-w-273px"
+		>
+			<div className="flex justify-between items-center">
+				<h3 className="font-bold text-gray-500">{column.title}</h3>
+				<div
+					className="flex cursor-grab text-gray-500"
+					{...attributes}
+					{...listeners}
+				>
+					<HoldIcon className="" />
+					<HoldIcon className="-ml-4 -mr-2" />
+				</div>
+			</div>
 			<div className="flex w-full rounded bg-white px-3 py-2 shadow">
 				<p>Task Name</p>
 			</div>
