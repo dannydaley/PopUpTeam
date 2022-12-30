@@ -1,4 +1,5 @@
-const { Project, Column } = require("../models");
+const { Project, Column, Task } = require("../models");
+const TaskController = require("./TaskController");
 
 const getColumns = async (req, res) => {
 	const parentProjectId = req.query.projectId;
@@ -15,6 +16,9 @@ const getColumns = async (req, res) => {
 		if (parentProject.content != null) {
 			for (const id of parentProject.content.split(",")) {
 				columns.push(await Column.findOne({ where: { id: id } }));
+			}
+			for (const column of columns) {
+				column.content = await TaskController.getAllTasks(column.id);
 			}
 		}
 	}
@@ -114,6 +118,8 @@ const deleteColumn = async (req, res) => {
 			where: { id: column.parent_id },
 		}
 	);
+
+	await Task.destroy({ where: { parent_id: columnId } });
 
 	await Column.destroy({
 		where: {

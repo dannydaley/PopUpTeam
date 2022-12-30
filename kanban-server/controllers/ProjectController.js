@@ -1,4 +1,4 @@
-const { Project, Column } = require("../models");
+const { Project, Column, Task } = require("../models");
 
 const getAllProjects = async (req, res) => {
 	const projects = await Project.findAll();
@@ -53,6 +53,12 @@ const updateProject = async (req, res) => {
 
 const deleteProject = async (req, res) => {
 	const projectId = req.body.projectId;
+
+	const columns = await Column.findAll({ where: { parent_id: projectId } });
+
+	for (const column of columns) {
+		await Task.destroy({ where: { parent_id: column.id } });
+	}
 
 	await Column.destroy({
 		where: {

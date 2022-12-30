@@ -166,7 +166,9 @@ const Board = ({ selectedProjectId }) => {
 						{(close) => (
 							<div className="flex flex-col justify-center p-5 bg-white overflow-hidden shadow-xl rounded-lg gap-5">
 								<div className="flex flex-col gap-1">
-									<label htmlFor="column-title">Column Title</label>
+									<label className="font-bold" htmlFor="column-title">
+										Column Title
+									</label>
 									<input
 										id="column-title"
 										className="rounded"
