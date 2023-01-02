@@ -32,9 +32,6 @@ const io = new Server(server, {
 //#region Socket server
 //On connection
 io.on("connection", (socket) => {
-	//Log user ids
-	console.log(`user connected: ${socket.id})`);
-
 	//On message button click
 	socket.on("select_recipient", (data) => {
 		//Assign and log recipient
