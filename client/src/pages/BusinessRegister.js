@@ -12,29 +12,12 @@ import Logo from '../components/Logo';
 export default function Register() { 
   const navigate = useNavigate();
 
-  //collect data from text input field
-  let signUpEmail;
-  const onEmailChange = event => signUpEmail = event.target.value;
-  
-  //collect data from text input field
-  let signUpUserName;
-  const onUserNameChange = event => signUpUserName = event.target.value;
-  
-  //collect data from text input field
-  let signUpFirstName;
-  const onFirstNameChange = event => signUpFirstName = event.target.value;
-  
-  //collect data from text input field
-  let signUpLastName;
-  const onLastNameChange = event => signUpLastName = event.target.value;
-  
-  //collect data from text input field
-  let signUpPassword;
-  const onPasswordChange = event => signUpPassword = event.target.value;
-  
-  //collect data from text input field
-  let signUpConfirmPassword;
-  const onPasswordConfirmChange = event => signUpConfirmPassword = event.target.value
+  const[signUpUserName, setSignUpUserName] = useState('');
+  const[signUpFirstName, setSignUpFirstName] = useState('');
+  const[signUpLastName, setSignUpLastName] = useState('');
+  const[signUpEmail, setSignUpEmail] = useState('');
+  const[signUpPassword, setSignUpPassword] = useState('');
+  const[signUpConfirmPassword, setSignUpConfirmPassword] = useState('');
 
   const [error, setError] = useState('');
 
@@ -55,7 +38,7 @@ export default function Register() {
             navigate('/business-login', { state: res.data });
         };
     });
-};
+  };
 
   const onSubmitSignUp = (e) => {
     e.preventDefault(); // Prevents page refresh
@@ -92,7 +75,7 @@ export default function Register() {
     };
 
     insertRow();
-};
+  };
 
   return (
     <>
@@ -123,27 +106,32 @@ export default function Register() {
         </div>
 
         <form
-          action="#"
+          onSubmit={onSubmitSignUp}
+          onKeyPress={(e) => {
+            e.key === 'Enter' && onSubmitSignUp(); //Submit form on enter
+          }}
           className="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2"
         >
           {/* Username */}
           <TextField
-            className="col-span-full"
-            class={`${
-              error === 'Username already exists' ? 'border-red-500 rounded' : ''
-            }`}
             label="Username"
             id="username"
             name="first_name"
             type="text"
             autoComplete="username"
-            onChange={onUserNameChange}
             required
+            className="col-span-full"
+            onChange={(e) => {
+              setSignUpUserName(e.target.value);
+            }}
+            class={`${
+              error === 'Username already exists' ? 'w-full border-red-500 rounded' : 'border-gray-200'
+            }`}
           />
 
           {/* Username validation */}
           {error === 'Username already exists' && 
-            <p class="col-span-full text-xs italic text-red-500">Username already exists</p>
+            <p class="col-span-full -mt-4 text-xs italic text-red-500">Username already exists</p>
           }
 
           {/* First and last name */}
@@ -153,10 +141,12 @@ export default function Register() {
             name="first_name"
             type="text"
             autoComplete="given-name"
-            onChange={onFirstNameChange}
             required
+            onChange={(e) => {
+              setSignUpFirstName(e.target.value);
+            }}            
             class={`${
-              error === 'Names may only contain alphabetic characters' ? 'border-red-500 rounded' : ''
+              error === 'Names may only contain alphabetic characters' ? 'w-full border-red-500 rounded' : 'border-gray-200'
             }`}
           />
 
@@ -166,16 +156,18 @@ export default function Register() {
             name="last_name"
             type="text"
             autoComplete="family-name"
-            onChange={onLastNameChange}
             required
+            onChange={(e) => {
+              setSignUpLastName(e.target.value);
+            }}             
             class={`${
-              error === 'Names may only contain alphabetic characters' ? 'border-red-500 rounded' : ''
+              error === 'Names may only contain alphabetic characters' ? 'w-full border-red-500 rounded' : 'border-gray-200'
             }`}
           />
 
           {/* Name validation */}
           {error === 'Names may only contain alphabetic characters' && 
-            <p class="col-span-full text-xs italic text-red-500">Names may only contain alphabetic characters</p>
+            <p class="col-span-full -mt-4 text-xs italic text-red-500">Names may only contain alphabetic characters</p>
           }
 
           {/* Email */}
@@ -186,16 +178,18 @@ export default function Register() {
             name="email"
             type="email"
             autoComplete="email"
-            onChange={onEmailChange}
             required
+            onChange={(e) => {
+              setSignUpEmail(e.target.value);
+            }}              
             class={`${
-              error === 'Email already exists' ? 'border-red-500 rounded' : ''
+              error === 'Email already exists' ? 'w-full border-red-500 rounded' : 'border-gray-200'
             }`}
           />
 
           {/* Email validation */}
           {error === 'Email already exists' && 
-            <p class="text-xs italic text-red-500">Email already exists</p>
+            <p class="-mt-4 text-xs italic text-red-500">Email already exists</p>
           }
 
           {/* Password */}
@@ -206,10 +200,12 @@ export default function Register() {
             name="password"
             type="password"
             autoComplete="new-password"
-            onChange={onPasswordChange}
             required
+            onChange={(e) => {
+              setSignUpPassword(e.target.value);
+            }}              
             class={`${
-              error === 'Password must contain at least one uppercase letter' || error === 'Password must contain at least one number' || error === 'Password must be at least 8 characters long' || error === 'Passwords do not match'   ? 'border-red-500 rounded' : ''
+              error === 'Password must contain at least one uppercase letter' || error === 'Password must contain at least one number' || error === 'Password must be at least 8 characters long' || error === 'Passwords do not match'   ? 'w-full border-red-500 rounded' : 'border-gray-200'
             }`}
           />
 
@@ -220,28 +216,30 @@ export default function Register() {
             name="confirmPassword"
             type="password"
             autoComplete="new-password"
-            onChange={onPasswordConfirmChange}
             required
+            onChange={(e) => {
+              setSignUpConfirmPassword(e.target.value);
+            }}               
             class={`${
-              error === 'Passwords do not match' ? 'border-red-500 rounded' : ''
+              error === 'Passwords do not match' ? 'w-full border-red-500 rounded' : 'border-gray-200'
             }`}
           />
 
           {/* Password validation */}
           {error === 'Password must contain at least one uppercase letter' &&
-            <p class="col-span-full text-xs italic text-red-500">Password must contain at least one uppercase letter</p>
+            <p class="col-span-full -mt-4 text-xs italic text-red-500">Password must contain at least one uppercase letter</p>
           }
 
           {error === 'Password must contain at least one number' &&
-            <p class="col-span-full text-xs italic text-red-500">Password must contain at least one number</p>
+            <p class="col-span-full -mt-4 text-xs italic text-red-500">Password must contain at least one number</p>
           }
 
           {error === 'Password must be at least 8 characters long' &&
-            <p class="col-span-full text-xs italic text-red-500">Password must be at least 8 characters long</p>
+            <p class="col-span-full -mt-4 text-xs italic text-red-500">Password must be at least 8 characters long</p>
           }
 
           {error === 'Passwords do not match' && 
-            <p class="col-span-full text-xs italic text-red-500">Passwords do not match</p>
+            <p class="col-span-full -mt-4 text-xs italic text-red-500">Passwords do not match</p>
           }   
           
           {/* Submit button */}
@@ -252,7 +250,6 @@ export default function Register() {
               color="blue"
               className="w-full"
               value="Sign Up"                 
-              onClick={onSubmitSignUp}
             >
               <span>
                 Sign up <span aria-hidden="true">&rarr;</span>

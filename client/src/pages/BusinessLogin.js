@@ -12,15 +12,8 @@ export default function Login(props)  {
   const navigate = useNavigate()
   const location = useLocation();
 
-  //variable stores current input of fiels
-  let emailInput;
-  //function that updates the input holding variable on every change event
-  let onEmailChange = event => emailInput = event.target.value;
-
-  //variable stores current input of fiels
-  let passwordInput;
-  //function that updates the input holding variable on every change event
-  let onPasswordChange = event =>  passwordInput = event.target.value;
+  const [emailInput, setEmailInput] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
 
   const [message, setMessage] = useState('');
 
@@ -79,7 +72,13 @@ export default function Login(props)  {
           </div>
         </div>
 
-        <form action="#" className="mt-10 grid z-10 grid-cols-1 gap-y-8">
+        <form 
+          onSubmit={onSubmitSignIn} 
+          onKeyPress={(e) => {
+            e.key === 'Enter' && onSubmitSignIn(); //Submit form on enter
+          }}
+          className="mt-10 grid z-10 grid-cols-1 gap-y-8"
+        >
           {/* Email */}
           <TextField
             label="Email address"
@@ -87,9 +86,12 @@ export default function Login(props)  {
             name="email"
             type="email"
             autoComplete="email"
-            onChange={onEmailChange}
             required
-            class={`${message === 'Email or password are incorrect' ? 'border-red-500' : ''
+            onChange={(e) => {
+              setEmailInput(e.target.value);
+            }}            
+            class={`${
+              message === 'Email or password are incorrect' ? 'w-full border-red-500 rounded' : 'border-gray-200'
             }`}
           />
 
@@ -100,19 +102,22 @@ export default function Login(props)  {
             name="password"
             type="password"
             autoComplete="current-password"
-            onChange={onPasswordChange}
             required 
-            class={`${message === 'Incorrect password' ? 'border-red-500 rounded' : message === 'Email or password are incorrect' ? 'border-red-500 rounded' : ''
+            onChange={(e) => {
+              setPasswordInput(e.target.value);
+            }}            
+            class={`${
+              message === 'Incorrect password' ? 'w-full border-red-500 rounded' : message === 'Email or password are incorrect' ? 'w-full border-red-500 rounded' : 'border-gray-200'
             }`}
           />
 
           {/* Password validation */}
           {message === 'Incorrect password' && (
-            <p class="col-span-full text-xs italic text-red-500">Incorrect password</p>
+            <p class="col-span-full -mt-4 text-xs italic text-red-500">Incorrect password</p>
           )}
 
           {message === 'Email or password are incorrect' && (
-            <p class="col-span-full text-xs italic text-red-500">Email or password are incorrect</p>
+            <p class="col-span-full -mt-4 text-xs italic text-red-500">Email or password are incorrect</p>
           )}
 
           <div>
@@ -121,7 +126,6 @@ export default function Login(props)  {
               variant="solid"
               color="blue"
               className="w-full"                         
-              onClick={onSubmitSignIn}
             >
               <span>
                 Sign in <span aria-hidden="true">&rarr;</span>
