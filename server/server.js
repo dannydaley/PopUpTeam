@@ -144,11 +144,11 @@ const selectEmail = 'SELECT * FROM users WHERE email = ?'; // Selects all emails
 // Registering
 app.post('/signUp', (req, res) => {
 	const { signUpEmail, signUpUserName, signUpFirstName, signUpLastName, signUpPassword } = req.body;
-    const insertRow = "INSERT INTO users (username, firstName, lastName, email, password, passwordSalt, profilePicture) VALUES(?, ?, ?, ?, ?, ?, ?)";  // Inserts new user
+    const insertRow = "INSERT INTO users (user_name, first_name, last_name, email, password, salt, profile_picture) VALUES(?, ?, ?, ?, ?, ?, ?)";  // Inserts new user
 
     let profilePicture = defaultProfilePicture; // Set profile picture to default
 
-    const selectUsername = 'SELECT * FROM users WHERE username = ?'; // Selects all usernames
+    const selectUsername = 'SELECT * FROM users WHERE user_name = ?'; // Selects all usernames
 
     // If email already exists
     db.query(selectEmail, [signUpEmail], (err, rows) => {
@@ -181,64 +181,46 @@ app.post('/signUp', (req, res) => {
     });
 });
 
-app.post("/signin", (req, res) => {
-	// pull data from request body for better readbility
-	let { email, password } = req.body;
-	// search if user exists using email address
-	console.log(req.body);
+// Login
+app.post('/signin', (req, res) => {
+    const { email, password } = req.body;
 
-	db.get("SELECT * FROM users WHERE email = ?", email, (err, userData) => {
-		if (err) {
-			console.log("error at database");
-			res.status(500).send(err);
-		}
-		//assign any returned rows to user variable
+    // Check all emails against input
+    db.query(selectEmail, [email], (err, rows) => { 
+        if (err) throw err;
+        // If email exists
+        if (rows.length > 0) {
+            // If password with salt and compares to database 
+            if (PasswordHash(password, rows[0].salt) == rows[0].password) { 
+                // Create session
+                req.session.isSignedIn = true;
+                req.session.firstName = rows[0].first_name;
+                req.session.lastName = rows[0].last_name;
+                req.session.username = rows[0].user_name;
+                req.session.ProfilePicture = rows[0].profile_picture;
 
-		let user = userData;
+                console.log('Session created:', req.session); // Print session
+                res.send('Login successful');
+            }
 
-		//if a user exists, and their stored password matches the output of the hashing function
-		// with their password entry..
-		if (
-			user !== undefined &&
-			user.password === passwordHash(password, user.passwordSalt)
-		) {
-			// create empty session data to be populated
-			req.session.userData = {};
-			// apply user data to session variables
-			req.session.userData.isSignedIn = true;
-			req.session.userData.userFirstName = user.firstName;
-			req.session.userData.userLastName = user.lastName;
-			req.session.userData.loggedInUsername = user.username;
-			req.session.userData.userProfilePicture = user.profilePicture;
-			console.log(req.session.userData);
-			//respond with user data on succesful login
-			res.json({
-				status: "success",
-				isSignedIn: req.session.userData.isSignedIn,
-				firstName: req.session.userData.userFirstName,
-				lastName: req.session.userData.userLastName,
-				username: req.session.userData.loggedInUsername,
-				profilePicture: req.session.userData.userProfilePicture,
-			});
-			// otherwise, credentials are invalid
-		} else {
-			//respond with failure message
-			res.json({
-				status: "failed",
-				message: "incorrect email or password",
-			});
-		}
-	});
-});
+            // If password is incorrect
+            else {
+                res.send('Email or password are incorrect');
+            }
+        }
+
+        // If email does not exist
+        else {
+            res.send('Email or password are incorrect');
+        };
+    });
+}); 
 
 //endpoint for sign out and session destruction
 app.post("/signout", (req, res) => {
-	console.log("clicked");
-	// delete session
-	req.session = null;
-	// respond with success
-	console.log("signed out");
-	res.json("success");
+    req.session.destroy() // Destroy session
+    res.send('Logged out');
+    console.log('Logged out');
 });
 
 //#endregion SIGN UP & SIGN IN
