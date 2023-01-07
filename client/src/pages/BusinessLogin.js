@@ -79,6 +79,11 @@ export default function Login(props)  {
           }}
           className="mt-10 grid z-10 grid-cols-1 gap-y-8"
         >
+          {/* Registered message */}
+          {message === "Successfully registered, please login" && (
+            <p class="-mt-4 p-4 rounded font-medium text-xs text-green-700 bg-green-300">Successfully registered, please login</p>
+          )}
+
           {/* Email */}
           <TextField
             label="Email address"

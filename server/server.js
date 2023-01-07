@@ -200,7 +200,7 @@ app.post('/signin', (req, res) => {
                 req.session.ProfilePicture = rows[0].profile_picture;
 
                 console.log('Session created:', req.session); // Print session
-                res.send('Login successful');
+                res.send('Login successful', req.session);
             }
 
             // If password is incorrect
