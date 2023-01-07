@@ -1,5 +1,7 @@
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import axios from 'axios';
 
 import AuthLayout from '../components/authentication/AuthLayout';
 import Button from '../components/Button';
@@ -8,6 +10,8 @@ import Logo from '../components/Logo';
 
 export default function Login(props)  {
   const navigate = useNavigate()
+  const location = useLocation();
+
   //variable stores current input of fiels
   let emailInput;
   //function that updates the input holding variable on every change event
@@ -18,29 +22,33 @@ export default function Login(props)  {
   //function that updates the input holding variable on every change event
   let onPasswordChange = event =>  passwordInput = event.target.value;
 
-  //function called on submit
-  let onSubmitSignIn = (event) => {
-    event.preventDefault();
-    //access backend sign in endpoint  
-    fetch('http://localhost:8080' + '/signin', {
-      method: 'post',
-      headers: {'Content-Type': 'application/json'},
-      //convert data to JSON
-      body: JSON.stringify({
-        //pass in entry variables
-        'email': emailInput,
-        'password': passwordInput
-      })
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    setMessage(location.state);
+  }, [location]);
+
+  const validateRow = () => {
+    // Validate login
+    axios.post('http://localhost:8080/signin', {
+      email: emailInput,
+      password: passwordInput
     })
-    .then(response => response.json())
-      .then(data => {     
-        console.log(data)
-        if (data.status === 'success') {     
-          props.updateUserInfo(data.username, data.firstName, data.lastName, data.aboutMe, data.profilePicture)
-          // reroute on success
-            navigate('/directory')
-        }
-      });
+    .then((res) => {
+        setMessage(res.data);
+
+        //If validation passed
+        if (res.data === 'Login successful') {
+          navigate('/directory')
+        };
+    });
+  };
+
+  const onSubmitSignIn = (e) => {
+    e.preventDefault(); //Prevents page refresh
+    setMessage(''); //Clear previous errors
+
+    validateRow();
   };
 
   return (
@@ -72,6 +80,7 @@ export default function Login(props)  {
         </div>
 
         <form action="#" className="mt-10 grid z-10 grid-cols-1 gap-y-8">
+          {/* Email */}
           <TextField
             label="Email address"
             id="email"
@@ -80,8 +89,11 @@ export default function Login(props)  {
             autoComplete="email"
             onChange={onEmailChange}
             required
+            class={`${message === 'Email or password are incorrect' ? 'border-red-500' : ''
+            }`}
           />
 
+          {/* Password */}
           <TextField
             label="Password"
             id="password"
@@ -90,9 +102,21 @@ export default function Login(props)  {
             autoComplete="current-password"
             onChange={onPasswordChange}
             required 
+            class={`${message === 'Incorrect password' ? 'border-red-500 rounded' : message === 'Email or password are incorrect' ? 'border-red-500 rounded' : ''
+            }`}
           />
 
+          {/* Password validation */}
+          {message === 'Incorrect password' && (
+            <p class="col-span-full text-xs italic text-red-500">Incorrect password</p>
+          )}
+
+          {message === 'Email or password are incorrect' && (
+            <p class="col-span-full text-xs italic text-red-500">Email or password are incorrect</p>
+          )}
+
           <div>
+            {/* Submit button */}
             <Button                
               variant="solid"
               color="blue"
