@@ -146,7 +146,7 @@ export default function Register() {
               setSignUpFirstName(e.target.value);
             }}            
             class={`${
-              error === 'Names may only contain alphabetic characters' ? 'w-full border-red-500 rounded' : 'border-gray-200'
+              error === 'Names may only contain alphabetic characters' ? '-mt-4 w-full border-red-500 rounded' : 'border-gray-200'
             }`}
           />
 
@@ -161,7 +161,7 @@ export default function Register() {
               setSignUpLastName(e.target.value);
             }}             
             class={`${
-              error === 'Names may only contain alphabetic characters' ? 'w-full border-red-500 rounded' : 'border-gray-200'
+              error === 'Names may only contain alphabetic characters' ? '-mt-4 w-full border-red-500 rounded' : 'border-gray-200'
             }`}
           />
 
@@ -183,7 +183,7 @@ export default function Register() {
               setSignUpEmail(e.target.value);
             }}              
             class={`${
-              error === 'Email already exists' ? 'w-full border-red-500 rounded' : 'border-gray-200'
+              error === 'Email already exists' ? '-mt-4 w-full border-red-500 rounded' : 'border-gray-200'
             }`}
           />
 
@@ -205,7 +205,7 @@ export default function Register() {
               setSignUpPassword(e.target.value);
             }}              
             class={`${
-              error === 'Password must contain at least one uppercase letter' || error === 'Password must contain at least one number' || error === 'Password must be at least 8 characters long' || error === 'Passwords do not match'   ? 'w-full border-red-500 rounded' : 'border-gray-200'
+              error === 'Password must contain at least one uppercase letter' || error === 'Password must contain at least one number' || error === 'Password must be at least 8 characters long' || error === 'Passwords do not match'   ? '-mt-4 w-full border-red-500 rounded' : 'border-gray-200'
             }`}
           />
 
