@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import { Routes, Route } from "react-router-dom";
+import axios from 'axios';
 
 import Home from './pages/Index';
 import About from './pages/About';
@@ -14,6 +15,8 @@ import NewProject from './pages/NewProject';
 import Error from './pages/404';
 
 import KanbanPage from './pages/Kanban';
+
+axios.defaults.withCredentials = true; // Allows axios to send cookies to the server
 
 export default class App extends React.Component {
     constructor(props) {

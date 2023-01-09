@@ -1,8 +1,9 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
+
 import { Dialog, Transition } from '@headlessui/react';
 import { Bars3Icon, CalendarIcon, FolderIcon, Cog6ToothIcon, HomeIcon, UsersIcon, XMarkIcon } from '@heroicons/react/24/outline';
-
 import Logo from '../Logo';
 
 function classNames(...classes) {
@@ -10,9 +11,16 @@ function classNames(...classes) {
 };
 
 export default function SideBar(props) {
-    const [sidebarOpen, setSidebarOpen] = useState(false)
     const navigate = useNavigate()
     const location = useLocation()
+    
+    const [sidebarOpen, setSidebarOpen] = useState(false)
+
+    const [username, setUsername] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [profilePicture, setProfilePicture] = useState('');
+
 
     //Must be brought into function to prevent top level hook error
     const navigation = [
@@ -23,24 +31,36 @@ export default function SideBar(props) {
         { name: 'Settings', href: 'settings', icon: Cog6ToothIcon, current: (location.pathname === "/settings" ? true : false) },
     ];
 
-    //function called on submit
-    let onSignOut = () => {
-        //access backend sign out endpoint
-        fetch('http://localhost:8080' + '/signout', {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            //convert data to JSON
-            body: JSON.stringify({
-                //pass in entry variables
-                username: ''
-            })
-        })
-        .then(response => response.json())
-            .then(data => {
-                if (data === 'success') {
-                    // reroute to index on success
-                    navigate('/')
-                }
+    useEffect(() => {
+        // Get session user data
+        axios.get('http://localhost:8080/signin') 
+            .then(res => {
+                //If user is logged in set login data
+                if (res.data.loggedIn === true) {
+                    setUsername(res.data.username);
+                    setFirstName(res.data.firstName);
+                    setLastName(res.data.lastName);
+                    setProfilePicture(res.data.profilePicture);
+                };
+            }).catch(err => {
+                console.log(err);
+            });
+    }, []);
+
+    // Logout user
+    const onSignOut = () => {
+        // Logout user
+        axios.post('http://localhost:8080/signout')
+            .then(res => {
+                //Default data
+                setUsername('');
+                setFirstName('');
+                setLastName(''); 
+                setProfilePicture('');
+
+                navigate('/'); // Redirects to home page
+            }).catch(err => {
+                console.log(err);
             });
     };
 
@@ -209,15 +229,15 @@ export default function SideBar(props) {
                                     <img
                                         className="inline-block h-9 w-9 rounded-full"
                                         // USER PROFILE PHOTO BELOW
-                                        src={"http://localhost:8080/public/" + props.userData.profilePicture}
-                                        alt=""
+                                        src={profilePicture}
+                                        alt="Logged in user profile picture"
                                     />
                                 </div>
                                 <div className="ml-3">
-                                    <p className="text-sm font-medium text-white">{props.userData.firstName} {props.userData.lastName}</p>
+                                    <p className="text-sm font-medium text-white">{firstName} {lastName}</p>
                                     <div className="ml-3 columns-2">
                                         <p className="text-xs font-medium text-indigo-200 hover:text-white">View profile</p>
-                                        <p onClick={onSignOut} className="text-xs font-medium text-indigo-200 hover:text-white" >Logout</p>
+                                        <p onClick={onSignOut} className="text-xs font-medium text-indigo-200 hover:text-white">Logout</p>
                                     </div>
                                 </div>
                             </div>
