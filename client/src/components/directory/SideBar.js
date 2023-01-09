@@ -229,7 +229,7 @@ export default function SideBar(props) {
                                     <img
                                         className="inline-block h-9 w-9 rounded-full"
                                         // USER PROFILE PHOTO BELOW
-                                        src={profilePicture}
+                                        src={'http://localhost:8080/public/' + profilePicture}
                                         alt="Logged in user profile picture"
                                     />
                                 </div>
