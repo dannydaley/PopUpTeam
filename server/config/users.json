@@ -97,7 +97,7 @@
         "education": "Business studies, BA",
         "profile_picture": "images/uploads/driesVicent.avif"
         },
-    {
+        {
         "id":172,
         "user_name": "lindsaywalton",
         "first_name": "Lindsay",
@@ -110,8 +110,106 @@
         "education": "Web Development, BSc",
         "profile_picture": "images/uploads/lWalton.avif", 
         "work": "Front-end Developer"
-         }
+         },
+         {
+            "id": 182,
+            "user_name": "leslie1000",
+            "first_name": "Leslie",
+            "last_name": "Abbot",
+            "email": "leslieabbott@email.com",
+            "password": "notAPassword",
+            "salt": "notASalt",
+            "about_me": "Hi, Im Leslie Abbott",
+            "location": "Cornwall, UK",
+            "education": "Business",
+            "profile_picture": "images/uploads/lAbbott.avif",
+            "work": "Co-Founder / CEO"     
+         },
+        {
+            "id": 192,
+            "user_name": "hectoradams",
+            "first_name": "Hector",
+            "last_name": "Adams",
+            "email": "hadams@email.com",
+            "password": "notAPassword",
+            "salt": "notASalt",
+            "about_me": "Hi, Im Hector!",
+            "location": "Cornwall, UK",
+            "education": "Marketing BA",
+            "profile_picture": "images/uploads/photo-1500648767791-00dcc994a43e.",
+            "work": "VP Marketing"     
+         },
+        {
+            "id": 202,
+            "user_name": "alexblake",
+            "first_name": "Blake",
+            "last_name": "Alexander",
+            "email": "blakelaex@email.com",
+            "password": "notAPassword",
+            "salt": "notASalt",
+            "about_me": "Hi, Im Blake!",
+            "location": "Cornwall, UK",
+            "education": "Accounts",
+            "profile_picture": "images/uploads/photo-1520785643438-5bf77931f493.avif",
+            "work": "Account Coordinator"     
+         },
+        {
+            "id": 212,
+            "user_name": "fabAndrew",
+            "first_name": "Fabricio",
+            "last_name": "Andrews",
+            "email": "fabbyandrews@email.com",
+            "password": "notAPassword",
+            "salt": "notASalt",
+            "about_me": "Hi, Im Fabby!",
+            "location": "Cornwall, UK",
+            "education": "Fine Arts BA",
+            "profile_picture": "images/uploads/photo-1507003211169-0a1dd7228f2d.avif",
+            "work": "Senior Art Director"     
+         },
+        {
+            "id": 222,
+            "user_name": "abeaver",
+            "first_name": "Angela",
+            "last_name": "Beaver",
+            "email": "abeaver@email.com",
+            "password": "notAPassword",
+            "salt": "notASalt",
+            "about_me": "Hi, Im Angela Beaver!",
+            "location": "Cornwall, UK",
+            "education": "Strategies",
+            "profile_picture": "images/uploads/photo-1501031170107-cfd33f0cbdcc.avif",
+            "work": "Chief Strategy Officer"     
+         },
 
+        {
+            "id": 232,
+            "user_name": "yvetteblanchard",
+            "first_name": "Yvette",
+            "last_name": "Blanchard",
+            "email": "yvetteblanchard@email.com",
+            "password": "notAPassword",
+            "salt": "notASalt",
+            "about_me": "Hi, Im Yvette! ",
+            "location": "Cornwall, UK",
+            "education": "Strategies",
+            "profile_picture": "images/uploads/photo-1506980595904-70325b7fdd90.avif",
+            "work": "Studio Artist"     
+         },
+        {
+            "id": 242,
+            "user_name": "lawrencebrooks",
+            "first_name": "Lawrence",
+            "last_name": "Brooks",
+            "email": "lawrencebrooks@email.com",
+            "password": "notAPassword",
+            "salt": "notASalt",
+            "about_me": "Hi, Im Lawrence!",
+            "location": "Cornwall, UK",
+            "education": "Content Analyst",
+            "profile_picture": "images/uploads/photo-1513910367299-bce8d8a0ebf6.avif",
+            "work": "Content Specialist"     
+         }      
 
         ]
 }
