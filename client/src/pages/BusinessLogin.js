@@ -1,5 +1,7 @@
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import axios from 'axios';
 
 import AuthLayout from '../components/authentication/AuthLayout';
 import Button from '../components/Button';
@@ -8,39 +10,38 @@ import Logo from '../components/Logo';
 
 export default function Login(props)  {
   const navigate = useNavigate()
-  //variable stores current input of fiels
-  let emailInput;
-  //function that updates the input holding variable on every change event
-  let onEmailChange = event => emailInput = event.target.value;
+  const location = useLocation();
 
-  //variable stores current input of fiels
-  let passwordInput;
-  //function that updates the input holding variable on every change event
-  let onPasswordChange = event =>  passwordInput = event.target.value;
+  const [emailInput, setEmailInput] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
 
-  //function called on submit
-  let onSubmitSignIn = (event) => {
-    event.preventDefault();
-    //access backend sign in endpoint  
-    fetch('http://localhost:8080' + '/signin', {
-      method: 'post',
-      headers: {'Content-Type': 'application/json'},
-      //convert data to JSON
-      body: JSON.stringify({
-        //pass in entry variables
-        'email': emailInput,
-        'password': passwordInput
-      })
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    setMessage(location.state);
+  }, [location]);
+
+  const validateRow = () => {
+    // Validate login
+    axios.post('http://localhost:8080/signin', {
+      email: emailInput,
+      password: passwordInput
     })
-    .then(response => response.json())
-      .then(data => {     
-        console.log(data)
-        if (data.status === 'success') {     
-          props.updateUserInfo(data.username, data.firstName, data.lastName, data.aboutMe, data.profilePicture)
-          // reroute on success
-            navigate('/directory')
-        }
-      });
+    .then((res) => {
+        setMessage(res.data);
+
+        //If validation passed
+        if (res.data === 'Login successful') {
+          navigate('/directory')
+        };
+    });
+  };
+
+  const onSubmitSignIn = (e) => {
+    e.preventDefault(); //Prevents page refresh
+    setMessage(''); //Clear previous errors
+
+    validateRow();
   };
 
   return (
@@ -71,33 +72,65 @@ export default function Login(props)  {
           </div>
         </div>
 
-        <form action="#" className="mt-10 grid z-10 grid-cols-1 gap-y-8">
+        <form 
+          onSubmit={onSubmitSignIn} 
+          onKeyPress={(e) => {
+            e.key === 'Enter' && onSubmitSignIn(); //Submit form on enter
+          }}
+          className="mt-10 grid z-10 grid-cols-1 gap-y-8"
+        >
+          {/* Registered message */}
+          {message === "Successfully registered, please login" && (
+            <p class="-mt-4 p-4 rounded font-medium text-xs text-green-700 bg-green-300">Successfully registered, please login</p>
+          )}
+
+          {/* Email */}
           <TextField
             label="Email address"
             id="email"
             name="email"
             type="email"
             autoComplete="email"
-            onChange={onEmailChange}
             required
+            onChange={(e) => {
+              setEmailInput(e.target.value);
+            }}            
+            class={`${
+              message === 'Email or password are incorrect' ? 'w-full border-red-500 rounded' : 'border-gray-200'
+            }`}
           />
 
+          {/* Password */}
           <TextField
             label="Password"
             id="password"
             name="password"
             type="password"
             autoComplete="current-password"
-            onChange={onPasswordChange}
             required 
+            onChange={(e) => {
+              setPasswordInput(e.target.value);
+            }}            
+            class={`${
+              message === 'Incorrect password' ? 'w-full border-red-500 rounded' : message === 'Email or password are incorrect' ? 'w-full border-red-500 rounded' : 'border-gray-200'
+            }`}
           />
 
+          {/* Password validation */}
+          {message === 'Incorrect password' && (
+            <p class="col-span-full -mt-4 text-xs italic text-red-500">Incorrect password</p>
+          )}
+
+          {message === 'Email or password are incorrect' && (
+            <p class="col-span-full -mt-4 text-xs italic text-red-500">Email or password are incorrect</p>
+          )}
+
           <div>
+            {/* Submit button */}
             <Button                
               variant="solid"
               color="blue"
               className="w-full"                         
-              onClick={onSubmitSignIn}
             >
               <span>
                 Sign in <span aria-hidden="true">&rarr;</span>

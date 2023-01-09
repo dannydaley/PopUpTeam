@@ -1,9 +1,12 @@
 require("dotenv").config({ path: `.env` });
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const http = require("http");
 const { Server } = require("socket.io");
-// const db = require('./config/db');
+const db = require('./config/db');
 
 // Import kanban router
 var kanbanRouter = require("./routes/kanban");
@@ -19,7 +22,55 @@ app.use("/kanban", kanbanRouter);
 
 //Dependencies
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST"],
+    credentials: true
+}));
+
+app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+//#region SESSION SETUP
+
+// Session setup
+app.use(session({
+    key: 'user_id',
+    secret: 'i9nrNahEAb?8&#cK',
+    resave: false,
+    saveUninitialized: false,
+    cookie : {
+        maxAge: 1000 * 60 * 60 * 24, // Max age one day
+    },
+}));
+
+//#endregion SESSION SETUP
+
+//#region SECURITY
+
+let crypto = require("crypto"); // set up crypto middleware for hashing password and checking password hashes
+
+const salt = crypto.randomBytes(256).toString("hex"); // create a hash salt/pepper
+const iterations = 1000; // number of iterations to jumble the hash
+const hashSize = 64; //set up char length of hash
+const hashAlgorithm = "sha256"; // which hashing algorithm will be used
+
+//This function returns a hash of the password, combined with the pepper and the salt.
+function PasswordHash(password, salt) {
+	//PEPPER MUST BE MOVED TO ENV FILE WHEN READY
+	const pepper = "ec3fd71d14f7cab570fc94df34e60e4d8c80cdff4d1dde66c74b10ae576b88239315295adabaced63b05104bbf8d2f2f92a24aeebe8444861ba1b7efc73dafdeda6fe2bf6e7288f959832d5db953a7eab0b37ef8ad126f94616b0c1e7b3b0ce7418dff91afaa78401dacce6aee72649840e26a01d75bfac69acf8d0dd50aaddebb9397150bb0f88795cde94ea3d03fec2992fc3b5c3c7bbd8de3f8f7d693cdcca879d9aefd6e02d4457217928091a731c08f83f9927f9b19ca34ab589dd02ecc40e336e067a1f2e072ec2b3a93617ded73028ed5bc5d55f011ba5a53099312f06d649fa06fdbf49e81c8f9a81f113f95cd416d230c2cb6056189c77f889dc83d";
+    
+    return crypto.pbkdf2Sync (
+        password,
+        salt + pepper,
+        iterations,
+        hashSize,
+        hashAlgorithm
+    ).toString("hex");
+};
+
+//#endregion SECURITY
 
 //Socket setup
 const io = new Server(server, {
@@ -28,35 +79,6 @@ const io = new Server(server, {
 		methods: ["GET", "POST"],
 	},
 });
-
-//#region Socket server
-//On connection
-io.on("connection", (socket) => {
-	//Log user ids
-	console.log(`user connected: ${socket.id})`);
-
-	//On message button click
-	socket.on("select_recipient", (data) => {
-		//Assign and log recipient
-		socket.join(data);
-	});
-
-	//On message send
-	socket.on("send_message", (data) => {
-		//Log message
-		console.log(data);
-		//Emit to recipient
-		socket.to(data.recipient).emit("receive_message", data);
-	});
-
-	//On disconnect
-	socket.on("disconnect_client", () => {
-		//Log user ids
-		console.log(`user disconnected: ${socket.id}`);
-	});
-});
-
-//#endregion
 
 //#region IMAGES AND IMAGE UPLOAD HANDLING
 
@@ -92,267 +114,144 @@ let upload = multer({ storage: storage });
 
 //#region DATABASE SET UP ENDPOINTS
 
-// SQLite 3 setup for test db while in development
-var sqlite3 = require("sqlite3").verbose();
-
-// set up variable for access to database
-let db = new sqlite3.Database("./sqlite.db");
-
-// set app.locals database to the initialised variable
-app.locals.db = db;
-
 // Json file containing dummy data for easier db setup and testing
 let userDataJSON = require("./config/users.json");
 
 // users table setup endpoint
-app.get("/api/usersSetup", (req, res, next) => {
-	db.serialize(() => {
-		//delete the table if it exists..
-		db.run("DROP TABLE IF EXISTS users");
-		//recreate the users table
-		db.run(
-			"CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, username varchar(255) UNIQUE, firstName varchar(255), lastName varchar(255), email varchar(255) UNIQUE, password varchar(255), passwordSalt varchar(512), aboutMe text, location varchar(255), education varchar(255), work varchar(255), profilePicture varchar(255))",
-			(err, rows) => {
-				if (err) console.log(err);
-				console.log(rows);
-			}
-		);
-		//create array of users from the dummy data JSON file
-		let users = userDataJSON.users;
-		//insert each element in the array of objects into the users table in the database
-		users.forEach((user) => {
-			// SQL query to run
-			db.run(
-				"INSERT INTO users (username, firstName, lastName, email, password, passwordSalt, aboutMe, location, education, work, profilePicture) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?)",
-				// values passed in from current iteration of the users array
-				[
-					user.username,
-					user.firstName,
-					user.lastName,
-					user.email,
-					user.password,
-					user.passwordSalt,
-					user.aboutMe,
-					user.location,
-					user.education,
-					user.work,
-					user.profilePicture,
-				],
-				(err) => {
-					if (err) console.log(err);
-				}
-			);
-		});
-	});
-	// respond with success page
-	res.send("user-db-done");
+app.get('/api/usersSetup', (req, res, next) => {
+    db.query(() => {
+        //delete the table if it exists..     
+        db.query('DROP TABLE IF EXISTS users');
+        //recreate the users table    
+        db.query('CREATE TABLE users (id INTEGER PRIMARY KEY AUTO_INCREMENT, user_name varchar(255) UNIQUE, first_name varchar(255), last_name varchar(255), email varchar(255) UNIQUE, password varchar(255), salt varchar(512), about_me text, location varchar(255), education varchar(255), work varchar(255), profile_picture varchar(255))', (err, rows) => {
+                if (err) console.log(err);
+                console.log(rows)
+        });
+        //create array of users from the dummy data JSON file
+        let users = userDataJSON.users; 
+        //insert each element in the array of objects into the users table in the database
+        users.forEach((user) => {
+            // SQL query to run
+            db.query('INSERT INTO users (user_name, first_name, last_name, email, password, salt, about_me, location, education, work, profile_picture) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?)', 
+                // values passed in from current iteration of the users array
+                [user.user_name, user.first_name, user.last_name, user.email, user.password, user.salt, user.about_me, user.location, user.education, user.work, user.profile_picture ], (err) => {
+                        if (err) console.log(err);
+                });
+        });
+    });
+    // respond with success page
+    res.send("user-db-done");
 });
 
-//#endregion DATABASE SET UP ENDPOINTS
-
-//#region SECURITY
-
-// set up crypto middleware for hashing password and checking password hahses
-let crypto = require("crypto");
-
-// number of iterations to jumble the hash
-const iterations = 1000;
-
-//set up char length of hash
-const hashSize = 64;
-
-// which hashing algorithm will be used
-const hashAlgorithm = "sha256";
-
-// create a hash salt/pepper
-const generatePepper = crypto.randomBytes(256).toString("hex");
-
-//this function returns a hash of the password, combined with the pepper and the salt.
-function passwordHash(thePassword, theSalt) {
-	//PEPPER MUST BE MOVED TO ENV FILE WHEN READY
-	const pepper =
-		"ec3fd71d14f7cab570fc94df34e60e4d8c80cdff4d1dde66c74b10ae576b88239315295adabaced63b05104bbf8d2f2f92a24aeebe8444861ba1b7efc73dafdeda6fe2bf6e7288f959832d5db953a7eab0b37ef8ad126f94616b0c1e7b3b0ce7418dff91afaa78401dacce6aee72649840e26a01d75bfac69acf8d0dd50aaddebb9397150bb0f88795cde94ea3d03fec2992fc3b5c3c7bbd8de3f8f7d693cdcca879d9aefd6e02d4457217928091a731c08f83f9927f9b19ca34ab589dd02ecc40e336e067a1f2e072ec2b3a93617ded73028ed5bc5d55f011ba5a53099312f06d649fa06fdbf49e81c8f9a81f113f95cd416d230c2cb6056189c77f889dc83d";
-	return crypto
-		.pbkdf2Sync(
-			thePassword,
-			pepper + theSalt,
-			iterations,
-			hashSize,
-			hashAlgorithm
-		)
-		.toString("hex");
-}
-
-//#endregion SECURITY
-
-//#region SESSION SETUP
-
-// Session setup
-var session = require("cookie-session");
-var cookieParser = require("cookie-parser");
-app.use(cookieParser());
-var userSession = {
-	secret: "myMegaSecret",
-	keys: ["key1", "key2", "key3"],
-	originalMaxAge: 0,
-	maxAge: 0,
-	resave: true,
-	saveUninitialized: true,
-	cookie: {
-		httpOnly: true,
-		secure: false,
-		maxAge: 30,
-	},
-};
-
-app.use(cookieParser());
-app.use(session(userSession));
-
-//#endregion SESSION SETUP
 
 //#region SIGN UP & SIGN IN
 
-app.post("/signUp", (req, res) => {
-	//set up variables from the request for better readability
-	let {
-		signUpEmail,
-		signUpUserName,
-		signUpFirstName,
-		signUpLastName,
-		signUpPassword,
-		confirmSignUpPassword,
-	} = req.body;
-	//if both password fields match
-	if (signUpPassword === confirmSignUpPassword) {
-		//generate salt to store
-		let passwordSalt = generatePepper;
-		//generate password to store, using password from the confirm field, and the generated salt
-		let storePassword = passwordHash(confirmSignUpPassword, passwordSalt);
-		//assign default profile picture
-		let profilePicture = defaultProfilePicture;
-		//Create a new user in the user database with the fields from the form, the default profile picture and the generated password hash and salt
-		db.run(
-			"INSERT INTO users (email, username, firstName,lastName, password, passwordSalt, profilePicture) VALUES(?,?,?,?,?,?,?)",
-			[
-				signUpEmail,
-				signUpUserName,
-				signUpFirstName,
-				signUpLastName,
-				storePassword,
-				passwordSalt,
-				profilePicture,
-			],
-			(err, rows) => {
-				if (err) {
-					console.log("failed to add user to database");
-					console.log(err);
-					// if username already exists in database
-					if (
-						err.sqlMessage ===
-						"Duplicate entry '" + signUpUserName + "' for key 'users.username'"
-					) {
-						console.log("USERNAME ALREADY EXISTS");
-						res.json({
-							status: "username exists",
-						});
-						return;
-					}
-					// if email already exists in database
-					if (
-						err.sqlMessage ===
-						"Duplicate entry '" + signUpEmail + "' for key 'users.email'"
-					) {
-						console.log("EMAIL ALREADY EXISTS");
-						res.json({
-							status: "email exists",
-						});
-						return;
-					}
-					// if any other error case, respond with status and error message
-					res.status(500).send(err.message);
-					return;
-				}
-				//respond with success
-				res.json({
-					status: "success",
-				});
-			}
-		);
-		//response if password fields dont match
-	} else {
-		res.json("PASSWORDS DONT MATCH");
-	}
+const selectEmail = 'SELECT * FROM users WHERE email = ?'; // Selects all emails
+
+// Registering
+app.post('/signUp', (req, res) => {
+	const { signUpEmail, signUpUserName, signUpFirstName, signUpLastName, signUpPassword } = req.body;
+    const insertRow = "INSERT INTO users (user_name, first_name, last_name, email, password, salt, profile_picture) VALUES(?, ?, ?, ?, ?, ?, ?)";  // Inserts new user
+
+    let profilePicture = defaultProfilePicture; // Set profile picture to default
+
+    const selectUsername = 'SELECT * FROM users WHERE user_name = ?'; // Selects all usernames
+
+    // If email already exists
+    db.query(selectEmail, [signUpEmail], (err, rows) => {
+        // If email exists
+        if (rows.length > 0) {
+            res.send('Email already exists');
+            return;
+        }
+
+        // If username already exists
+        db.query(selectUsername, [signUpUserName], (err, rows) => {
+            // If username exists
+            if (rows.length > 0) {
+                res.send('Username already exists');
+                return;
+            }
+
+            // Else register user
+            else {
+                let hashedPassword = PasswordHash(signUpPassword, salt);
+
+                db.query(insertRow, [signUpUserName, signUpFirstName, signUpLastName, signUpEmail, hashedPassword, salt, profilePicture,], (err, rows) => { 
+                    if (err) throw err;
+                    console.log('Registered: \n' + 'User:' + signUpUserName + '\n' + 'Email:' + signUpEmail); // Print user inserted
+
+                    res.send('Successfully registered, please login');
+                });
+            };
+        });
+    });
 });
 
-app.post("/signin", (req, res) => {
-	// pull data from request body for better readbility
-	let { email, password } = req.body;
-	// search if user exists using email address
-	console.log(req.body);
+// Login
+app.post('/signin', (req, res) => {
+    const { email, password } = req.body;
 
-	db.get("SELECT * FROM users WHERE email = ?", email, (err, userData) => {
-		if (err) {
-			console.log("error at database");
-			res.status(500).send(err);
-		}
-		//assign any returned rows to user variable
+    // Check all emails against input
+    db.query(selectEmail, [email], (err, rows) => { 
+        if (err) throw err;
+        // If email exists
+        if (rows.length > 0) {
+            // If password with salt and compares to database 
+            if (PasswordHash(password, rows[0].salt) == rows[0].password) { 
+                // Create session
+                req.session.firstName = rows[0].first_name;
+                req.session.lastName = rows[0].last_name;
+                req.session.username = rows[0].user_name;
+                req.session.ProfilePicture = rows[0].profile_picture;
 
-		let user = userData;
+                console.log('Session created:', req.session); // Print session
+                res.send('Login successful');
+            }
 
-		//if a user exists, and their stored password matches the output of the hashing function
-		// with their password entry..
-		if (
-			user !== undefined &&
-			user.password === passwordHash(password, user.passwordSalt)
-		) {
-			// create empty session data to be populated
-			req.session.userData = {};
-			// apply user data to session variables
-			req.session.userData.isSignedIn = true;
-			req.session.userData.userFirstName = user.firstName;
-			req.session.userData.userLastName = user.lastName;
-			req.session.userData.loggedInUsername = user.username;
-			req.session.userData.userProfilePicture = user.profilePicture;
-			console.log(req.session.userData);
-			//respond with user data on succesful login
-			res.json({
-				status: "success",
-				isSignedIn: req.session.userData.isSignedIn,
-				firstName: req.session.userData.userFirstName,
-				lastName: req.session.userData.userLastName,
-				username: req.session.userData.loggedInUsername,
-				profilePicture: req.session.userData.userProfilePicture,
-			});
-			// otherwise, credentials are invalid
-		} else {
-			//respond with failure message
-			res.json({
-				status: "failed",
-				message: "incorrect email or password",
-			});
-		}
-	});
+            // If password is incorrect
+            else {
+                res.send('Email or password are incorrect');
+            }
+        }
+
+        // If email does not exist
+        else {
+            res.send('Email or password are incorrect');
+        };
+    });
+}); 
+
+// Get login data
+app.get('/signin', (req, res) => {    
+    // If user is logged in send user data
+    if (req.session.username) {
+        res.send({
+            loggedIn: true, 
+            username: req.session.username, 
+            firstName: req.session.firstName,
+            lastName: req.session.lastName,
+            profilePicture: req.session.ProfilePicture
+        });
+    }
+    
+    // Else user is not logged in
+    else {
+        res.send({loggedIn: false});
+    };
 });
 
-//endpoint for sign out and session destruction
+// Logout
 app.post("/signout", (req, res) => {
-	console.log("clicked");
-	// delete session
-	req.session = null;
-	// respond with success
-	console.log("signed out");
-	res.json("success");
+    req.session.destroy() // Destroy session
+    res.send('Logged out');
 });
 
 //#endregion SIGN UP & SIGN IN
 
-//#region Socket.io
-
-//#endregion
-
 app.get("/getAllUsers", (req, res, next) => {
 	// grab all user data
-	db.get("SELECT * FROM users", [], (err, userData) => {
+	db.query("SELECT * FROM users", [], (err, userData) => {
 		// if error
 		if (err) {
 			// respond with error status and error message
@@ -363,6 +262,32 @@ app.get("/getAllUsers", (req, res, next) => {
 		res.send(userData);
 	});
 });
+
+//#region Socket server
+//On connection
+io.on("connection", (socket) => {
+	//On message button click
+	socket.on("select_recipient", (data) => {
+		//Assign and log recipient
+		socket.join(data);
+	});
+
+	//On message send
+	socket.on("send_message", (data) => {
+		//Log message
+		console.log(data);
+		//Emit to recipient
+		socket.to(data.recipient).emit("receive_message", data);
+	});
+
+	//On disconnect
+	socket.on("disconnect_client", () => {
+		//Log user ids
+		console.log(`user disconnected: ${socket.id}`);
+	});
+});
+
+//#endregion
 
 //Server port
 server.listen(process.env.PORT || PORT, () => {
