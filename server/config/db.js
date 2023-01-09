@@ -1,6 +1,10 @@
 const mysql = require("mysql");
 
-/* If you encounter: 
+/* 
+  Session don't work on a herokuapp url 
+  This can be fixed by using any custom URL regardless of whether it has a SSL certificate or not
+
+  If you encounter: 
   Error: Connection lost: The server closed the connection
 
   This is heroku closing the connection after inactivity as the free tier is limited to 30 minutes of inactivity
@@ -21,11 +25,19 @@ const mysql = require("mysql");
 
 //Database setup
 const db = mysql.createConnection({
-  host: "eu-cdbr-west-03.cleardb.net",
-  user: "bf0cbc17226879",
+  //Remote
+  // host: "eu-cdbr-west-03.cleardb.net",
+  // user: "bf0cbc17226879",
+  // port: 3306,
+  // password: "671885a1",
+  // database: "heroku_f29376daf1042d8",
+
+  //Local
+  host: "localhost",
+  user: "root",
   port: 3306,
-  password: "671885a1",
-  database: "heroku_f29376daf1042d8",
+  password: "password",
+  database: "comp370_popup_team",
 });
 
 module.exports = db;
