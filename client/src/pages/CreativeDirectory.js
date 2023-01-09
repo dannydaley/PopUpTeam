@@ -197,7 +197,7 @@ export default function CreativeDirectory(props) {
                                         enterFrom="opacity-0"
                                         enterTo="opacity-100"
                                         leave="ease-in-out duration-300"
-                                        leaveFrom="opacity-100"
+                                        leaveFrom="opacity-100"passwordSa
                                         leaveTo="opacity-0"
                                     >
                                         <div className="absolute top-0 right-0 -mr-12 pt-2">
@@ -393,6 +393,9 @@ export default function CreativeDirectory(props) {
                                 )}
                             </article>
                         </main>
+
+
+                        
                         <aside className="hidden w-96 flex-shrink-0 border-r border-gray-200 xl:order-first xl:flex xl:flex-col">
                             <div className="px-6 pt-6 pb-4">
                                 <h2 className="text-lg font-medium text-gray-900">Directory</h2>
