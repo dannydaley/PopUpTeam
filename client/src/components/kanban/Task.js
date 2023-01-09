@@ -86,7 +86,7 @@ const Task = ({ task, getColumns }) => {
 				ref={taskPopUp}
 			>
 				{(close) => (
-					<div className="flex flex-col justify-center bg-white overflow-hidden shadow-xl rounded-lg gap-5">
+					<div className="flex flex-col justify-center bg-white overflow-hidden shadow-xl rounded-lg gap-5 max-w-2xl">
 						<div className="px-5 pt-5 flex items-center gap-2">
 							<p className="flex justify-start items-center gap-1">
 								<span className="font-bold">Task: </span>
