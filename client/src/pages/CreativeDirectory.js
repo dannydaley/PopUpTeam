@@ -7,6 +7,7 @@ import Message from '../components/directory/Message';
 
 import io from 'socket.io-client';
 import SideBar from '../components/directory/SideBar';
+import axios from 'axios';
 const socket = io.connect('http://localhost:8080');
 
 const user = {
@@ -42,61 +43,15 @@ const profile = {
     },
 };
 
-const directory = {
+let directory = {
     A: [
-        {
-            id: 1,
-            name: 'Leslie Abbott',
-            role: 'Co-Founder / CEO',
-            imageUrl:
-                'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        {
-            id: 2,
-            name: 'Hector Adams',
-            role: 'VP, Marketing',
-            imageUrl:
-                'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        {
-            id: 3,
-            name: 'Blake Alexander',
-            role: 'Account Coordinator',
-            imageUrl:
-                'https://images.unsplash.com/photo-1520785643438-5bf77931f493?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        {
-            id: 4,
-            name: 'Fabricio Andrews',
-            role: 'Senior Art Director',
-            imageUrl:
-                'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
     ],
-    B: [
-        {
-            id: 5,
-            name: 'Angela Beaver',
-            role: 'Chief Strategy Officer',
-            imageUrl:
-                'https://images.unsplash.com/photo-1501031170107-cfd33f0cbdcc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        {
-            id: 6,
-            name: 'Yvette Blanchard',
-            role: 'Studio Artist',
-            imageUrl:
-                'https://images.unsplash.com/photo-1506980595904-70325b7fdd90?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
-        {
-            id: 7,
-            name: 'Lawrence Brooks',
-            role: 'Content Specialist',
-            imageUrl:
-                'https://images.unsplash.com/photo-1513910367299-bce8d8a0ebf6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-        },
+    B: [       
     ],
     C: [
+    ],
+    D: [
+
     ],
     E: [
     ],
@@ -113,6 +68,8 @@ const directory = {
     Y: [
     ],
 };
+
+// let directory;
 
 const team = [
     {
@@ -149,9 +106,12 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 };
 
+
+
 export default function CreativeDirectory(props) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [renderMessage, setRenderMessage] = useState(false);
+    const [directoryLoaded, setDirectoryLoaded] = useState(false);
 
     //Replace this with currently logged username string
     const username = "John Smith";
@@ -159,12 +119,33 @@ export default function CreativeDirectory(props) {
     const selectRecipient = () => {
         //Emits recipient to back end
         socket.emit('select_recipient', profile.name);
-    };
+    };    
 
+function getDirectory(){
+    axios.get('http://localhost:8080/getDirectory')
+        .then(res => {   
+            // loop through each of the fetched user elements
+            res.data.forEach(element => {
+                // loop through each of the directory keys ie A, B, C etc
+                Object.keys(directory).forEach(letter => {
+                    // if first letter of users last name, raised to upper case matches the directory key
+                    if (element.last_name[0].toUpperCase() === letter) {
+                        // add the element to that directory key
+                        directory[letter].push(element)
+                    }
+                });
+
+            });
+            setDirectoryLoaded(true);   
+    }).catch(err => {
+        console.log(err);
+    });
+}
+    
+getDirectory();
     return (
         <div class="flex">
             <SideBar userData={props.userData} />
-
             <div className="flex w-screen h-auto">
                 <Transition.Root show={sidebarOpen} as={Fragment}>
                     <Dialog as="div" className="relative z-40 lg:hidden" onClose={setSidebarOpen}>
@@ -241,7 +222,6 @@ export default function CreativeDirectory(props) {
                         </div>
                     </Dialog>
                 </Transition.Root>
-
 
                 <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
                     <div className="lg:hidden">
@@ -428,34 +408,38 @@ export default function CreativeDirectory(props) {
                                 </form>
                             </div>
                             {/* Directory list */}
-                            <nav className="min-h-0 flex-1 overflow-y-auto" aria-label="Directory">
-                                {Object.keys(directory).map((letter) => (
-                                    <div key={letter} className="relative">
-                                        <div className="sticky top-0 z-10 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
-                                            <h3>{letter}</h3>
+                          
+                            {directoryLoaded ?
+                                <nav className="min-h-0 flex-1 overflow-y-auto" aria-label="Directory">
+                                    {Object.keys(directory).map((letter) => (
+                                        <div key={letter} className="relative">
+                                            <div className="sticky top-0 z-10 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
+                                                <h3>{letter}</h3>
+                                            </div>
+                                            <ul role="list" className="relative z-0 divide-y divide-gray-200">
+                                                {directory[letter].map((person) => (
+                                                    <li key={person.id}>
+                                                        <div className="relative flex items-center space-x-3 px-6 py-5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 hover:bg-gray-50">
+                                                            <div className="flex-shrink-0">
+                                                                <img className="h-10 w-10 rounded-full" src={"http://localhost:8080/public/" + person.profile_picture} alt="" />
+                                                            </div>
+                                                            <div className="min-w-0 flex-1">
+                                                                <a href="#" className="focus:outline-none">
+                                                                    {/* Extend touch target to entire panel */}
+                                                                    <span className="absolute inset-0" aria-hidden="true" />
+                                                                    <p className="text-sm font-medium text-gray-900">{person.first_name + " " + person.last_name}</p>
+                                                                    <p className="truncate text-sm text-gray-500">{person.work}</p>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                ))}
+                                            </ul>
                                         </div>
-                                        <ul role="list" className="relative z-0 divide-y divide-gray-200">
-                                            {directory[letter].map((person) => (
-                                                <li key={person.id}>
-                                                    <div className="relative flex items-center space-x-3 px-6 py-5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 hover:bg-gray-50">
-                                                        <div className="flex-shrink-0">
-                                                            <img className="h-10 w-10 rounded-full" src={person.imageUrl} alt="" />
-                                                        </div>
-                                                        <div className="min-w-0 flex-1">
-                                                            <a href="#" className="focus:outline-none">
-                                                                {/* Extend touch target to entire panel */}
-                                                                <span className="absolute inset-0" aria-hidden="true" />
-                                                                <p className="text-sm font-medium text-gray-900">{person.name}</p>
-                                                                <p className="truncate text-sm text-gray-500">{person.role}</p>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </div>
-                                ))}
-                            </nav>
+                                    ))}
+                                </nav>
+                                    
+                                : <></>}
                         </aside>
                     </div>
                 </div>

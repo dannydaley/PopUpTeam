@@ -263,6 +263,21 @@ app.get("/getAllUsers", (req, res, next) => {
 	});
 });
 
+app.get("/getDirectory", (req, res, next) => {
+    db.query("SELECT first_name, last_name, about_me, location, education, work, profile_picture FROM users", [], (err, directoryData) => {
+        //if error
+        if (err) {
+            // respond with error status and message
+            res.status(500).send(err.message);
+            return;
+        }
+        console.log(directoryData)
+        console.log("EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEND")
+        // respond with data if no errors
+        res.send(directoryData);
+    });
+});
+
 //#region Socket server
 //On connection
 io.on("connection", (socket) => {
