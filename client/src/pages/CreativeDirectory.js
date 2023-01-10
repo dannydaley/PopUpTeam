@@ -51,25 +51,50 @@ let directory = {
     C: [
     ],
     D: [
-
     ],
     E: [
     ],
+    F: [
+    ],
     G: [
     ],
+    H: [
+    ],
+    I: [
+    ],
+    J: [
+    ],
+    K: [
+    ],
+    L: [
+    ],    
     M: [
+    ],
+    N: [
+    ],
+    O: [
+    ],
+    P: [
+    ],
+    Q: [
+    ],
+    R: [
     ],
     S: [
     ],
     T: [
     ],
+    U: [
+    ],
+    V: [
+    ],
     W: [
+    ],
+    X: [
     ],
     Y: [
     ],
 };
-
-// let directory;
 
 const team = [
     {
@@ -106,8 +131,6 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ');
 };
 
-
-
 export default function CreativeDirectory(props) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [renderMessage, setRenderMessage] = useState(false);
@@ -121,22 +144,28 @@ export default function CreativeDirectory(props) {
         socket.emit('select_recipient', profile.name);
     };    
 
+
 function getDirectory(){
     axios.get('http://localhost:8080/getDirectory')
         .then(res => {   
             // loop through each of the fetched user elements
-            res.data.forEach(element => {
-                // loop through each of the directory keys ie A, B, C etc
-                Object.keys(directory).forEach(letter => {
-                    // if first letter of users last name, raised to upper case matches the directory key
-                    if (element.last_name[0].toUpperCase() === letter) {
-                        // add the element to that directory key
-                        directory[letter].push(element)
-                    }
-                });
-
+            let sortedUsers = [];
+            res.data.forEach(element => {                
+                if (!sortedUsers.includes(element.user_name)) {                
+                    // loop through each of the directory keys ie A, B, C etc
+                    sortedUsers.push(element.user_name)
+                    Object.keys(directory).forEach(letter => {
+                        // if first letter of users last name, raised to upper case matches the directory key
+                        if (element.last_name[0].toUpperCase() === letter) {
+                            // add the element to that directory key
+                            directory[letter].push(element)
+                        }
+                    });
+                } else {
+                    return;
+                }    
             });
-            setDirectoryLoaded(true);   
+            setDirectoryLoaded(true);              
     }).catch(err => {
         console.log(err);
     });
@@ -222,7 +251,6 @@ getDirectory();
                         </div>
                     </Dialog>
                 </Transition.Root>
-
                 <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
                     <div className="lg:hidden">
                         <div className="flex items-center justify-between border-b border-gray-200 bg-gray-50 px-4 py-1.5">
@@ -244,7 +272,6 @@ getDirectory();
                                     <span>Directory</span>
                                 </a>
                             </nav>
-
                             <article>
                                 {/* Profile header */}
                                 <div>
