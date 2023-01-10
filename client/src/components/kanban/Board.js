@@ -36,7 +36,7 @@ const Board = ({ selectedProjectId }) => {
 
 	const handleDragStart = (event) => {
 		const { active } = event;
-		console.log(event);
+
 		// Move task
 		if (active.id.startsWith("task")) {
 			setActiveDraggedTaskId(active.id);
@@ -60,6 +60,52 @@ const Board = ({ selectedProjectId }) => {
 		if (active.id !== over.id) {
 			// Move task
 			if (active.id.startsWith("task") && over.id.startsWith("task")) {
+				let tempArray = [...columns];
+
+				const activeContainer = active.data.current.sortable.containerId;
+				const overContainer =
+					over.data.current?.sortable.containerId || over.id;
+
+				const activeTaskId = active.id;
+				const overTaskId = over.id;
+
+				if (activeContainer === overContainer) {
+					const activeContainerIndex = tempArray
+						.map((column) => column.id)
+						.indexOf(parseInt(activeContainer.split("-")[2]));
+					let columnTempArr = tempArray[activeContainerIndex].content;
+
+					// Get the column indexes of the item being dragged and item at target location
+					const oldIndex = tempArray[activeContainerIndex].content
+						.map((task) => task.id)
+						.indexOf(parseInt(activeTaskId.split("-")[2]));
+					const newIndex = tempArray[activeContainerIndex].content
+						.map((item) => item.id)
+						.indexOf(parseInt(overTaskId.split("-")[2]));
+
+					columnTempArr = arrayMove(columnTempArr, oldIndex, newIndex);
+
+					tempArray[activeContainerIndex].content = columnTempArr;
+
+					setColumns(tempArray);
+
+					let newContentOrder = [];
+					newContentOrder.push(columnTempArr.map((item) => item.id));
+
+					axios
+						.put("/column", {
+							columnId: parseInt(activeContainer.split("-")[2]),
+							newColumnTitle: null,
+							newContent: newContentOrder,
+						})
+						.then((result) => {
+							console.log(result);
+						})
+						.catch((error) => {
+							console.log(error);
+						});
+				}
+
 				return;
 			}
 			// Move column
@@ -97,6 +143,12 @@ const Board = ({ selectedProjectId }) => {
 					});
 			}
 		}
+	};
+
+	const handleDragCancel = () => {
+		setActiveDraggedColumnId(null);
+		setActiveDraggedTaskId(null);
+		setActiveDroppableColumnId(null);
 	};
 
 	const sensors = useSensors(
@@ -141,6 +193,7 @@ const Board = ({ selectedProjectId }) => {
 		<DndContext
 			onDragStart={handleDragStart}
 			onDragEnd={handleDragEnd}
+			onDragCancel={handleDragCancel}
 			sensors={sensors}
 			collisionDetection={closestCorners}
 		>

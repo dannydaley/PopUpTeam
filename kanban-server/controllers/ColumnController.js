@@ -63,11 +63,35 @@ const createColumn = async (req, res) => {
 };
 
 const updateColumn = async (req, res) => {
-	const newColumnTitle = req.body.newColumnTitle;
 	const columnId = req.body.columnId;
+	let newColumnTitle = req.body.newColumnTitle;
+	let newColumnContent = req.body.newContent;
+	let content = "";
+
+	const column = Column.findOne({
+		attributes: ["title", "content"],
+		where: {
+			id: columnId,
+		},
+	});
+
+	if (newColumnTitle == null) {
+		newColumnTitle = column.title;
+	}
+	if (newColumnContent == null) {
+		content = column.content;
+	} else {
+		content += newColumnContent.map((id, index, array) => {
+			if (index + 1 === array.length) {
+				return id;
+			} else {
+				return `${id},`;
+			}
+		});
+	}
 
 	await Column.update(
-		{ title: newColumnTitle },
+		{ title: newColumnTitle, content: content },
 		{
 			where: {
 				id: columnId,
