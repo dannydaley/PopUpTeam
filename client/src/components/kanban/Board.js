@@ -10,6 +10,7 @@ import {
 	useSensor,
 	useSensors,
 	DragOverlay,
+	closestCorners,
 } from "@dnd-kit/core";
 import {
 	SortableContext,
@@ -17,63 +18,84 @@ import {
 	horizontalListSortingStrategy,
 	arrayMove,
 } from "@dnd-kit/sortable";
+import Task from "./Task";
 
 const Board = ({ selectedProjectId }) => {
 	const [createColumnTitle, setCreateColumnTitle] = useState("");
 	const [columns, setColumns] = useState([]);
 	const sortableItemIds = useMemo(
-		() => columns.map((column) => `column-droppable-${column.id}`),
+		() => [...columns.map((column) => `column-droppable-${column.id}`)],
 		[columns]
 	);
 
 	// Dnd stuff starts here
 
-	const [activeDraggedId, setActiveDraggedId] = useState(null);
+	const [activeDraggedColumnId, setActiveDraggedColumnId] = useState(null);
+	const [activeDraggedTaskId, setActiveDraggedTaskId] = useState(null);
+	const [activeDroppableColumnId, setActiveDroppableColumnId] = useState(null);
 
 	const handleDragStart = (event) => {
 		const { active } = event;
-		setActiveDraggedId(active.id);
+		console.log(event);
+		// Move task
+		if (active.id.startsWith("task")) {
+			setActiveDraggedTaskId(active.id);
+			setActiveDroppableColumnId(active.data.current.sortable.containerId);
+		}
+		// Move column
+		if (active.id.startsWith("column")) {
+			setActiveDraggedColumnId(active.id);
+		}
 	};
 
 	const handleDragEnd = (event) => {
 		const { active, over } = event;
 
+		console.log(event);
+
+		setActiveDraggedColumnId(null);
+		setActiveDraggedTaskId(null);
+		setActiveDroppableColumnId(null);
+
 		if (active.id !== over.id) {
-			let tempArray = [...columns];
+			// Move task
+			if (active.id.startsWith("task") && over.id.startsWith("task")) {
+				return;
+			}
+			// Move column
+			if (active.id.startsWith("column") && over.id.startsWith("column")) {
+				let tempArray = [...columns];
 
-			// Get the column indexes of the item being dragged and item at target location
-			const oldIndex = tempArray
-				.map((item) => item.id)
-				.indexOf(parseInt(active.id.split("-")[2]));
-			const newIndex = tempArray
-				.map((item) => item.id)
-				.indexOf(parseInt(over.id.split("-")[2]));
+				// Get the column indexes of the item being dragged and item at target location
+				const oldIndex = tempArray
+					.map((item) => item.id)
+					.indexOf(parseInt(active.id.split("-")[2]));
+				const newIndex = tempArray
+					.map((item) => item.id)
+					.indexOf(parseInt(over.id.split("-")[2]));
 
-			// Swap the items in the array
-			tempArray = arrayMove(tempArray, oldIndex, newIndex);
+				// Swap the items in the array
+				tempArray = arrayMove(tempArray, oldIndex, newIndex);
 
-			// Update state
-			setColumns(tempArray);
+				// Update state
+				setColumns(tempArray);
 
-			// TODO: Update server with new data
+				let newContentOrder = [];
+				newContentOrder.push(tempArray.map((item) => item.id));
 
-			let newContentOrder = [];
-			newContentOrder.push(tempArray.map((item) => item.id));
-
-			console.log(newContentOrder);
-
-			axios
-				.put("/project", {
-					projectId: selectedProjectId,
-					newProjectTitle: null,
-					newContent: newContentOrder,
-				})
-				.then((result) => {
-					console.log(result);
-				})
-				.catch((error) => {
-					console.log(error);
-				});
+				axios
+					.put("/project", {
+						projectId: selectedProjectId,
+						newProjectTitle: null,
+						newContent: newContentOrder,
+					})
+					.then((result) => {
+						console.log(result);
+					})
+					.catch((error) => {
+						console.log(error);
+					});
+			}
 		}
 	};
 
@@ -118,9 +140,9 @@ const Board = ({ selectedProjectId }) => {
 	return (
 		<DndContext
 			onDragStart={handleDragStart}
-			onDragOver={handleDragEnd}
+			onDragEnd={handleDragEnd}
 			sensors={sensors}
-			collisionDetection={closestCenter}
+			collisionDetection={closestCorners}
 		>
 			<div className="flex gap-5 bg-gray-200 p-5 rounded overflow-auto">
 				<SortableContext
@@ -129,6 +151,7 @@ const Board = ({ selectedProjectId }) => {
 				>
 					{columns.map((column) => (
 						<Column
+							activeDraggedTaskId={activeDraggedTaskId}
 							dragId={`column-droppable-${column.id}`}
 							column={column}
 							getColumns={getColumns}
@@ -137,18 +160,43 @@ const Board = ({ selectedProjectId }) => {
 					))}
 				</SortableContext>
 				<DragOverlay>
-					{activeDraggedId ? (
+					{activeDraggedColumnId ? (
 						<Column
 							column={
 								columns[
 									columns
 										.map((column) => column.id)
-										.indexOf(parseInt(activeDraggedId.split("-")[2]))
+										.indexOf(parseInt(activeDraggedColumnId.split("-")[2]))
 								]
 							}
 							getColumns={getColumns}
-							dragId={activeDraggedId}
+							dragId={activeDraggedColumnId}
 						/>
+					) : null}
+					{activeDraggedTaskId ? (
+						<>
+							<Task
+								dragId={`task-droppable-${activeDraggedTaskId}`}
+								task={
+									columns[
+										columns
+											.map((column) => column.id)
+											.indexOf(parseInt(activeDroppableColumnId.split("-")[2]))
+									].content[
+										columns[
+											columns
+												.map((column) => column.id)
+												.indexOf(
+													parseInt(activeDroppableColumnId.split("-")[2])
+												)
+										].content
+											.map((task) => task.id)
+											.indexOf(parseInt(activeDraggedTaskId.split("-")[2]))
+									]
+								}
+								getColumns={getColumns}
+							/>
+						</>
 					) : null}
 				</DragOverlay>
 				<div>

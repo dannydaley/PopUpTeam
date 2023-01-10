@@ -5,14 +5,34 @@ import labelColors from "./labelColors";
 import BinIcon from "../../images/binIcon";
 import SettingsIcon from "../../images/settingsIcon";
 import axios from "../../lib/axios";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
-const Task = ({ task, getColumns }) => {
+const Task = ({ task, getColumns, dragId }) => {
 	const [newTaskTitle, setNewTaskTitle] = useState("");
 	const [newTaskDesc, setNewTaskDesc] = useState("");
 	const [newTaskDeadline, setNewTaskDeadline] = useState("");
 	const [newTaskPerson, setNewTaskPerson] = useState("");
 	const [newTaskColor, setNewTaskColor] = useState(0);
 	const taskPopUp = useRef();
+
+	//Dnd Stuff starts here
+
+	const {
+		attributes,
+		listeners,
+		setNodeRef,
+		transform,
+		transition,
+		isDragging,
+	} = useSortable({ id: dragId });
+	const style = {
+		transform: CSS.Transform.toString(transform),
+		transition,
+		opacity: isDragging ? 0.5 : 1,
+	};
+
+	//Dnd Stuff ends here
 
 	const handleUpdateTask = async () => {
 		axios
@@ -66,7 +86,11 @@ const Task = ({ task, getColumns }) => {
 	}, [task]);
 
 	return (
-		<div className="flex items-center justify-between w-full rounded bg-white px-3 py-2 shadow group">
+		<div
+			ref={setNodeRef}
+			style={style}
+			className="flex items-center justify-between w-full rounded bg-white px-3 py-2 shadow group"
+		>
 			<Popup
 				overlayStyle={{
 					background: "rgba(0,0,0,0.50)",
@@ -303,7 +327,11 @@ const Task = ({ task, getColumns }) => {
 					</div>
 				)}
 			</Popup>
-			<div className="flex cursor-grab text-gray-500 opacity-0 group-hover:opacity-100">
+			<div
+				{...attributes}
+				{...listeners}
+				className="flex cursor-grab text-gray-500 opacity-0 group-hover:opacity-100"
+			>
 				<HoldIcon className="" />
 				<HoldIcon className="-ml-4 -mr-2" />
 			</div>

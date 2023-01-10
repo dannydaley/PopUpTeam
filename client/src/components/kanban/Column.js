@@ -1,9 +1,13 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import SettingsIcon from "../../images/settingsIcon";
 import Popup from "reactjs-popup";
 import axios from "../../lib/axios";
 import BinIcon from "../../images/binIcon";
-import { useSortable } from "@dnd-kit/sortable";
+import {
+	rectSortingStrategy,
+	SortableContext,
+	useSortable,
+} from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import HoldIcon from "../../images/holdIcon";
 import Task from "./Task";
@@ -17,6 +21,10 @@ const Column = ({ column, getColumns, dragId }) => {
 	const [createTaskPerson, setCreateTaskPerson] = useState("");
 	const [createTaskColor, setCreateTaskColor] = useState(0);
 	const optionsPopUp = useRef();
+	const sortableItemIds = useMemo(
+		() => [...column.content.map((task) => `task-droppable-${task.id}`)],
+		[column]
+	);
 
 	//Dnd Stuff starts here
 
@@ -107,17 +115,24 @@ const Column = ({ column, getColumns, dragId }) => {
 					<HoldIcon className="-ml-4 -mr-2" />
 				</div>
 			</div>
-			{column.content.length > 0 ? (
-				column.content.map((task) => (
-					<Task
-						key={`task-key-${task.id}`}
-						task={task}
-						getColumns={getColumns}
-					/>
-				))
-			) : (
-				<p className="text-center font-bold text-gray-400">Empty</p>
-			)}
+			<SortableContext
+				id={dragId}
+				items={sortableItemIds}
+				strategy={rectSortingStrategy}
+			>
+				{column.content.length > 0 ? (
+					column.content.map((task) => (
+						<Task
+							dragId={`task-droppable-${task.id}`}
+							key={`task-key-${task.id}`}
+							task={task}
+							getColumns={getColumns}
+						/>
+					))
+				) : (
+					<p className="text-center font-bold text-gray-400">Empty</p>
+				)}
+			</SortableContext>
 			<div className="flex w-full mt-auto gap-2">
 				<Popup
 					overlayStyle={{
