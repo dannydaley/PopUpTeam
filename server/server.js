@@ -112,38 +112,6 @@ let upload = multer({ storage: storage });
 
 //#endregion IMAGES AND IMAGE UPLOAD HANDLING
 
-//#region DATABASE SET UP ENDPOINTS
-
-// Json file containing dummy data for easier db setup and testing
-let userDataJSON = require("./config/users.json");
-
-// users table setup endpoint
-app.get('/api/usersSetup', (req, res, next) => {
-    db.query(() => {
-        //delete the table if it exists..     
-        db.query('DROP TABLE IF EXISTS users');
-        //recreate the users table    
-        db.query('CREATE TABLE users (id INTEGER PRIMARY KEY AUTO_INCREMENT, user_name varchar(255) UNIQUE, first_name varchar(255), last_name varchar(255), email varchar(255) UNIQUE, password varchar(255), salt varchar(512), about_me text, location varchar(255), education varchar(255), work varchar(255), profile_picture varchar(255))', (err, rows) => {
-                if (err) console.log(err);
-                console.log(rows)
-        });
-        //create array of users from the dummy data JSON file
-        let users = userDataJSON.users; 
-        //insert each element in the array of objects into the users table in the database
-        users.forEach((user) => {
-            // SQL query to run
-            db.query('INSERT INTO users (user_name, first_name, last_name, email, password, salt, about_me, location, education, work, profile_picture) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ? ,?, ?)', 
-                // values passed in from current iteration of the users array
-                [user.user_name, user.first_name, user.last_name, user.email, user.password, user.salt, user.about_me, user.location, user.education, user.work, user.profile_picture ], (err) => {
-                        if (err) console.log(err);
-                });
-        });
-    });
-    // respond with success page
-    res.send("user-db-done");
-});
-
-
 //#region SIGN UP & SIGN IN
 
 const selectEmail = 'SELECT * FROM users WHERE email = ?'; // Selects all emails
