@@ -1,24 +1,21 @@
 require("dotenv").config({ path: `.env` });
 const express = require("express");
 const cors = require("cors");
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
 const http = require("http");
-const { Server } = require("socket.io");
+
+const session = require('./session');
+const { upload, defaultProfilePicture} = require('./imageUpload');
+const { PasswordHash, salt } = require('./security')
 const db = require('./config/db');
+const socket = require('./socket');
 
 // Import kanban router
-var kanbanRouter = require("./routes/kanban");
+const kanbanRouter = require("./routes/kanban");
 
 const app = express();
 const server = http.createServer(app);
-var path = require("path");
+const path = require("path");
 app.use("/public", express.static(path.join(__dirname, "public")));
-const PORT = process.env.PORT || 8080;
-
-// Initialise kanban router
-app.use("/kanban", kanbanRouter);
 
 //Dependencies
 app.use(express.json());
@@ -28,89 +25,11 @@ app.use(cors({
     credentials: true
 }));
 
-app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use("/kanban", kanbanRouter); // Initialise kanban router
+app.use(session); //Session config
+app.use(upload); //Image uploading
 
-//#region SESSION SETUP
-
-// Session setup
-app.use(session({
-    key: 'user_id',
-    secret: 'i9nrNahEAb?8&#cK',
-    resave: false,
-    saveUninitialized: false,
-    cookie : {
-        maxAge: 1000 * 60 * 60 * 24, // Max age one day
-    },
-}));
-
-//#endregion SESSION SETUP
-
-//#region SECURITY
-
-let crypto = require("crypto"); // set up crypto middleware for hashing password and checking password hashes
-
-const salt = crypto.randomBytes(256).toString("hex"); // create a hash salt/pepper
-const iterations = 1000; // number of iterations to jumble the hash
-const hashSize = 64; //set up char length of hash
-const hashAlgorithm = "sha256"; // which hashing algorithm will be used
-
-//This function returns a hash of the password, combined with the pepper and the salt.
-function PasswordHash(password, salt) {
-	//PEPPER MUST BE MOVED TO ENV FILE WHEN READY
-	const pepper = "ec3fd71d14f7cab570fc94df34e60e4d8c80cdff4d1dde66c74b10ae576b88239315295adabaced63b05104bbf8d2f2f92a24aeebe8444861ba1b7efc73dafdeda6fe2bf6e7288f959832d5db953a7eab0b37ef8ad126f94616b0c1e7b3b0ce7418dff91afaa78401dacce6aee72649840e26a01d75bfac69acf8d0dd50aaddebb9397150bb0f88795cde94ea3d03fec2992fc3b5c3c7bbd8de3f8f7d693cdcca879d9aefd6e02d4457217928091a731c08f83f9927f9b19ca34ab589dd02ecc40e336e067a1f2e072ec2b3a93617ded73028ed5bc5d55f011ba5a53099312f06d649fa06fdbf49e81c8f9a81f113f95cd416d230c2cb6056189c77f889dc83d";
-    
-    return crypto.pbkdf2Sync (
-        password,
-        salt + pepper,
-        iterations,
-        hashSize,
-        hashAlgorithm
-    ).toString("hex");
-};
-
-//#endregion SECURITY
-
-//Socket setup
-const io = new Server(server, {
-	cors: {
-		origin: "*",
-		methods: ["GET", "POST"],
-	},
-});
-
-//#region IMAGES AND IMAGE UPLOAD HANDLING
-
-//set up multer middleware for image uploads
-var multer = require("multer");
-
-// default profile picture applied to all users profilePicture field in the users table of the db on account creation
-let defaultProfilePicture = "images/defaults/defaultUser.png";
-
-// set up storage for file uploads
-const storage = multer.diskStorage({
-	// set destination to public image directory
-	destination: "public/images/uploads",
-	filename: function (req, file, cb) {
-		// create a unique suffix so that image names will never have a duplicate
-		//suffix consists of the date, a hyphen and then a large random number
-		const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-		cb(null, "IMAGE-" + uniqueSuffix + ".png");
-		// generate the file name of the file to be added to the public image directory
-		// filename contains path to folder to make things easier across the server
-		// we append .png top the filename so that files are recognised as their format
-		let fileName = "images/uploads/" + "IMAGE-" + uniqueSuffix + ".png";
-		// update the string attached to the incoming req.body.image field
-		// this is added to the database as the imageLocation
-		req.body.imageLocations += fileName + ",";
-	},
-});
-
-// set up multer function to be called on uploads
-let upload = multer({ storage: storage });
-
-//#endregion IMAGES AND IMAGE UPLOAD HANDLING
+const PORT = process.env.PORT || 8080;
 
 //#region SIGN UP & SIGN IN
 
@@ -258,7 +177,6 @@ app.get("/getDirectory", (req, res, next) => {
     });
 });
 
-//#region Socket server
 //On connection
 io.on("connection", (socket) => {
 	//On message button click
@@ -287,4 +205,5 @@ io.on("connection", (socket) => {
 //Server port
 server.listen(process.env.PORT || PORT, () => {
 	console.log(`Server listening on port ${PORT}`);
+    socket(server); //Adds socket listener
 });
