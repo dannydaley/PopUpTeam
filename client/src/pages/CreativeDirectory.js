@@ -203,7 +203,7 @@ export default function CreativeDirectory(props) {
 
 
 function getDirectory(){
-    axios.get('http://localhost:8080/getDirectory')
+    axios.get('http://localhost:8080/search/getDirectory')
         .then(res => {   
             rawDirectory = res.data;
             // loop through each of the fetched user elements

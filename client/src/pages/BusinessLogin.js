@@ -8,7 +8,7 @@ import Button from '../components/Button';
 import TextField from '../components/authentication/Fields';
 import Logo from '../components/Logo';
 
-export default function Login(props)  {
+export default function Login()  {
   const navigate = useNavigate()
   const location = useLocation();
 
@@ -23,7 +23,7 @@ export default function Login(props)  {
 
   const validateRow = () => {
     // Validate login
-    axios.post('http://localhost:8080/signin', {
+    axios.post('http://localhost:8080/auth/signin', {
       email: emailInput,
       password: passwordInput
     })

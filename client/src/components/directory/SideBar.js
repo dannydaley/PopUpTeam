@@ -33,7 +33,7 @@ export default function SideBar(props) {
 
     useEffect(() => {
         // Get session user data
-        axios.get('http://localhost:8080/signin') 
+        axios.get('http://localhost:8080/auth/signin') 
             .then(res => {
                 //If user is logged in set login data
                 if (res.data.loggedIn === true) {
@@ -50,7 +50,7 @@ export default function SideBar(props) {
     // Logout user
     const onSignOut = () => {
         // Logout user
-        axios.post('http://localhost:8080/signout')
+        axios.post('http://localhost:8080/auth/signout')
             .then(res => {
                 //Default data
                 setUsername('');
