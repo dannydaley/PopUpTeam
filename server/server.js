@@ -177,31 +177,6 @@ app.get("/getDirectory", (req, res, next) => {
     });
 });
 
-//On connection
-io.on("connection", (socket) => {
-	//On message button click
-	socket.on("select_recipient", (data) => {
-		//Assign and log recipient
-		socket.join(data);
-	});
-
-	//On message send
-	socket.on("send_message", (data) => {
-		//Log message
-		console.log(data);
-		//Emit to recipient
-		socket.to(data.recipient).emit("receive_message", data);
-	});
-
-	//On disconnect
-	socket.on("disconnect_client", () => {
-		//Log user ids
-		console.log(`user disconnected: ${socket.id}`);
-	});
-});
-
-//#endregion
-
 //Server port
 server.listen(process.env.PORT || PORT, () => {
 	console.log(`Server listening on port ${PORT}`);
