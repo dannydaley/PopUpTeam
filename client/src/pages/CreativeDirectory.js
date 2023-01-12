@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon} from '@heroicons/react/24/outline';
 import { ChevronLeftIcon, EnvelopeIcon, FunnelIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
@@ -192,14 +192,36 @@ export default function CreativeDirectory(props) {
     const [directoryLoaded, setDirectoryLoaded] = useState(false);
     const [directoryList, changeDirectoryList] = useState('directory');
 
-    //Replace this with currently logged username string
-    const username = "John Smith";
+    // //Replace this with currently logged username string
+    // const username = "John Smith";
 
     const selectRecipient = () => {
         //Emits recipient to back end
         socket.emit('select_recipient', profile.name);
     };    
+    
 
+    const [username, setUsername] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [profilePicture, setProfilePicture] = useState('');
+
+
+    useEffect(() => {
+        // Get session user data
+        axios.get('http://localhost:8080/auth/signin') 
+            .then(res => {
+                //If user is logged in set login data
+                if (res.data.loggedIn === true) {
+                    setUsername(res.data.username);
+                    setFirstName(res.data.firstName);
+                    setLastName(res.data.lastName);
+                    setProfilePicture(res.data.profilePicture);
+                };
+            }).catch(err => {
+                console.log(err);
+            });
+    }, []);
 
 
 function getDirectory(){
@@ -308,8 +330,8 @@ Y: [
         changeDirectoryList('directory')
     }
 }
-    
-getDirectory();
+    console.log(props.userData)
+getDirectory(props);
     return (
         <div class="flex">
             <SideBar userData={props.userData} />
@@ -421,13 +443,13 @@ getDirectory();
                                             <div className="flex">
                                                 <img
                                                     className="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
-                                                    src={profile.imageUrl}
+                                                    src={"http://localhost:8080/public/" + profilePicture}
                                                     alt=""
                                                 />
                                             </div>
                                             <div className="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
                                                 <div className="mt-6 min-w-0 flex-1 sm:hidden 2xl:block">
-                                                    <h1 className="truncate text-2xl font-bold text-gray-900">{profile.name}</h1>
+                                                    <h1 className="truncate text-2xl font-bold text-gray-900">{firstName + " " + lastName}</h1>
                                                 </div>
                                                 <div className="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
                                                     <button
@@ -457,7 +479,7 @@ getDirectory();
                                             </div>
                                         </div>
                                         <div className="mt-6 hidden min-w-0 flex-1 sm:block 2xl:hidden">
-                                            <h1 className="truncate text-2xl font-bold text-gray-900">{profile.name}</h1>
+                                            <h1 className="truncate text-2xl font-bold text-gray-900">{firstName + " " + lastName}</h1>
                                         </div>
                                     </div>
                                 </div>
