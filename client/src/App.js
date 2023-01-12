@@ -1,66 +1,73 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
-import Home from './pages/Index';
-import About from './pages/About';
-import BecomeACreative from './pages/BecomeACreative';
-import Settings from './pages/Settings';
+import Home from "./pages/Index";
+import About from "./pages/About";
+import BecomeACreative from "./pages/BecomeACreative";
+import Settings from "./pages/Settings";
 
+import Login from "./pages/BusinessLogin";
+import Register from "./pages/BusinessRegister";
 
-import Login from './pages/BusinessLogin';
-import Register from './pages/BusinessRegister';
+import CreativeDirectory from "./pages/CreativeDirectory";
+import NewProject from "./pages/NewProject";
+import Error from "./pages/404";
 
-import CreativeDirectory from './pages/CreativeDirectory';
-import NewProject from './pages/NewProject';
-import Error from './pages/404';
-
-import KanbanPage from './pages/Kanban';
+import KanbanPage from "./pages/KanbanPage";
 
 axios.defaults.withCredentials = true; // Allows axios to send cookies to the server
 
 export default class App extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            username: '',
-            firstName: '',
-            lastName: '',
-            aboutMe: '',
-            profilePicture: ''
-        };
-    };
+	constructor(props) {
+		super(props);
+		this.state = {
+			username: "",
+			firstName: "",
+			lastName: "",
+			aboutMe: "",
+			profilePicture: "",
+		};
+	}
 
-    updateUserInfo = (username, firstName, lastName, aboutMe, profilePicture) => {
-        this.setState({ username: username, firstName, lastName, aboutMe, profilePicture });
-    };
+	updateUserInfo = (username, firstName, lastName, aboutMe, profilePicture) => {
+		this.setState({
+			username: username,
+			firstName,
+			lastName,
+			aboutMe,
+			profilePicture,
+		});
+	};
 
-    render() {        
-        return (          
-            <Routes>
-                {/* Index */}
-                <Route path="/" element={<Home />}/>
-                <Route path="/about" element={<About />}/>
-                <Route path="/become-a-creative" element={<BecomeACreative />} />
-                <Route path="/settings" element={<Settings />} />
+	render() {
+		return (
+			<Routes>
+				{/* Index */}
+				<Route path="/" element={<Home />} />
+				<Route path="/about" element={<About />} />
+				<Route path="/become-a-creative" element={<BecomeACreative />} />
+				<Route path="/settings" element={<Settings />} />
 
+				{/* Authentication */}
+				<Route
+					path="/business-login"
+					element={<Login updateUserInfo={this.updateUserInfo} />}
+				/>
+				<Route path="/business-register" element={<Register />} />
 
-                {/* Authentication */}
-                        <Route path="/business-login"
-                            element={<Login
-                                updateUserInfo={this.updateUserInfo} />} />
-                <Route path="/business-register" element={<Register />} />
+				{/* Directory */}
+				<Route
+					path="/directory"
+					element={<CreativeDirectory userData={this.state} />}
+				/>
+				<Route path="/projects" element={<NewProject />} />
+				<Route path="*" element={<Error />} />
 
-                {/* Directory */}
-                        <Route path="/directory" element={<CreativeDirectory
-                            userData={this.state} />} />
-                <Route path="/projects" element={<NewProject />} />
-                <Route path="*" element={<Error />}/>
-
-                {/* Kanban */}
-                <Route path="/kanban" element={<KanbanPage />} />
-            </Routes>
-        );
-    };
-};
+				{/* Kanban */}
+				<Route path="/kanban" element={<KanbanPage />} />
+			</Routes>
+		);
+	}
+}
