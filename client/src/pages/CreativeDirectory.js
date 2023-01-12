@@ -390,26 +390,10 @@ getDirectory();
                     </Dialog>
                 </Transition.Root>
                 <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-                    <div className="lg:hidden">
-                        <div className="flex items-center justify-between border-b border-gray-200 bg-gray-50 px-4 py-1.5">
-                            <div>
-                                <img
-                                    className="h-8 w-auto"
-                                    src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600"
-                                    alt="Your Company"
-                                />
-                            </div>
-                        </div>
-                    </div>
                     <div className="relative z-0 flex flex-1 overflow-hidden">
                         <main className="relative z-0 flex-1 overflow-y-auto focus:outline-none xl:order-last">
                             {/* Breadcrumb */}
-                            <nav className="flex items-start px-4 py-3 sm:px-6 lg:px-8 xl:hidden" aria-label="Breadcrumb">
-                                <a href="/directory" className="inline-flex items-center space-x-3 text-sm font-medium text-gray-900">
-                                    <ChevronLeftIcon className="-ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                    <span>Directory</span>
-                                </a>
-                            </nav>
+                            
                             <article>
                                 {/* Profile header */}
                                 <div>
