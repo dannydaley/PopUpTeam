@@ -27,7 +27,7 @@ export default function SideBar(props) {
         { name: 'Dashboard', href: 'dashboard', icon: HomeIcon, current: (location.pathname === "/dashboard" ? true : false) },
         { name: 'Directory', href: 'directory', icon: UsersIcon, current: (location.pathname === "/directory" ? true : false) },
         { name: 'Projects', href: 'projects', icon: FolderIcon, current: (location.pathname === "/projects" ? true : false) },
-        { name: 'Calendar', href: 'calendar', icon: CalendarIcon, current: (location.pathname === "/calender" ? true : false) },
+        { name: 'Kanban', href: 'kanban', icon: CalendarIcon, current: (location.pathname === "/kanban" ? true : false) },
         { name: 'Settings', href: 'settings', icon: Cog6ToothIcon, current: (location.pathname === "/settings" ? true : false) },
     ];
 
