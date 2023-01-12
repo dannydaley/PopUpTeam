@@ -44,6 +44,7 @@ const profile = {
 };
 
 let rawDirectory;
+let rawDirectoryLength;
 
 let directory = {
     A: [
@@ -228,6 +229,7 @@ function getDirectory(){
     axios.get('http://localhost:8080/search/getDirectory')
         .then(res => {   
             rawDirectory = res.data;
+            rawDirectoryLength = rawDirectory.length
             // loop through each of the fetched user elements
             let sortedUsers = [];
             rawDirectory.forEach(element => {                
@@ -330,7 +332,7 @@ Y: [
         changeDirectoryList('directory')
     }
 }
-    console.log(props.userData)
+    
 getDirectory(props);
     return (
         <div class="flex">
@@ -566,7 +568,7 @@ getDirectory(props);
                         <aside className="hidden w-96 flex-shrink-0 border-r border-gray-200 xl:order-first xl:flex xl:flex-col">
                             <div className="px-6 pt-6 pb-4">
                                 <h2 className="text-lg font-medium text-gray-900">Directory</h2>
-                                <p className="mt-1 text-sm text-gray-600">Search directory of 3,018 employees</p>
+                                <p className="mt-1 text-sm text-gray-600">Search directory of {rawDirectoryLength} employees</p>
                                 <form className="mt-6 flex space-x-4" action="#">
                                     <div className="min-w-0 flex-1">
                                         <label htmlFor="search" className="sr-only">
