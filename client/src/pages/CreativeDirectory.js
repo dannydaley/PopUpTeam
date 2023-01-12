@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon} from '@heroicons/react/24/outline';
 import { ChevronLeftIcon, EnvelopeIcon, FunnelIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid';
@@ -44,6 +44,7 @@ const profile = {
 };
 
 let rawDirectory;
+let rawDirectoryLength;
 
 let directory = {
     A: [
@@ -192,20 +193,43 @@ export default function CreativeDirectory(props) {
     const [directoryLoaded, setDirectoryLoaded] = useState(false);
     const [directoryList, changeDirectoryList] = useState('directory');
 
-    //Replace this with currently logged username string
-    const username = "John Smith";
+    // //Replace this with currently logged username string
+    // const username = "John Smith";
 
     const selectRecipient = () => {
         //Emits recipient to back end
         socket.emit('select_recipient', profile.name);
     };    
+    
 
+    const [username, setUsername] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [profilePicture, setProfilePicture] = useState('');
+
+
+    useEffect(() => {
+        // Get session user data
+        axios.get('http://localhost:8080/auth/signin') 
+            .then(res => {
+                //If user is logged in set login data
+                if (res.data.loggedIn === true) {
+                    setUsername(res.data.username);
+                    setFirstName(res.data.firstName);
+                    setLastName(res.data.lastName);
+                    setProfilePicture(res.data.profilePicture);
+                };
+            }).catch(err => {
+                console.log(err);
+            });
+    }, []);
 
 
 function getDirectory(){
     axios.get('http://localhost:8080/search/getDirectory')
         .then(res => {   
             rawDirectory = res.data;
+            rawDirectoryLength = rawDirectory.length
             // loop through each of the fetched user elements
             let sortedUsers = [];
             rawDirectory.forEach(element => {                
@@ -309,7 +333,7 @@ Y: [
     }
 }
     
-getDirectory();
+getDirectory(props);
     return (
         <div class="flex">
             <SideBar userData={props.userData} />
@@ -390,26 +414,10 @@ getDirectory();
                     </Dialog>
                 </Transition.Root>
                 <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
-                    <div className="lg:hidden">
-                        <div className="flex items-center justify-between border-b border-gray-200 bg-gray-50 px-4 py-1.5">
-                            <div>
-                                <img
-                                    className="h-8 w-auto"
-                                    src="https://tailwindui.com/img/logos/mark.svg?color=blue&shade=600"
-                                    alt="Your Company"
-                                />
-                            </div>
-                        </div>
-                    </div>
                     <div className="relative z-0 flex flex-1 overflow-hidden">
                         <main className="relative z-0 flex-1 overflow-y-auto focus:outline-none xl:order-last">
                             {/* Breadcrumb */}
-                            <nav className="flex items-start px-4 py-3 sm:px-6 lg:px-8 xl:hidden" aria-label="Breadcrumb">
-                                <a href="/directory" className="inline-flex items-center space-x-3 text-sm font-medium text-gray-900">
-                                    <ChevronLeftIcon className="-ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
-                                    <span>Directory</span>
-                                </a>
-                            </nav>
+                            
                             <article>
                                 {/* Profile header */}
                                 <div>
@@ -421,13 +429,13 @@ getDirectory();
                                             <div className="flex">
                                                 <img
                                                     className="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
-                                                    src={profile.imageUrl}
+                                                    src={"http://localhost:8080/public/" + profilePicture}
                                                     alt=""
                                                 />
                                             </div>
                                             <div className="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
                                                 <div className="mt-6 min-w-0 flex-1 sm:hidden 2xl:block">
-                                                    <h1 className="truncate text-2xl font-bold text-gray-900">{profile.name}</h1>
+                                                    <h1 className="truncate text-2xl font-bold text-gray-900">{firstName + " " + lastName}</h1>
                                                 </div>
                                                 <div className="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
                                                     <button
@@ -457,7 +465,7 @@ getDirectory();
                                             </div>
                                         </div>
                                         <div className="mt-6 hidden min-w-0 flex-1 sm:block 2xl:hidden">
-                                            <h1 className="truncate text-2xl font-bold text-gray-900">{profile.name}</h1>
+                                            <h1 className="truncate text-2xl font-bold text-gray-900">{firstName + " " + lastName}</h1>
                                         </div>
                                     </div>
                                 </div>
@@ -544,7 +552,7 @@ getDirectory();
                         <aside className="hidden w-96 flex-shrink-0 border-r border-gray-200 xl:order-first xl:flex xl:flex-col">
                             <div className="px-6 pt-6 pb-4">
                                 <h2 className="text-lg font-medium text-gray-900">Directory</h2>
-                                <p className="mt-1 text-sm text-gray-600">Search directory of 3,018 employees</p>
+                                <p className="mt-1 text-sm text-gray-600">Search directory of {rawDirectoryLength} employees</p>
                                 <form className="mt-6 flex space-x-4" action="#">
                                     <div className="min-w-0 flex-1">
                                         <label htmlFor="search" className="sr-only">

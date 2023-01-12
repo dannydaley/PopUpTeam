@@ -236,7 +236,9 @@ export default function SideBar(props) {
                                 <div className="ml-3">
                                     <p className="text-sm font-medium text-white">{firstName} {lastName}</p>
                                     <div className="ml-3 columns-2">
+                                        <a href="/settings">
                                         <p className="text-xs font-medium text-indigo-200 hover:text-white">View profile</p>
+                                        </a>
                                         <p onClick={onSignOut} className="text-xs font-medium text-indigo-200 hover:text-white">Logout</p>
                                     </div>
                                 </div>

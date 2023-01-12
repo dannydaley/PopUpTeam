@@ -52,12 +52,15 @@ router.post('/signUp', (req, res) => {
 // Login
 router.post('/signin', (req, res) => {
     const { email, password } = req.body;
-
+    console.log(req.body)
     // Check all emails against input
     db.query(selectEmail, [email], (err, rows) => { 
         if (err) throw err;
         // If email exists
         if (rows.length > 0) {
+            
+            console.log(PasswordHash(password, rows[0].salt))
+            console.log(rows[0].password)
             // If password with salt and compares to database 
             if (PasswordHash(password, rows[0].salt) == rows[0].password) { 
                 // Create session
