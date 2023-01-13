@@ -1,8 +1,50 @@
-import { PlusIcon } from "@heroicons/react/20/solid";
+import {
+  Bars4Icon,
+  CalendarIcon,
+  ClockIcon,
+  PhotoIcon,
+  TableCellsIcon,
+  ViewColumnsIcon,
+} from '@heroicons/react/24/outline'
 
 import SideBar from "../components/directory/SideBar";
 
-export default function NewProject() {
+import { ChevronRightIcon } from '@heroicons/react/20/solid'
+
+import {CommandLineIcon, MegaphoneIcon } from '@heroicons/react/24/outline'
+
+const items = [
+  {
+    name: 'Marketing Campaign',
+    description: 'I think the kids call these memes these days.',
+    href: '#',
+    iconColor: 'bg-pink-500',
+    icon: MegaphoneIcon,
+  },
+  {
+    name: 'Engineering Project',
+    description: 'Something really expensive that will ultimately get cancelled.',
+    href: '#',
+    iconColor: 'bg-purple-500',
+    icon: CommandLineIcon,
+  },
+  {
+    name: 'Event',
+    description: 'Like a conference all about you that no one will care about.',
+    href: '#',
+    iconColor: 'bg-yellow-500',
+    icon: CalendarIcon,
+  },
+]
+
+
+function classNames(...classes) {
+  return classes.filter(Boolean).join(' ')
+}
+
+
+
+export default function Dashboard() {
   return (
     <div class="flex">
       <SideBar 
@@ -14,38 +56,46 @@ export default function NewProject() {
         }}
       />
 
-      <div className="text-center w-screen h-screen flex flex-col justify-center">
-        <svg
-          className="mx-auto h-12 w-12 text-gray-400"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            vectorEffect="non-scaling-stroke"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
-          />
-        </svg>
 
-        <h3 className="mt-2 text-sm font-medium text-gray-900">No projects</h3>
-        <p className="mt-1 text-sm text-gray-500">
-          Get started by creating a new project.
-        </p>
 
-        <div className="mt-6">
-          <button
-            type="button"
-            className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          >
-            <PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
-            New Project
-          </button>
-        </div>
+
+      <div className="text-center w-screen h-screen flex-col justify-center">
+      <h2 className="text-lg font-medium text-gray-900">Create your first project</h2>
+      <p className="mt-1 text-sm text-gray-500">Get started by selecting a template or start from an empty project.</p>
+      <ul role="list" className="mt-6 divide-y divide-gray-200 border-t border-b border-gray-200">
+        {items.map((item, itemIdx) => (
+          <li key={itemIdx}>
+            <div className="group relative flex items-start space-x-3 py-4">
+              <div className="flex-shrink-0">
+                <span
+                  className={classNames(item.iconColor, 'inline-flex items-center justify-center h-10 w-10 rounded-lg')}
+                >
+                  <item.icon className="h-6 w-6 text-white" aria-hidden="true" />
+                </span>
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="text-sm font-medium text-gray-900">
+                  <a href={item.href}>
+                    <span className="absolute inset-0" aria-hidden="true" />
+                    {item.name}
+                  </a>
+                </div>
+                <p className="text-sm text-gray-500">{item.description}</p>
+              </div>
+              <div className="flex-shrink-0 self-center">
+                <ChevronRightIcon className="h-5 w-5 text-gray-400 group-hover:text-gray-500" aria-hidden="true" />
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div className="mt-6 flex">
+        <a href="#" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+          Or start from an empty project
+          <span aria-hidden="true"> &rarr;</span>
+        </a>
       </div>
     </div>
-  );
-};
+    </div>
+  )
+}

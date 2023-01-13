@@ -7,6 +7,8 @@ import Home from "./pages/Index";
 import About from "./pages/About";
 import BecomeACreative from "./pages/BecomeACreative";
 import Settings from "./pages/Settings";
+import Dashboard from "./pages/Dashboard";
+
 
 import Login from "./pages/BusinessLogin";
 import Register from "./pages/BusinessRegister";
@@ -48,7 +50,6 @@ export default class App extends React.Component {
 				<Route path="/" element={<Home />} />
 				<Route path="/about" element={<About />} />
 				<Route path="/become-a-creative" element={<BecomeACreative />} />
-				<Route path="/settings" element={<Settings />} />
 
 				{/* Authentication */}
 				<Route
@@ -64,6 +65,9 @@ export default class App extends React.Component {
 				/>
 				<Route path="/projects" element={<NewProject />} />
 				<Route path="*" element={<Error />} />
+                <Route path="/settings" element={<Settings />} />
+				<Route path="/dashboard" element={<Dashboard />} />
+
 
 				{/* Kanban */}
 				<Route path="/kanban" element={<KanbanPage />} />

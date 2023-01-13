@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
 import { Dialog, Transition } from '@headlessui/react';
-import { Bars3Icon, CalendarIcon, FolderIcon, Cog6ToothIcon, HomeIcon, UsersIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Bars3Icon, CalendarIcon, KeyIcon, FolderIcon, Cog6ToothIcon, HomeIcon, UsersIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import Logo from '../Logo';
 
 function classNames(...classes) {
@@ -29,6 +29,7 @@ export default function SideBar(props) {
         { name: 'Projects', href: 'projects', icon: FolderIcon, current: (location.pathname === "/projects" ? true : false) },
         { name: 'Kanban', href: 'kanban', icon: CalendarIcon, current: (location.pathname === "/kanban" ? true : false) },
         { name: 'Settings', href: 'settings', icon: Cog6ToothIcon, current: (location.pathname === "/settings" ? true : false) },
+        { name: 'Logout',  href: '/', icon: KeyIcon, current: (location.pathname === "/" ? true : false) },
     ];
 
     useEffect(() => {
@@ -235,11 +236,11 @@ export default function SideBar(props) {
                                 </div>
                                 <div className="ml-3">
                                     <p className="text-sm font-medium text-white">{firstName} {lastName}</p>
-                                    <div className="ml-3 columns-2">
+                                    <div className="">
                                         <a href="/settings">
                                         <p className="text-xs font-medium text-indigo-200 hover:text-white">View profile</p>
                                         </a>
-                                        <p onClick={onSignOut} className="text-xs font-medium text-indigo-200 hover:text-white">Logout</p>
+                                        {/* <p onClick={onSignOut} className="text-xs font-medium text-indigo-200 hover:text-white">Logout</p> */}
                                     </div>
                                 </div>
                             </div>
