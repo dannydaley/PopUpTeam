@@ -72,7 +72,7 @@ export default class Home extends React.Component {
                     <CallToAction />
                     <Testimonials />
                     <Pricing />
-                    <Faqs />
+                    {/* <Faqs /> */}
                 </>
                 
                 <Banner />
