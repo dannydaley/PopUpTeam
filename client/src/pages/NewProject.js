@@ -14,38 +14,77 @@ export default function NewProject() {
         }}
       />
 
-      <div className="text-center w-screen h-screen flex flex-col justify-center">
-        <svg
-          className="mx-auto h-12 w-12 text-gray-400"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          aria-hidden="true"
-        >
-          <path
-            vectorEffect="non-scaling-stroke"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
-          />
-        </svg>
+      <div className="text-center w-screen h-screen flex flex-col col-span-4 justify-center">
+    
 
-        <h3 className="mt-2 text-sm font-medium text-gray-900">No projects</h3>
-        <p className="mt-1 text-sm text-gray-500">
-          Get started by creating a new project.
-        </p>
+      <section class="text-gray-600 body-font h-screen">
+  <div class="container px-5 py-24 mx-auto">
+    <div class="flex flex-wrap -m-4 text-center">
+      
 
-        <div className="mt-6">
-          <button
-            type="button"
-            className="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          >
-            <PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
-            New Project
-          </button>
-        </div>
-      </div>
+
+      <div class="p-4 sm:w-1/2 lg:w-1/3 w-full ">
+        <div class=" flex items-center  justify-between p-4  rounded-lg bg-white shadow-indigo-50 shadow-md">
+    <button
+      type="button"
+      className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+    >
+      
+      <svg
+        className="mx-auto h-12 w-12 text-gray-400"
+        xmlns="http://www.w3.org/2000/svg"
+        stroke="currentColor"
+        fill="none"
+        viewBox="0 0 48 48"
+        aria-hidden="true"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M8 14v20c0 4.418 7.163 8 16 8 1.381 0 2.721-.087 4-.252M8 14c0 4.418 7.163 8 16 8s16-3.582 16-8M8 14c0-4.418 7.163-8 16-8s16 3.582 16 8m0 0v14m0-4c0 4.418-7.163 8-16 8S8 28.418 8 24m32 10v6m0 0v6m0-6h6m-6 0h-6"
+        />
+      </svg>
+      <span className="mt-2 block text-sm font-large text-gray-900">Project Name</span>
+
+    </button>
+</div>
+</div>
+
+
+      <div class="p-4 sm:w-1/2 lg:w-1/3 w-full ">
+        <div class=" flex items-center  justify-between p-4  rounded-lg bg-white shadow-indigo-50 shadow-md">
+    <button
+      type="button"
+      className="relative block w-full rounded-lg border-2 border-dashed border-gray-300 p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+    >
+      <svg
+        className="mx-auto h-12 w-12 text-gray-400"
+        xmlns="http://www.w3.org/2000/svg"
+        stroke="currentColor"
+        fill="none"
+        viewBox="0 0 48 48"
+        aria-hidden="true"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+          d="M8 14v20c0 4.418 7.163 8 16 8 1.381 0 2.721-.087 4-.252M8 14c0 4.418 7.163 8 16 8s16-3.582 16-8M8 14c0-4.418 7.163-8 16-8s16 3.582 16 8m0 0v14m0-4c0 4.418-7.163 8-16 8S8 28.418 8 24m32 10v6m0 0v6m0-6h6m-6 0h-6"
+        />
+      </svg>
+      <span className="mt-2 block text-sm font-large text-gray-900">Create a new proejct</span>
+    </button>
+</div>
+</div>
+
+
+
     </div>
+  </div>
+</section>
+</div>
+</div>
+
   );
 };
