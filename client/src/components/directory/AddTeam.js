@@ -62,14 +62,14 @@ export default function Example() {
         </div>
         <form action="#" className="mt-6 flex">
           <label htmlFor="email" className="sr-only">
-            Email address
+            User
           </label>
           <input
             type="email"
             name="email"
             id="email"
             className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            placeholder="Enter an email"
+            placeholder="Enter username"
           />
           <button
             type="submit"

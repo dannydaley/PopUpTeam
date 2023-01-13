@@ -15,6 +15,8 @@ import Register from "./pages/BusinessRegister";
 
 import CreativeDirectory from "./pages/CreativeDirectory";
 import NewProject from "./pages/NewProject";
+import Project from "./pages/Project";
+
 import Error from "./pages/404";
 
 import KanbanPage from "./pages/KanbanPage";
@@ -67,6 +69,8 @@ export default class App extends React.Component {
 				<Route path="*" element={<Error />} />
                 <Route path="/settings" element={<Settings />} />
 				<Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/project" element={<Project />} />
+
 
 
 				{/* Kanban */}
