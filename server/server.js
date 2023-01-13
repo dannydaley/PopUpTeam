@@ -33,6 +33,10 @@ app.use("/kanban", kanbanRouter); // Initialise kanban router
 app.use('/auth', authRoutes); //Login and register routes
 app.use('/search', searchRoutes); //Search routes
 
+const devRoutes = require('./routes/devSetup');
+app.use('/dev', devRoutes);
+
+
 const PORT = process.env.PORT || 8080;
 
 //Server port
