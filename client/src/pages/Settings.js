@@ -14,12 +14,19 @@ import SideBar from "../components/directory/SideBar";
   }
   ```
 */
-export default function Example() {
+export default function settingspage() {
   return (
-    <div>
-<SideBar />
+    <div class="flex">
+      <SideBar 
+        //Replace with actual user data from user session
+        userData={{
+          firstName: "test",
+          lastName: "test",
+          profilePicture: "test",
+        }}
+      />
 
-    <form className="space-y-6" action="#" method="POST">
+    <form className="space-y-6 px-4 py-4" action="#" method="POST">
       <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
         <div className="md:grid md:grid-cols-3 md:gap-6">
           <div className="md:col-span-1">
