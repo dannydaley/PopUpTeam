@@ -83,9 +83,9 @@ const Kanban = () => {
 	}, []);
 	return (
 		<div className="mx-auto max-w-7xl py-12 px-4 sm:px-6 lg:px-8 flex-auto">
-			<div className="flex justify-between items-center gap-2">
+			<div className="text-left flex justify-between inline-flex items-center gap-2">
 				<select
-					className="py-1 rounded font-bold"
+					className="flex mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
 					value={selectedProjectId}
 					onChange={(e) => setSelectedProjectId(e.target.value)}
 				>
@@ -115,7 +115,7 @@ const Kanban = () => {
 							background: "rgba(0,0,0,0.50)",
 						}}
 						trigger={
-							<button className="bg-blue-600 text-white font-bold p-1 px-4 rounded shadow hover:bg-blue-700 flex justify-center gap-1 items-center">
+							<button className="bg-blue-600 flex text-white font-regular p-1 px-4 rounded shadow hover:bg-blue-700 justify-center gap-1 items-center">
 								New project
 							</button>
 						}
@@ -147,7 +147,7 @@ const Kanban = () => {
 										Cancel
 									</button>
 									<button
-										className="bg-blue-600 text-white font-bold p-1 px-4 rounded shadow hover:bg-blue-700 flex justify-center gap-1 items-center"
+										className="bg-blue-600 flex text-white font-regular p-1 px-4 rounded shadow hover:bg-blue-700 justify-center gap-1 items-center"
 										onClick={() => {
 											handleCreateProject();
 											close();
@@ -258,7 +258,7 @@ const Kanban = () => {
 					)}
 				</div>
 			</div>
-			<h2 className="my-5 font-bold text-xl">
+			<h2 className="my-5 font-bold text-medium">
 				{!selectedProject && "Select a project or create one to get started!"}
 			</h2>
 			{selectedProject && <Board selectedProjectId={selectedProjectId} />}
