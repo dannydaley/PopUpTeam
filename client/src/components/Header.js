@@ -111,12 +111,19 @@ export default function Header(props) {
                         <div className="flex items-center gap-x-5 md:gap-x-8">
                             <div className="hidden md:block">
                                 <NavLink {...props} href="/business-login">Sign in</NavLink>
+                                {/* <NavLink {...props} href="/business-register">Get started today</NavLink> */}
                             </div>
-                            <Button href="/business-register" color="blue">
+                    
+
+                            <a href="/business-register">
+                            <Button color="blue">
                                 <span>
                                     Get started <span className="hidden lg:inline">today</span>
                                 </span>
                             </Button>
+                            </a>
+
+
                             <div className="-mr-1 md:hidden">
                                 <MobileNavigation />
                             </div>
