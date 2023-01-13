@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { Dialog, Transition } from '@headlessui/react';
 import { Bars3Icon, CalendarIcon, KeyIcon, FolderIcon, Cog6ToothIcon, HomeIcon, UsersIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import Logo from '../Logo';
+import Logo from '../Logo2';
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
