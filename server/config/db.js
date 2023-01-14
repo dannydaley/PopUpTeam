@@ -29,14 +29,11 @@ const db = mysql.createConnection({
   password: "671885a1",
   database: "heroku_f29376daf1042d8",
 
-  //Database setup
-// const db = mysql.createConnection({
-//   //Remote
-//   host: "mysql15.namesco.net",
-//   user: "popupteam2",
-//   port: 3306,
-//   password: "popupteam2023",
-//   database: "PH855758_popupteam2",
+  // host: "mysql15.namesco.net",
+  // user: "popupteam2",
+  // port: 3306,
+  // password: "popupteam2023",
+  // database: "PH855758_popupteam2",
 
   //Local
   // host: "localhost",

@@ -10,7 +10,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 };
 
-export default function SideBar(props) {
+export default function SideBar() {
     const navigate = useNavigate()
     const location = useLocation()
     

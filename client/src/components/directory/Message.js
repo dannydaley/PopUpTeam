@@ -1,14 +1,29 @@
 import { useEffect, useState, useRef } from 'react';
+import axios from 'axios';
+
 import { ArrowLongUpIcon } from '@heroicons/react/24/outline';
 
-export default function Message({socket, sender, recipient}) {
-    const [profile , setProfile] = useState('');
+export default function Message({socket, recipient, profilePicture}) {
+    const [sender, setSender] = useState('');
     const [name , setName] = useState('');
 
     const [message, setMessage] = useState('');
     const [messageList, setMessageList] = useState([]);
 
     const bottomRef = useRef(null);
+
+    useEffect(() => {
+        // Get session user data
+        axios.get('http://localhost:8080/auth/signin') 
+            .then(res => {
+                //If user is logged in set login data
+                if (res.data.loggedIn === true) {
+                    setSender(res.data.email);
+                };
+            }).catch(err => {
+                console.log(err);
+            });
+    }, []);
     
     //Sends message to server
     const sendMessage = async () => {
@@ -36,11 +51,8 @@ export default function Message({socket, sender, recipient}) {
     };
 
     useEffect(() => {
-        //Select profile picture as pushed URL from CreativeDirectory
-        setProfile("https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80");
         //Select name as pushed URL from CreativeDirectory
-        setName("John smith");
-
+        setName(recipient);
         //Receive message from back-end
         socket.on('receive_message', (data) => {
             setMessageList((list) => [...list, data]);
@@ -57,7 +69,7 @@ export default function Message({socket, sender, recipient}) {
         <div class="flex flex-col h-full max-h-[750px] w-full px-4 py-6">
             {/* Message list */}
             <div class="h-full overflow-y-scroll pb-4">
-                <p class="text-center italic text-gray-400">Chat started with: <span class="font-semibold">{name}</span></p>
+                <p class="text-center italic text-gray-400">Chat started with: <span class="font-semibold">{recipient}</span></p>
                 <div class="grid grid-cols-12">
                     {/* Individual message */}
                     {messageList.map((messageContent) => {
@@ -65,17 +77,7 @@ export default function Message({socket, sender, recipient}) {
                             messageContent.sender === sender ? (
                                 /* Sender */
                                 <div class="col-start-6 col-end-13 p-2 rounded-lg">
-                                    <div class="flex justify-start flex-row-reverse">
-                                        {/* Profile picture */}
-                                        <div class="flex items-center justify-center h-10 w-10 rounded-full bg-blue-600 flex-shrink-0">
-                                            {/* Replace src with currently logged users profile picture */}
-                                            <img 
-                                                src="https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=1024&h=1024&q=80" 
-                                                alt="Profile picture"
-                                                class="rounded-full"
-                                            ></img>
-                                        </div>
-        
+                                    <div class="flex justify-start flex-row-reverse">        
                                         {/* Message content */}
                                         <div class="flex flex-col space-y-1.5">
                                             <div class="relative mr-3 text-sm bg-blue-100 py-2 px-4 shadow rounded-xl">
@@ -93,7 +95,7 @@ export default function Message({socket, sender, recipient}) {
                                     <div class="flex flex-row">
                                         <div class="flex items-center justify-center h-10 w-10 flex-shrink-0">
                                             <img
-                                                src={profile}
+                                                src={'http://localhost:8080/public/' + profilePicture}
                                                 alt="Profile picture"
                                                 class="rounded-full"
                                             ></img>

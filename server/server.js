@@ -4,7 +4,6 @@ const cors = require("cors");
 const http = require("http");
 
 const session = require('./session');
-const db = require('./config/db');
 const socket = require('./socket');
 
 const authRoutes = require('./routes/auth');

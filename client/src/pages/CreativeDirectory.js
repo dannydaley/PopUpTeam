@@ -104,11 +104,6 @@ export default function CreativeDirectory(props) {
         socket.emit("select_recipient", profile.name);
     };
 
-    const [username, setUsername] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [profilePicture, setProfilePicture] = useState("");
-
     const [profileFirstName, setProfileFirstName] = useState("");
     const [profileLastName, setProfileLastName] = useState("");
     const [profileProfilePicture, setProfileProfilePicture] = useState("");
@@ -122,7 +117,7 @@ export default function CreativeDirectory(props) {
     const [profileHourlyRate, setProfileHourlyRate] = useState("");
     const [profileBirthday, setProfileBirthday] = useState("");
 
-    let profile = {
+    const profile = {
         name: profileFirstName + " " + profileLastName,
         profile_picture: profileProfilePicture,
         coverImageUrl:
@@ -139,6 +134,7 @@ export default function CreativeDirectory(props) {
             birthday: profileBirthday,
         },
     };
+
     const teamPlaceHolder = [
         {
             name: "Leslie Alexander",
@@ -169,19 +165,15 @@ export default function CreativeDirectory(props) {
                 "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
         },
     ];
+
     useEffect(() => {
         // Get session user data
-        axios
-            .get("http://localhost:8080/auth/signin")
+        axios.get("http://localhost:8080/auth/signin")
             .then((res) => {
                 //If user is logged in set login data
                 if (res.data.loggedIn === true) {
-                    setUsername(res.data.username);
-                    setFirstName(res.data.firstName);
-                    setLastName(res.data.lastName);
                     setProfileFirstName(res.data.firstName);
                     setProfileLastName(res.data.lastName);
-                    setProfilePicture(res.data.profilePicture);
                     setProfileProfilePicture(res.data.profilePicture);
                     setProfileAboutMe(res.data.aboutMe);
                     setProfilePhone(res.data.phone);
@@ -203,7 +195,6 @@ export default function CreativeDirectory(props) {
         setProfileFirstName(userData.first_name);
         setProfileLastName(userData.last_name);
         setProfileProfilePicture(userData.profile_picture);
-        setProfilePicture(userData.profilePicture);
         setProfileAboutMe(userData.about_me);
         setProfilePhone(userData.phone);
         setProfileEmail(userData.email);
@@ -213,7 +204,8 @@ export default function CreativeDirectory(props) {
         setProfileBirthday(userData.birthday);
         setProfileLocation(userData.location);
         setProfileCountry(userData.country);
-    }
+    };
+
     function getDirectory() {
         axios
             .get("http://localhost:8080/search/getDirectory")
@@ -242,7 +234,7 @@ export default function CreativeDirectory(props) {
             .catch((err) => {
                 console.log(err);
             });
-    }
+    };
 
     function searchDirectory(query) {
         // only search if query is greater than 3 characters
@@ -301,12 +293,14 @@ export default function CreativeDirectory(props) {
             // any less than 3 characters in query, show full directory
             changeDirectoryList("directory");
         }
-    }
+    };
 
     getDirectory(props);
+
     return (
         <div class="flex">
-            <SideBar userData={props.userData} />
+            <SideBar />
+
             <div className="flex w-screen h-auto">
                 <Transition.Root show={sidebarOpen} as={Fragment}>
                     <Dialog
@@ -413,7 +407,6 @@ export default function CreativeDirectory(props) {
                     <div className="relative z-0 flex flex-1 overflow-hidden">
                         <main className="relative z-0 flex-1 overflow-y-auto focus:outline-none xl:order-last">
                             {/* Breadcrumb */}
-
                             <article>
                                 {/* Profile header */}
                                 <div>
@@ -520,8 +513,8 @@ export default function CreativeDirectory(props) {
                                 {renderMessage ? (
                                     <Message
                                         socket={socket}
-                                        sender={username}
-                                        recipient={profile.name}
+                                        recipient={profileFirstName + " " +  profileLastName}
+                                        profilePicture={profileProfilePicture}
                                     />
                                 ) : (
                                     <>
@@ -811,4 +804,4 @@ export default function CreativeDirectory(props) {
             </div>
         </div>
     );
-}
+};
