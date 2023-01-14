@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { ArrowLongUpIcon } from '@heroicons/react/24/outline';
 
-export default function Message({socket, recipient, profilePicture}) {
+export default function Message({recipient, profilePicture}) {
     const [sender , setSender] = useState('');
     const [name , setName] = useState('');
 
@@ -131,7 +131,6 @@ export default function Message({socket, recipient, profilePicture}) {
                     placeholder="Enter your message"
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    //Sends message on enter
                     onKeyPress={(e) => {
                         e.key === 'Enter' && sendMessage();
                     }}

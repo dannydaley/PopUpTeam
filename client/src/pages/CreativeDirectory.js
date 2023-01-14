@@ -10,10 +10,8 @@ import {
 
 import Message from "../components/directory/Message";
 
-import io from "socket.io-client";
 import SideBar from "../components/directory/SideBar";
 import axios from "axios";
-const socket = io.connect("http://localhost:8080");
 
 const user = {
     name: "Tom Cook",
@@ -95,14 +93,6 @@ export default function CreativeDirectory(props) {
     const [renderMessage, setRenderMessage] = useState(false);
     const [directoryLoaded, setDirectoryLoaded] = useState(false);
     const [directoryList, changeDirectoryList] = useState("directory");
-
-    // //Replace this with currently logged username string
-    // const username = "John Smith";
-
-    const selectRecipient = () => {
-        //Emits recipient to back end
-        socket.emit("select_recipient", profile.name);
-    };
 
     const [profileFirstName, setProfileFirstName] = useState("");
     const [profileLastName, setProfileLastName] = useState("");
@@ -438,12 +428,7 @@ export default function CreativeDirectory(props) {
                                                 <div className="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
                                                     <button
                                                         type="button"
-                                                        onClick={() => {
-                                                            setRenderMessage(
-                                                                !renderMessage
-                                                            );
-                                                            selectRecipient();
-                                                        }}
+                                                        onClick={() => {setRenderMessage(!renderMessage)}}
                                                         className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
                                                     >
                                                         <EnvelopeIcon
@@ -512,7 +497,6 @@ export default function CreativeDirectory(props) {
                                 {/* If state is true render Messaging component */}
                                 {renderMessage ? (
                                     <Message
-                                        socket={socket}
                                         recipient={profileFirstName + " " +  profileLastName}
                                         profilePicture={profileProfilePicture}
                                     />

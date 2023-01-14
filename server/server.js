@@ -4,7 +4,6 @@ const cors = require("cors");
 const http = require("http");
 
 const session = require('./session');
-const socket = require('./socket');
 
 const authRoutes = require('./routes/auth');
 const searchRoutes = require('./routes/search');
@@ -42,5 +41,4 @@ const PORT = process.env.PORT || 8080;
 //Server port
 server.listen(process.env.PORT || PORT, () => {
 	console.log(`Server listening on port ${PORT}`);
-    socket(server); //Adds socket listener
 });
