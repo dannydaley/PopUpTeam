@@ -8,6 +8,7 @@ const socket = require('./socket');
 
 const authRoutes = require('./routes/auth');
 const searchRoutes = require('./routes/search');
+const messageRoutes = require('./routes/messages');
 
 // Import kanban router
 const kanbanRouter = require("./routes/kanban");
@@ -31,10 +32,10 @@ app.use(session); //Session config
 app.use("/kanban", kanbanRouter); // Initialise kanban router
 app.use('/auth', authRoutes); //Login and register routes
 app.use('/search', searchRoutes); //Search routes
+app.use('/messages', messageRoutes); //Message routes
 
 const devRoutes = require('./routes/devSetup');
 app.use('/dev', devRoutes);
-
 
 const PORT = process.env.PORT || 8080;
 

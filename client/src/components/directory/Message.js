@@ -4,34 +4,50 @@ import axios from 'axios';
 import { ArrowLongUpIcon } from '@heroicons/react/24/outline';
 
 export default function Message({socket, recipient, profilePicture}) {
-    const [sender, setSender] = useState('');
+    const [sender , setSender] = useState('');
     const [name , setName] = useState('');
 
     const [message, setMessage] = useState('');
+    const [time, setTime] = useState('');
     const [messageList, setMessageList] = useState([]);
 
     const bottomRef = useRef(null);
 
     useEffect(() => {
-        // Get session user data
-        axios.get('http://localhost:8080/auth/signin') 
-            .then(res => {
-                //If user is logged in set login data
-                if (res.data.loggedIn === true) {
-                    setSender(res.data.email);
-                };
-            }).catch(err => {
-                console.log(err);
-            });
+        // Get messages
+        axios.get('http://localhost:8080/messages/getMessages', {
+            params: {
+                recipient: recipient,
+            },
+        }).then(res => {
+            setMessageList(res.data.allMessages);
+            setSender(res.data.sender);
+            setTime(res.data.timeRows);
+        }).catch(err => {
+            console.log(err);
+        });
     }, []);
     
     //Sends message to server
     const sendMessage = async () => {
         //If input isnt empty
         if (message !== '') {
-            //Formats message
+            //Add message to database
+            axios.post('http://localhost:8080/messages/insertMessage', {
+                recipient: recipient,
+                message: message,
+                time:
+                    new Date().getHours() +
+                    ':' +
+                    new Date().getMinutes(),
+            }).then(res => {
+                console.log(res);
+            }).catch(err => {
+                console.log(err);
+            });
+
+            //Formats message for list
             const messageData = {
-                sender: sender,
                 recipient: recipient,
                 message: message,
                 time:
@@ -40,10 +56,8 @@ export default function Message({socket, recipient, profilePicture}) {
                     new Date().getMinutes(),
             };
 
-            //Sends to back end
-            await socket.emit('send_message', messageData);
-            //Shows previously sent message
-            setMessageList((list) => [...list, messageData]);    
+            // Adds to message list
+            setMessageList((list) => [...list, messageData]);  
             
             //Clears input
             setMessage('');
@@ -51,18 +65,9 @@ export default function Message({socket, recipient, profilePicture}) {
     };
 
     useEffect(() => {
-        //Select name as pushed URL from CreativeDirectory
-        setName(recipient);
-        //Receive message from back-end
-        socket.on('receive_message', (data) => {
-            setMessageList((list) => [...list, data]);
-        }, [socket]);
-    });
-
-    useEffect(() => {
         // Scroll to bottom every time messages change
-        bottomRef.current?.scrollIntoView({behavior: 'smooth'});
-      }, [messageList]);
+        bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, [messageList]);
 
     return (
         /* Messages */
@@ -72,11 +77,13 @@ export default function Message({socket, recipient, profilePicture}) {
                 <p class="text-center italic text-gray-400">Chat started with: <span class="font-semibold">{recipient}</span></p>
                 <div class="grid grid-cols-12">
                     {/* Individual message */}
-                    {messageList.map((messageContent) => {
+                    {messageList
+                        .sort((a, b) => a.time.localeCompare(b.time)) // Sort messages by time sent
+                        .map((messageContent, index) => {
                         return (
                             messageContent.sender === sender ? (
                                 /* Sender */
-                                <div class="col-start-6 col-end-13 p-2 rounded-lg">
+                                <div key={index} class="col-start-6 col-end-13 p-2 rounded-lg">
                                     <div class="flex justify-start flex-row-reverse">        
                                         {/* Message content */}
                                         <div class="flex flex-col space-y-1.5">
@@ -90,8 +97,9 @@ export default function Message({socket, recipient, profilePicture}) {
 
                                 </div>
                             ) : (
+                                
                                 /* Recipient */
-                                <div class="col-start-1 col-end-8 p-3 rounded-lg">
+                                <div key={index} class="col-start-1 col-end-8 p-3 rounded-lg">
                                     <div class="flex flex-row">
                                         <div class="flex items-center justify-center h-10 w-10 flex-shrink-0">
                                             <img
