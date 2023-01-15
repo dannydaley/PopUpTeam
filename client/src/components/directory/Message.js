@@ -5,10 +5,10 @@ import { ArrowLongUpIcon } from '@heroicons/react/24/outline';
 
 export default function Message({recipient, profilePicture}) {
     const [sender , setSender] = useState('');
-    const [name , setName] = useState('');
-
     const [message, setMessage] = useState('');
+
     const [time, setTime] = useState('');
+
     const [messageList, setMessageList] = useState([]);
 
     const bottomRef = useRef(null);
@@ -26,10 +26,10 @@ export default function Message({recipient, profilePicture}) {
         }).catch(err => {
             console.log(err);
         });
-    }, []);
+    }, [recipient, message]);
     
     //Sends message to server
-    const sendMessage = async () => {
+    const sendMessage = () => {
         //If input isnt empty
         if (message !== '') {
             //Add message to database
@@ -40,14 +40,13 @@ export default function Message({recipient, profilePicture}) {
                     new Date().getHours() +
                     ':' +
                     new Date().getMinutes(),
-            }).then(res => {
-                console.log(res);
             }).catch(err => {
                 console.log(err);
             });
 
             //Formats message for list
             const messageData = {
+                sender: sender,
                 recipient: recipient,
                 message: message,
                 time:
@@ -58,14 +57,13 @@ export default function Message({recipient, profilePicture}) {
 
             // Adds to message list
             setMessageList((list) => [...list, messageData]);  
-            
             //Clears input
             setMessage('');
         };
     };
 
+    // Scrolls to bottom of message list
     useEffect(() => {
-        // Scroll to bottom every time messages change
         bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, [messageList]);
 
