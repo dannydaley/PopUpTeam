@@ -1,4 +1,6 @@
 const multer = require("multer");
+const express = require("express");
+const router = express.Router();
 
 const defaultProfilePicture = "images/defaults/defaultUser.png";
 
@@ -34,4 +36,15 @@ function checkFileType(file, cb) {
     }
 }
 
-module.exports = { upload, defaultProfilePicture };
+// router.get(
+//     "/changeProfilePicture",
+//     upload("image"),
+//     (req, res, next) => {
+//         res.json({
+//             connected: "connected",
+//         });
+//     }
+// );
+
+module.exports = router;
+// module.exports = { router, upload, defaultProfilePicture };
