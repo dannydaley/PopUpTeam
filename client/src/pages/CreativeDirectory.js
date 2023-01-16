@@ -28,33 +28,7 @@ const tabs = [
 let rawDirectory;
 let rawDirectoryLength;
 
-let directory = {
-    A: [],
-    B: [],
-    C: [],
-    D: [],
-    E: [],
-    F: [],
-    G: [],
-    H: [],
-    I: [],
-    J: [],
-    K: [],
-    L: [],
-    M: [],
-    N: [],
-    O: [],
-    P: [],
-    Q: [],
-    R: [],
-    S: [],
-    T: [],
-    U: [],
-    V: [],
-    W: [],
-    X: [],
-    Y: [],
-};
+let directory;
 
 let searchResults = {
     A: [],
@@ -158,7 +132,8 @@ export default function CreativeDirectory(props) {
 
     useEffect(() => {
         // Get session user data
-        axios.get("http://localhost:8080/auth/signin")
+        axios
+            .get("http://localhost:8080/auth/signin")
             .then((res) => {
                 //If user is logged in set login data
                 if (res.data.loggedIn === true) {
@@ -194,12 +169,39 @@ export default function CreativeDirectory(props) {
         setProfileBirthday(userData.birthday);
         setProfileLocation(userData.location);
         setProfileCountry(userData.country);
-    };
+    }
 
     function getDirectory() {
         axios
             .get("http://localhost:8080/search/getDirectory")
             .then((res) => {
+                directory = {
+                    A: [],
+                    B: [],
+                    C: [],
+                    D: [],
+                    E: [],
+                    F: [],
+                    G: [],
+                    H: [],
+                    I: [],
+                    J: [],
+                    K: [],
+                    L: [],
+                    M: [],
+                    N: [],
+                    O: [],
+                    P: [],
+                    Q: [],
+                    R: [],
+                    S: [],
+                    T: [],
+                    U: [],
+                    V: [],
+                    W: [],
+                    X: [],
+                    Y: [],
+                };
                 rawDirectory = res.data;
                 rawDirectoryLength = rawDirectory.length;
                 // loop through each of the fetched user elements
@@ -224,7 +226,7 @@ export default function CreativeDirectory(props) {
             .catch((err) => {
                 console.log(err);
             });
-    };
+    }
 
     function searchDirectory(query) {
         // only search if query is greater than 3 characters
@@ -283,7 +285,7 @@ export default function CreativeDirectory(props) {
             // any less than 3 characters in query, show full directory
             changeDirectoryList("directory");
         }
-    };
+    }
 
     getDirectory(props);
 
@@ -428,7 +430,11 @@ export default function CreativeDirectory(props) {
                                                 <div className="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
                                                     <button
                                                         type="button"
-                                                        onClick={() => {setRenderMessage(!renderMessage)}}
+                                                        onClick={() => {
+                                                            setRenderMessage(
+                                                                !renderMessage
+                                                            );
+                                                        }}
                                                         className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
                                                     >
                                                         <EnvelopeIcon
@@ -497,7 +503,11 @@ export default function CreativeDirectory(props) {
                                 {/* If state is true render Messaging component */}
                                 {renderMessage ? (
                                     <Message
-                                        recipient={profileFirstName + " " +  profileLastName}
+                                        recipient={
+                                            profileFirstName +
+                                            " " +
+                                            profileLastName
+                                        }
                                         profilePicture={profileProfilePicture}
                                     />
                                 ) : (
@@ -788,4 +798,4 @@ export default function CreativeDirectory(props) {
             </div>
         </div>
     );
-};
+}
