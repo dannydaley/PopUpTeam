@@ -9,11 +9,21 @@ import BinIcon from "../images/binIcon";
 import Board from "../components/kanban/Board";
 
 const Kanban = () => {
+	// Projects array (all projects data)
 	const [projects, setProjects] = useState([]);
+
+	// Used to store the title of new projects when creating them
 	const [createProjectTitle, setCreateProjectTitle] = useState("");
+
+	// Information about the selected project
 	const [selectedProjectId, setSelectedProjectId] = useState(null);
 	const [selectedProject, setSelectedProject] = useState(null);
+
+	// Used to store the updated title of projects when changing their title
 	const [newProjectTitle, setNewProjectTitle] = useState("");
+
+	// Deletes a project stored on the server using HTTP request
+
 	const handleDeleteProject = () => {
 		axios
 			.delete("/project", {
@@ -31,6 +41,9 @@ const Kanban = () => {
 		setSelectedProjectId(-1);
 		setSelectedProject(null);
 	};
+
+	// Updates a project stored on the server using HTTP request
+
 	const handleUpdateProject = () => {
 		axios
 			.put("/project", {
@@ -47,6 +60,8 @@ const Kanban = () => {
 			});
 		setNewProjectTitle("");
 	};
+
+	// Creates a project to be stored on the server using HTTP request
 	const handleCreateProject = () => {
 		axios
 			.post("/project", { projectTitle: createProjectTitle })
@@ -59,6 +74,9 @@ const Kanban = () => {
 			});
 		setCreateProjectTitle("");
 	};
+
+	// Requests all the project from the server using HTTP request
+
 	const getAllProjects = () => {
 		axios
 			.get("/projects")
@@ -69,6 +87,9 @@ const Kanban = () => {
 				console.log(error);
 			});
 	};
+
+	// Set the selected project whenever the project dropdown changes
+
 	useEffect(() => {
 		if (selectedProjectId) {
 			setSelectedProject(
@@ -78,13 +99,18 @@ const Kanban = () => {
 			);
 		}
 	}, [selectedProjectId, projects]);
+
+	// Get all the projects from the server when the page renders for the first time
+
 	useEffect(() => {
 		getAllProjects();
+		setSelectedProjectId(9)
 	}, []);
 	return (
 		<div className="w-4/5 py-12 px-4 sm:px-6 lg:px-8 flex-auto">
-			<div className="text-left justify-between inline-flex items-center gap-2">
+			<div className="text-left justify-between inline-flex items-center gap-2 w-full">
 				<select
+				style={{flexShrink: 4}}
 					className="flex mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
 					value={selectedProjectId}
 					onChange={(e) => setSelectedProjectId(e.target.value)}
@@ -109,7 +135,7 @@ const Kanban = () => {
 						</>
 					)}
 				</select>
-				<div className="flex items-center justify-between gap-2">
+				<div className="flex items-center justify-end gap-2 w-full">
 					<Popup
 						overlayStyle={{
 							background: "rgba(0,0,0,0.50)",
