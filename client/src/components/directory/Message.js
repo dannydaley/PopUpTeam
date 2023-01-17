@@ -14,12 +14,14 @@ export default function Message({recipient, profilePicture}) {
     const bottomRef = useRef(null);
 
     useEffect(() => {
-        // Get messages
+        // Get messages from server
         axios.get('http://localhost:8080/messages/getMessages', {
+            // Sends recipient to server
             params: {
                 recipient: recipient,
             },
         }).then(res => {
+            //Applies server data to states
             setMessageList(res.data.allMessages);
             setSender(res.data.sender);
             setTime(res.data.timeRows);
@@ -43,20 +45,7 @@ export default function Message({recipient, profilePicture}) {
             }).catch(err => {
                 console.log(err);
             });
-
-            //Formats message for list
-            const messageData = {
-                sender: sender,
-                recipient: recipient,
-                message: message,
-                time:
-                    new Date().getHours() +
-                    ':' +
-                    new Date().getMinutes(),
-            };
-
-            // Adds to message list
-            setMessageList((list) => [...list, messageData]);  
+             
             //Clears input
             setMessage('');
         };
