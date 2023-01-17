@@ -8,7 +8,7 @@ import {
     FunnelIcon,
     MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
-
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import Message from "../components/directory/Message";
 
 import axios from "axios";
@@ -17,6 +17,10 @@ export default function Settingspage() {
     const [username, setUsername] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+    const [newAbout, setNewAbout] = useState("");
+    const [newFirstName, setNewFirstName] = useState("");
+    const [newEmail, setNewEmail] = useState("");
+    const [newLastName, setNewLastName] = useState("");
 
     useEffect(() => {
         // Get session user data
@@ -36,6 +40,7 @@ export default function Settingspage() {
             });
     }, []);
 
+    const navigate = useNavigate()
     const changeProfilePicture = async (image) => {
         let formData = new FormData();
         formData.append("image", image);
@@ -58,6 +63,23 @@ export default function Settingspage() {
                 this.setState({ profilePicture: res.data.profilePicture });
             });
     };
+
+
+    async function saveNewSettings() {
+        await axios.post("http://localhost:8080/settings/updateSettings", {
+            username: username,
+          newFirstName: newFirstName,
+          newLastName: newLastName,
+          newEmail: newEmail,
+          newAbout: newAbout    
+        }).then((res) => {
+            if (res.data.status === "success") {
+               navigate('/directory') 
+            }
+        }           
+        )
+    }
+
     return (
         <div class="flex">
             <SideBar
@@ -118,6 +140,7 @@ export default function Settingspage() {
                                         className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         placeholder="you@example.com"
                                         defaultValue={""}
+                                        onChange={(event) => setNewAbout(event.target.value)}
                                     />
                                 </div>
                                 <p className="mt-2 text-sm text-gray-500">
@@ -239,6 +262,7 @@ export default function Settingspage() {
                                         id="first-name"
                                         autoComplete="given-name"
                                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                        onChange={(event) => setNewFirstName(event.target.value)}
                                     />
                                 </div>
 
@@ -255,6 +279,7 @@ export default function Settingspage() {
                                         id="last-name"
                                         autoComplete="family-name"
                                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                        onChange={(event) => setNewLastName(event.target.value)}
                                     />
                                 </div>
 
@@ -271,6 +296,7 @@ export default function Settingspage() {
                                         id="email-address"
                                         autoComplete="email"
                                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                        onChange={(event) => setNewEmail(event.target.value)}
                                     />
                                 </div>
 
@@ -286,6 +312,7 @@ export default function Settingspage() {
                                         name="country"
                                         autoComplete="country-name"
                                         className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+                                        // onChange={(event) => setNewCountry(event.target.value)}
                                     >
                                         <option>Canada</option>
                                         <option>United States</option>
@@ -307,6 +334,7 @@ export default function Settingspage() {
                                         id="street-address"
                                         autoComplete="street-address"
                                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                        // onChange={(event) => setNewStreet(event.target.value)}
                                     />
                                 </div>
 
@@ -323,6 +351,7 @@ export default function Settingspage() {
                                         id="city"
                                         autoComplete="address-level2"
                                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                        // onChange={(event) => setNewCity(event.target.value)}
                                     />
                                 </div>
 
@@ -512,6 +541,7 @@ export default function Settingspage() {
                     <button
                         type="submit"
                         className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        onClick={() => saveNewSettings()}
                     >
                         Save
                     </button>
