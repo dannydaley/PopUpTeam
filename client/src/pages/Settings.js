@@ -28,14 +28,12 @@ import axios from "axios";
   ```
 */
 export default function Settingspage() {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [renderMessage, setRenderMessage] = useState(false);
-    const [directoryLoaded, setDirectoryLoaded] = useState(false);
-    const [directoryList, changeDirectoryList] = useState("directory");
-
+    const [username, setUsername] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [picture, setPicture] = useState("");
+    const [profilePicture, setProfilePicture] = useState("");
+
     const [aboutMe, setAboutMe] = useState("");
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
@@ -53,6 +51,7 @@ export default function Settingspage() {
             .then((res) => {
                 //If user is logged in set login data
                 if (res.data.loggedIn === true) {
+                    setUsername(res.data.username);
                     setFirstName(res.data.firstName);
                     setLastName(res.data.lastName);
                     setPicture(res.data.Picture);
@@ -71,6 +70,29 @@ export default function Settingspage() {
                 console.log(err);
             });
     }, []);
+
+    const changeProfilePicture = async (image) => {
+        let formData = new FormData();
+        formData.append("image", image);
+        formData.append("uploader", firstName + lastName);
+        formData.append("username", username);
+        await axios
+            .post(
+                "http://localhost:8080/settings" + "/changeProfilePicture",
+                formData,
+                {
+                    headers: { "Content-Type": "multipart/form-data" },
+                    body: JSON.stringify({
+                        username: username,
+                        name: firstName + lastName,
+                    }),
+                }
+            )
+            .then((res) => {
+                // this.props.updateProfilePicture(profilePicture);
+                this.setState({ profilePicture: res.data.profilePicture });
+            });
+    };
     return (
         <div class="flex">
             <SideBar
@@ -154,11 +176,28 @@ export default function Settingspage() {
                                         </svg>
                                     </span>
                                     <button
+                                        id="loadFileXml"
                                         type="button"
+                                        onClick={() =>
+                                            document
+                                                .getElementById("file-input")
+                                                .click()
+                                        }
                                         className="rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                     >
                                         Change
                                     </button>
+                                    <input
+                                        type="file"
+                                        style={{ display: "none" }}
+                                        id={"file-input"}
+                                        name="file"
+                                        onChange={(event) =>
+                                            changeProfilePicture(
+                                                event.target.files[0]
+                                            )
+                                        }
+                                    />
                                 </div>
                             </div>
 
