@@ -24,6 +24,7 @@ router.use("/public", express.static(path.join(__dirname, "public")));
 //set up multer middleware for image uploads
 var multer = require("multer");
 
+// set up storage for file uploads
 // default profile picture applied to all users profilePicture field in the users table of the db on account creation
 let defaultProfilePicture = "images/defaultUser.png";
 // set up storage for file uploads
@@ -49,16 +50,11 @@ const storage = multer.diskStorage({
         req.body.imageLocations = req.body.imageLocations.replace(",", "");
     },
 });
+
 // set up multer function to be called on uploads
 let upload = multer({ storage: storage });
 
 //#endregion IMAGES AND IMAGE UPLOAD HANDLING
-// router.post("/changeProfilePicture", upload.single("image"), (req, res) => {
-//     console.log(req.body);
-//     res.json({
-//         connected: "connected",
-//     });
-// });
 
 router.post("/changeProfilePicture", upload.single("image"), (req, res) => {
     /*ALREADY RUN THROUGH MULTER*/
@@ -81,19 +77,6 @@ router.post("/changeProfilePicture", upload.single("image"), (req, res) => {
                 return;
             }
             // grab users first name and lastname from database by username from request
-
-            // db.query(
-            //     "UPDATE users SET profile_picture = ? WHERE user_name = ?",
-            //     [image, req.body.user_name],
-            //     (err, rows) => {
-            //         // if error
-            //         if (err) {
-            //             // respond with error status and error message
-            //             res.status(500).send(err.message);
-            //             return;
-            //         }
-            //     }
-            // );
         }
     );
     res.json({

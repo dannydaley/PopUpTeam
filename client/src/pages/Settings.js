@@ -13,36 +13,10 @@ import Message from "../components/directory/Message";
 
 import axios from "axios";
 
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 export default function Settingspage() {
     const [username, setUsername] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [picture, setPicture] = useState("");
-    const [profilePicture, setProfilePicture] = useState("");
-
-    const [aboutMe, setAboutMe] = useState("");
-    const [phone, setPhone] = useState("");
-    const [email, setEmail] = useState("");
-    const [work, setWork] = useState("");
-    const [team, setTeam] = useState("");
-    const [country, setCountry] = useState("");
-    const [location, setLocation] = useState("");
-    const [hourlyRate, setHourlyRate] = useState("");
-    const [birthday, setBirthday] = useState("");
 
     useEffect(() => {
         // Get session user data
@@ -52,18 +26,9 @@ export default function Settingspage() {
                 //If user is logged in set login data
                 if (res.data.loggedIn === true) {
                     setUsername(res.data.username);
+                    setUsername(res.data.username);
                     setFirstName(res.data.firstName);
                     setLastName(res.data.lastName);
-                    setPicture(res.data.Picture);
-                    setAboutMe(res.data.aboutMe);
-                    setPhone(res.data.phone);
-                    setEmail(res.data.email);
-                    setWork(res.data.work);
-                    setTeam(res.data.team);
-                    setHourlyRate(res.data.hourlyRate);
-                    setBirthday(res.data.birthday);
-                    setLocation(res.data.location);
-                    setCountry(res.data.country);
                 }
             })
             .catch((err) => {
