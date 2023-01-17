@@ -397,7 +397,7 @@ export default function CreativeDirectory(props) {
                 </Transition.Root>
                 <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
                     <div className="relative z-0 flex flex-1 overflow-hidden">
-                        <main className="relative z-0 flex-1 overflow-y-auto focus:outline-none xl:order-last">
+                        <main className="relative z-0 flex-1 overflow-y-auto focus:outline-none xl:order-last max-h-screen">
                             {/* Breadcrumb */}
                             <article>
                                 {/* Profile header */}
@@ -600,7 +600,7 @@ export default function CreativeDirectory(props) {
                             </article>
                         </main>
 
-                        <aside className="hidden w-96 flex-shrink-0 border-r border-gray-200 xl:order-first xl:flex xl:flex-col">
+                        <aside className="hidden w-96 flex-shrink-0 border-r border-gray-200 xl:order-first xl:flex xl:flex-col overflow-auto max-h-screen">
                             <div className="px-6 pt-6 pb-4">
                                 <h2 className="text-lg font-medium text-gray-900">
                                     Directory
