@@ -109,6 +109,7 @@ const Kanban = () => {
 	return (
 		<div className="w-4/5 py-12 px-4 sm:px-6 lg:px-8 flex-auto">
 			<div className="text-left justify-between inline-flex items-center gap-2 w-full">
+				
 				<select
 				style={{flexShrink: 4}}
 					className="flex mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
