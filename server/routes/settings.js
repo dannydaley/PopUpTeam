@@ -5,21 +5,7 @@ const db = require("../config/db");
 var path = require("path");
 router.use("/public", express.static(path.join(__dirname, "public")));
 
-// const defaultProfilePicture = "images/defaults/defaultUser.png";
 
-// const storage = multer.diskStorage({
-//     destination: function (req, file, cb) {
-//         cb(null, "public/images");
-//     },
-//     filename: function (req, file, cb) {
-//         cb(
-//             null,
-//             file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-//         );
-//     },
-// });
-
-//#region IMAGES AND IMAGE UPLOAD HANDLING
 
 //set up multer middleware for image uploads
 var multer = require("multer");
@@ -55,6 +41,45 @@ const storage = multer.diskStorage({
 let upload = multer({ storage: storage });
 
 //#endregion IMAGES AND IMAGE UPLOAD HANDLING
+
+router.post("/updateSettings", (req, res, next) => {
+    if (req.body.newFirstName) {
+        db.query("UPDATE users SET first_name = ? WHERE user_name = ?", [req.body.newFirstName, req.body.username]),        (err, result) => {
+            // if error
+            if (err) {
+                // respond with error status and error message
+                res.status(500).send(err.message);
+                return;
+            }
+            // grab users first name and lastname from database by username from request
+        }
+    }
+    if (req.body.newLastName) {
+        db.query("UPDATE users SET last_name = ? WHERE user_name = ?", [req.body.newLastName, req.body.username]),        (err, result) => {
+            // if error
+            if (err) {
+                // respond with error status and error message
+                res.status(500).send(err.message);
+                return;
+            }
+            // grab users first name and lastname from database by username from request
+        }
+    }
+    if (req.body.newAbout) {
+        db.query("UPDATE users SET about_me = ? WHERE user_name = ?", [req.body.newAbout, req.body.username]),        (err, result) => {
+            // if error
+            if (err) {
+                // respond with error status and error message
+                res.status(500).send(err.message);
+                return;
+            }
+            // grab users first name and lastname from database by username from request
+        }
+    }
+    res.json({
+        status: "success"
+    })    
+})
 
 router.post("/changeProfilePicture", upload.single("image"), (req, res) => {
     /*ALREADY RUN THROUGH MULTER*/
