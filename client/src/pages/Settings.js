@@ -13,38 +13,10 @@ import Message from "../components/directory/Message";
 
 import axios from "axios";
 
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 export default function Settingspage() {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [renderMessage, setRenderMessage] = useState(false);
-    const [directoryLoaded, setDirectoryLoaded] = useState(false);
-    const [directoryList, changeDirectoryList] = useState("directory");
-
+    const [username, setUsername] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-    const [picture, setPicture] = useState("");
-    const [aboutMe, setAboutMe] = useState("");
-    const [phone, setPhone] = useState("");
-    const [email, setEmail] = useState("");
-    const [work, setWork] = useState("");
-    const [team, setTeam] = useState("");
-    const [country, setCountry] = useState("");
-    const [location, setLocation] = useState("");
-    const [hourlyRate, setHourlyRate] = useState("");
-    const [birthday, setBirthday] = useState("");
 
     useEffect(() => {
         // Get session user data
@@ -53,24 +25,62 @@ export default function Settingspage() {
             .then((res) => {
                 //If user is logged in set login data
                 if (res.data.loggedIn === true) {
+                    setUsername(res.data.username);
                     setFirstName(res.data.firstName);
                     setLastName(res.data.lastName);
-                    setPicture(res.data.Picture);
-                    setAboutMe(res.data.aboutMe);
-                    setPhone(res.data.phone);
-                    setEmail(res.data.email);
-                    setWork(res.data.work);
-                    setTeam(res.data.team);
-                    setHourlyRate(res.data.hourlyRate);
-                    setBirthday(res.data.birthday);
-                    setLocation(res.data.location);
-                    setCountry(res.data.country);
                 }
             })
             .catch((err) => {
                 console.log(err);
             });
     }, []);
+
+    const updateProfilePicture = async (image) => {
+        console.log("HEREEEE");
+        let formData = new FormData();
+        formData.append("image", image);
+        formData.append("uploader", firstName + lastName);
+        formData.append("username", username);
+        await axios
+            .post(
+                "http://localhost:8080/settings/changeProfilePicture",
+                formData,
+                {
+                    headers: { "Content-Type": "multipart/form-data" },
+                    body: JSON.stringify({
+                        username: username,
+                        name: firstName + lastName,
+                    }),
+                }
+            )
+            .then((res) => {
+                // this.props.updateProfilePicture(res.data.profilePicture);
+                // this.setState({ profilePicture: res.data.profilePicture });
+                console.log(res.data);
+            });
+    };
+    const onProfilePictureChange = (event) => {
+        console.log(1);
+        updateProfilePicture(event.target.files[0]);
+    };
+
+    // function changeProfilePicture() {
+    //     // Get session user data
+    //     axios
+    //         .get("http://localhost:8080/auth/signin")
+    //         .then((res) => {
+    //             //If user is logged in set login data
+    //             if (res.data.loggedIn === true) {
+    //                 setUsername(res.data.username);
+    //                 setFirstName(res.data.firstName);
+    //                 setLastName(res.data.lastName);
+    //             }
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //         });
+    // }
+
     return (
         <div class="flex">
             <SideBar
@@ -154,11 +164,28 @@ export default function Settingspage() {
                                         </svg>
                                     </span>
                                     <button
+                                        id="loadFileXml"
+                                        onClick={() =>
+                                            document
+                                                .getElementById("file-input")
+                                                .click()
+                                        }
                                         type="button"
                                         className="rounded-md border border-gray-300 bg-white py-2 px-3 text-sm font-medium leading-4 text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                     >
                                         Change
                                     </button>
+                                    <input
+                                        type="file"
+                                        // style={{ display: "none" }}
+                                        id={"file-input"}
+                                        name="file"
+                                        onChange={(event) =>
+                                            onProfilePictureChange(
+                                                event.target.value
+                                            )
+                                        }
+                                    />
                                 </div>
                             </div>
 
