@@ -197,7 +197,7 @@ const Board = ({ selectedProjectId }) => {
 			sensors={sensors}
 			collisionDetection={closestCorners}
 		>
-			<div className="flex w-auto gap-5 bg-gray-200 p-5 rounded overflow-auto">
+			<div className="flex w-auto gap-5 p-5 rounded overflow-auto">
 				<SortableContext
 					items={sortableItemIds}
 					strategy={horizontalListSortingStrategy}
