@@ -5,26 +5,21 @@ import { ArrowLongUpIcon } from '@heroicons/react/24/outline';
 
 export default function Message({recipient, profilePicture}) {
     const [sender , setSender] = useState('');
+
     const [message, setMessage] = useState('');
-
-    const [time, setTime] = useState('');
-
     const [messageList, setMessageList] = useState([]);
 
     const bottomRef = useRef(null);
 
+    // Get messages
     useEffect(() => {
-        // Get messages from server
         axios.get('http://localhost:8080/messages/getMessages', {
-            // Sends recipient to server
             params: {
                 recipient: recipient,
             },
         }).then(res => {
-            //Applies server data to states
             setMessageList(res.data.allMessages);
             setSender(res.data.sender);
-            setTime(res.data.timeRows);
         }).catch(err => {
             console.log(err);
         });
@@ -38,14 +33,39 @@ export default function Message({recipient, profilePicture}) {
             axios.post('http://localhost:8080/messages/insertMessage', {
                 recipient: recipient,
                 message: message,
-                time:
-                    new Date().getHours() +
-                    ':' +
-                    new Date().getMinutes(),
+                time: new Date().toLocaleString("en-US", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                }),
+                date: new Date().toLocaleDateString("en-US", {
+                    weekday: "long",
+                    month: "short",
+                    day: "numeric",
+                }),
             }).catch(err => {
                 console.log(err);
             });
-             
+
+            //Formats message for list
+            const messageData = {
+                sender: sender,
+                recipient: recipient,
+                message: message,
+                time: new Date().toLocaleString("en-US", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                }),
+                date: new Date().toLocaleDateString("en-US", {
+                    weekday: "long",
+                    month: "short",
+                    day: "numeric",
+                }),
+            };
+
+            // Adds to message list
+            setMessageList((list) => [...list, messageData]);  
             //Clears input
             setMessage('');
         };
@@ -61,7 +81,6 @@ export default function Message({recipient, profilePicture}) {
         <div class="flex flex-col h-full max-h-[750px] w-full px-4 py-6">
             {/* Message list */}
             <div class="h-full overflow-y-scroll pb-4">
-                <p class="text-center italic text-gray-400">Chat started with: <span class="font-semibold">{recipient}</span></p>
                 <div class="grid grid-cols-12">
                     {/* Individual message */}
                     {messageList
