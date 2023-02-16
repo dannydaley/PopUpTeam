@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const http = require("http");
 
-const session = require("./session");
+const session = require("./lib/session");
 
 const authRoutes = require("./routes/auth");
 const searchRoutes = require("./routes/search");

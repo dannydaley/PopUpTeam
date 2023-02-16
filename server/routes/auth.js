@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { PasswordHash, salt } = require("../security");
-const { upload, defaultProfilePicture } = require("../imageUpload");
+const { PasswordHash, salt } = require("../lib/security");
+const { upload, defaultProfilePicture } = require("../lib/imageUpload");
 const db = require("../config/db");
 
 const selectEmail = "SELECT * FROM users WHERE email = ?"; // Selects all emails
