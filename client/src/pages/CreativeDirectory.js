@@ -65,7 +65,7 @@ function classNames(...classes) {
 
 export default function CreativeDirectory(props) {
     const socket = io.connect("http://localhost:8080");
-    
+
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [renderMessage, setRenderMessage] = useState(false);
     const [directoryLoaded, setDirectoryLoaded] = useState(false);
@@ -83,6 +83,11 @@ export default function CreativeDirectory(props) {
     const [profileLocation, setProfileLocation] = useState("");
     const [profileHourlyRate, setProfileHourlyRate] = useState("");
     const [profileBirthday, setProfileBirthday] = useState("");
+
+    const [sender, setSender] = useState("");
+    const [messageList, setMessageList] = useState([]);
+
+    const recipient = profileFirstName + " " + profileLastName;
 
     const profile = {
         name: profileFirstName + " " + profileLastName,
@@ -152,6 +157,8 @@ export default function CreativeDirectory(props) {
                     setProfileBirthday(res.data.birthday);
                     setProfileLocation(res.data.location);
                     setProfileCountry(res.data.country);
+
+                    setSender(res.data.firstName + " " + res.data.lastName);
                 }
             })
             .catch((err) => {
@@ -292,9 +299,53 @@ export default function CreativeDirectory(props) {
 
     getDirectory(props);
 
-    socket.on("connection", () => {
-        console.log("Connected to server");
-      });
+    // Join room
+    const joinRoom = () => {
+        // Join room
+        socket.emit("join_room", {
+            sender: sender,
+            recipient: recipient,
+        });
+
+        // Get messages
+        axios.get("http://localhost:8080/messages/getMessages", {
+          params: {
+            recipient: recipient,
+          },
+        }).then((res) => {
+            // Sort messages by date and time
+            setMessageList(res.data.sort((a, b) => {
+                // Sort by date
+                if (a.date < b.date) return 1; // If a is greater than b list a first
+                if (a.date > b.date) return -1; // If a is less than b list b first
+                // Sort by time
+                if (a.time < b.time) return 1; 
+                if (a.time > b.time) return -1;
+                return 0;
+            }));
+
+            console.log(messageList);
+        });
+    };
+
+    // On receiving a message, add it to the message list
+    useEffect(() => {
+        socket.on("receive_message", (data) => {
+        // If the message sender is not equal to the current user, add the message to the message list
+        if (data.sender !== sender) {
+            setMessageList((prevMessageList) => [...prevMessageList, data].sort((a, b) => {
+                // Sort by date
+                if (a.date < b.date) return 1; // If a is greater than b list a first
+                if (a.date > b.date) return -1; // If a is less than b list b first
+                // Sort by time
+                if (a.time < b.time) return 1;
+                if (a.time > b.time) return -1;
+                return 0;
+            })
+            );
+        }
+        });
+    }, [socket, sender, setMessageList]);
 
     return (
         <div class="flex">
@@ -441,6 +492,7 @@ export default function CreativeDirectory(props) {
                                                             setRenderMessage(
                                                                 !renderMessage
                                                             );
+                                                            !renderMessage && joinRoom();
                                                         }}
                                                         className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
                                                     >
@@ -511,12 +563,11 @@ export default function CreativeDirectory(props) {
                                 {renderMessage ? (
                                     <Message
                                         socket={socket}
-                                        recipient={
-                                            profileFirstName +
-                                            " " +
-                                            profileLastName
-                                        }
+                                        sender={sender}
+                                        recipient={recipient}
                                         profilePicture={profileProfilePicture}
+                                        messageList={messageList}
+                                        setMessageList={setMessageList}
                                     />
                                 ) : (
                                     <>
@@ -689,11 +740,12 @@ export default function CreativeDirectory(props) {
                                                                   key={
                                                                       person.id
                                                                   }
-                                                                  onClick={() =>
-                                                                      loadProfile(
-                                                                          person
-                                                                      )
-                                                                  }
+                                                                  onClick={() => {
+                                                                    loadProfile(
+                                                                        person
+                                                                    )
+                                                                    setRenderMessage(false)
+                                                                  }}
                                                               >
                                                                   <div className="relative flex items-center space-x-3 px-6 py-5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 hover:bg-gray-50">
                                                                       <div className="flex-shrink-0">

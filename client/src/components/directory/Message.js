@@ -3,38 +3,18 @@ import axios from "axios";
 
 import { ArrowLongUpIcon } from "@heroicons/react/24/outline";
 
-export default function Message({ socket, recipient, profilePicture }) {
-  const [sender, setSender] = useState("");
-
+export default function Message(props) {
+  const { socket, sender, recipient, profilePicture, messageList, setMessageList } = props;
   const [message, setMessage] = useState("");
-  const [messageList, setMessageList] = useState([]);
 
   const bottomRef = useRef(null);
-
-  // Get messages
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/messages/getMessages", {
-        params: {
-          recipient: recipient,
-        },
-      })
-      .then((res) => {
-        setMessageList(res.data.allMessages);
-        setSender(res.data.sender);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [recipient, message]);
 
   //Sends message to server
   const sendMessage = () => {
     //If input isnt empty
     if (message !== "") {
       //Add message to database
-      axios
-        .post("http://localhost:8080/messages/insertMessage", {
+      axios.post("http://localhost:8080/messages/insertMessage", {
           recipient: recipient,
           message: message,
           time: new Date().toLocaleString("en-US", {
@@ -75,26 +55,6 @@ export default function Message({ socket, recipient, profilePicture }) {
       setMessage(""); //Clears input
     }
   };
-
-  
-  // On receiving a message, add it to the message list
-  useEffect(() => {
-    socket.on("receive_message", (data) => {
-      // If the message sender is not equal to the current user, add the message to the message list
-      if (data.sender !== sender) {
-        setMessageList((prevMessageList) => [...prevMessageList, data].sort((a, b) => {
-            // Sort by date
-            if (a.date < b.date) return 1; // If a is greater than b list a first
-            if (a.date > b.date) return -1; // If a is less than b list b first
-            // Sort by time
-            if (a.time < b.time) return 1;
-            if (a.time > b.time) return -1;
-            return 0;
-          })
-        );
-      }
-    });
-  }, [socket, sender, setMessageList]);
 
   // Scrolls to bottom of message list
   useEffect(() => {

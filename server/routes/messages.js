@@ -33,7 +33,7 @@ router.get("/getMessages", (req, res) => {
 
           // Combine the results of sent and received messages
           const allMessages = sentRows.concat(receivedRows);
-          res.send({ allMessages, sender}); // Sends message, session user and time of message
+          res.send(allMessages); // Sends message, session user and time of message
       });
   });
 });
