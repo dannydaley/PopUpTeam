@@ -12,6 +12,7 @@ import Message from "../components/directory/Message";
 
 import SideBar from "../components/directory/SideBar";
 import axios from "axios";
+import io from "socket.io-client";
 
 const user = {
     name: "Tom Cook",
@@ -63,6 +64,8 @@ function classNames(...classes) {
 }
 
 export default function CreativeDirectory(props) {
+    const socket = io.connect("http://localhost:8080");
+    
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [renderMessage, setRenderMessage] = useState(false);
     const [directoryLoaded, setDirectoryLoaded] = useState(false);
@@ -289,6 +292,10 @@ export default function CreativeDirectory(props) {
 
     getDirectory(props);
 
+    socket.on("connection", () => {
+        console.log("Connected to server");
+      });
+
     return (
         <div class="flex">
             <SideBar />
@@ -503,6 +510,7 @@ export default function CreativeDirectory(props) {
                                 {/* If state is true render Messaging component */}
                                 {renderMessage ? (
                                     <Message
+                                        socket={socket}
                                         recipient={
                                             profileFirstName +
                                             " " +
