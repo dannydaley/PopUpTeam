@@ -66,53 +66,63 @@ export default function Message(props) {
     <div class="flex flex-col h-full max-h-[750px] w-full px-4 py-6">
       {/* Message list */}
       <div class="h-full overflow-y-scroll pb-4">
-        <div class="grid grid-cols-12">
-          {/* Individual message */}
-          {messageList
-            .sort((a, b) => a.time.localeCompare(b.time)) // Sort messages by time sent
-            .map((messageContent, index) => {
-              return messageContent.sender === sender ? (
-                /* Sender */
-                <div key={index} class="col-start-6 col-end-13 p-2 rounded-lg">
-                  <div class="flex justify-start flex-row-reverse">
-                    {/* Message content */}
-                    <div class="flex flex-col space-y-1.5">
-                      <div class="relative mr-3 text-sm bg-blue-100 py-2 px-4 shadow rounded-xl">
-                        <p ref={bottomRef}>{messageContent.message}</p>
-                      </div>
+        {/* Individual message */}
+        {messageList.map((messageContent, index) => {
+            const prevMessage = messageList[index - 1]; // Previous message
+            const showDate = prevMessage ? prevMessage.date !== messageContent.date : true; // Show date if the previous message is not the same date
+            return (
+              <div key={index}>
+                {/* If the previous message is not the same date, show the date */}
+                {showDate && (
+                  <div className="mt-4 text-sm font-medium italic text-center text-gray-400">
+                    {messageContent.date}
+                  </div>
+                )}
 
-                      <p class="text-xs text-gray-400 italic text-right mr-4">
-                        {messageContent.time}
-                      </p>
+                {/* If the message is from the user, show it on the right side of the screen, else show it on the left */}
+                {messageContent.sender === sender ? (
+                  /* Sender */
+                  <div key={index} class="col-start-6 col-end-13 p-2 rounded-lg">
+                    <div class="flex justify-start flex-row-reverse">
+                      {/* Message content */}
+                      <div class="flex flex-col space-y-1.5">
+                        <div class="relative mr-3 text-sm bg-blue-100 py-2 px-4 shadow rounded-xl">
+                          <p ref={bottomRef}>{messageContent.message}</p>
+                        </div>
+
+                        <p class="text-xs text-gray-400 italic text-right mr-4">
+                          {messageContent.time}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ) : (
-                /* Recipient */
-                <div key={index} class="col-start-1 col-end-8 p-3 rounded-lg">
-                  <div class="flex flex-row">
-                    <div class="flex items-center justify-center h-10 w-10 flex-shrink-0">
-                      <img
-                        src={"http://localhost:8080/public/" + profilePicture}
-                        alt="Profile picture"
-                        class="rounded-full"
-                      ></img>
-                    </div>
-
-                    <div class="flex flex-col space-y-2">
-                      <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
-                        <p ref={bottomRef}>{messageContent.message}</p>
+                ) : (
+                  /* Recipient */
+                  <div key={index} class="col-start-1 col-end-8 p-3 rounded-lg">
+                    <div class="flex flex-row">
+                      <div class="flex items-center justify-center h-10 w-10 flex-shrink-0">
+                        <img
+                          src={"http://localhost:8080/public/" + profilePicture}
+                          alt="Profile picture"
+                          class="rounded-full"
+                        ></img>
                       </div>
 
-                      <p class="text-xs text-gray-400 italic text-right ml-4">
-                        {messageContent.time}
-                      </p>
+                      <div class="flex flex-col space-y-2">
+                        <div class="relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+                          <p ref={bottomRef}>{messageContent.message}</p>
+                        </div>
+
+                        <p class="text-xs text-gray-400 italic text-right ml-4">
+                          {messageContent.time}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-        </div>
+                )}
+              </div>
+            )
+        })}
       </div>
 
       {/* Input */}

@@ -323,8 +323,6 @@ export default function CreativeDirectory(props) {
                 if (a.time > b.time) return -1;
                 return 0;
             }));
-
-            console.log(messageList);
         });
     };
 
