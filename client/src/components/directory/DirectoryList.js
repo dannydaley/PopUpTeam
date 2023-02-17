@@ -32,21 +32,7 @@ const searchResults = {
 };
 
 export default function DirectoryList(props) {
-  const {
-    setProfileFirstName,
-    setProfileLastName,
-    setProfileProfilePicture,
-    setProfileAboutMe,
-    setProfilePhone,
-    setProfileEmail,
-    setProfileWork,
-    setProfileTeam,
-    setProfileHourlyRate,
-    setProfileBirthday,
-    setProfileLocation,
-    setProfileCountry,
-    setRenderMessage,
-  } = props;
+  const { setProfile, setRenderMessage } = props;
 
   let rawDirectory;
   let rawDirectoryLength;
@@ -56,18 +42,20 @@ export default function DirectoryList(props) {
   const [directoryLoaded, setDirectoryLoaded] = useState(false);
 
   function loadProfile(userData) {
-    setProfileFirstName(userData.first_name);
-    setProfileLastName(userData.last_name);
-    setProfileProfilePicture(userData.profile_picture);
-    setProfileAboutMe(userData.about_me);
-    setProfilePhone(userData.phone);
-    setProfileEmail(userData.email);
-    setProfileWork(userData.work);
-    setProfileTeam(userData.team);
-    setProfileHourlyRate(userData.hourly_rate);
-    setProfileBirthday(userData.birthday);
-    setProfileLocation(userData.location);
-    setProfileCountry(userData.country);
+    setProfile({
+      firstName: userData.first_name,
+      lastName: userData.last_name,
+      profilePicture: userData.profile_picture,
+      aboutMe: userData.about_me,
+      phone: userData.phone,
+      email: userData.email,
+      work: userData.work,
+      team: userData.team,
+      hourlyRate: userData.hourly_rate,
+      birthday: userData.birthday,
+      location: userData.location,
+      country: userData.country,
+    });
   };
 
   // function getDirectory() {
