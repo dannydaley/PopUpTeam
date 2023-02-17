@@ -2,15 +2,15 @@
 version: "3.1"
 
 services:
-    comp370_popup_team:
+    comp370_popup_team_db:
         image: mysql
         command: --default-authentication-plugin=mysql_native_password
         restart: always
         environment:
-            MYSQL_DATABASE: comp370_popup_team
+            MYSQL_DATABASE: comp370_popup_team_db
             MYSQL_ROOT_PASSWORD: 671885a1
         volumes:
-            - "popUpTeam-mysql-data:/var/lib/mysql"
+            - "comp370_popup_team-mysql-data:/var/lib/mysql"
 
     backend:
         build: ./
@@ -27,5 +27,5 @@ services:
             - 9081:8080
 
 volumes:
-    popUpTeam-mysql-data:
+    comp370_popup_team-mysql-data:
     app-data:

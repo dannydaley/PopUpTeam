@@ -21,14 +21,12 @@ const mysql = require("mysql");
 */
 
 //Database setup
-const db = mysql.createConnection({
-    //Remote
-
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "671885a1",
-    database: "comp370_popup_team",
+var db = mysql.createConnection({
+    host: process.env.DATABASEHOST,
+    port: process.env.DATABASEPORT,
+    user: process.env.DATABASEUSER,
+    password: process.env.DATABASEPASSWORD,
+    database: process.env.DATABASENAME,
 
     // host: "eu-cdbr-west-03.cleardb.net",
     // user: "bf0cbc17226879",
