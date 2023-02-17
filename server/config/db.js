@@ -50,4 +50,9 @@ const db = mysql.createConnection({
     // database: "comp370_popup_team",
 });
 
+db.connect(function (err) {
+    if (err) throw err;
+    console.log("Database Connected!");
+});
+
 module.exports = db;
