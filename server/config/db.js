@@ -28,7 +28,7 @@ const db = mysql.createConnection({
     user: "root",
     port: 3306,
     password: "671885a1",
-    database: "popUpTeamDb",
+    database: "comp370_popup_team",
 
     // host: "eu-cdbr-west-03.cleardb.net",
     // user: "bf0cbc17226879",
