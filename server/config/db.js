@@ -22,25 +22,32 @@ const mysql = require("mysql");
 
 //Database setup
 const db = mysql.createConnection({
-  //Remote
-  host: "eu-cdbr-west-03.cleardb.net",
-  user: "bf0cbc17226879",
-  port: 3306,
-  password: "671885a1",
-  database: "heroku_f29376daf1042d8",
+    //Remote
 
-  // host: "mysql15.namesco.net",
-  // user: "popupteam2",
-  // port: 3306,
-  // password: "popupteam2023",
-  // database: "PH855758_popupteam2",
+    host: "localhost",
+    user: "root",
+    port: 3306,
+    password: "671885a1",
+    database: "popUpTeamDb",
 
-  //Local
-  // host: "localhost",
-  // user: "root",
-  // port: 3306,
-  // password: "password",
-  // database: "comp370_popup_team",
+    // host: "eu-cdbr-west-03.cleardb.net",
+    // user: "bf0cbc17226879",
+    // port: 3306,
+    // password: "671885a1",
+    // database: "heroku_f29376daf1042d8",
+
+    // host: "mysql15.namesco.net",
+    // user: "popupteam2",
+    // port: 3306,
+    // password: "popupteam2023",
+    // database: "PH855758_popupteam2",
+
+    //Local
+    // host: "localhost",
+    // user: "root",
+    // port: 3306,
+    // password: "password",
+    // database: "comp370_popup_team",
 });
 
 module.exports = db;
