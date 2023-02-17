@@ -19,9 +19,14 @@ const kanbanRouter = require("./routes/kanban");
 
 const server = http.createServer(app);
 
+var bodyParser = require("body-parser");
+app.use(bodyParser.json());
+
+// enabling fallback makes sure any routes not specified in server get passed back to front end to react router
+// var fallback = require("express-history-api-fallback");
+
 // app.use("/public", express.static(path.join(__dirname, "public")));
 
-app.use(bodyParser.json());
 var path = require("path");
 app.use(
     "/public",
