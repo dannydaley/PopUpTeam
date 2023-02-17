@@ -25,8 +25,8 @@ const db = mysql.createConnection({
     //Remote
 
     host: "localhost",
-    user: "root",
     port: 3306,
+    user: "root",
     password: "671885a1",
     database: "comp370_popup_team",
 

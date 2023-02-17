@@ -1,5 +1,8 @@
 require("dotenv").config({ path: `.env` });
 const express = require("express");
+const app = express();
+app.use(express.json());
+
 const cors = require("cors");
 const http = require("http");
 
@@ -14,16 +17,35 @@ const settingsRoutes = require("./routes/settings");
 // Import kanban router
 const kanbanRouter = require("./routes/kanban");
 
-const app = express();
 const server = http.createServer(app);
-const path = require("path");
-app.use("/public", express.static(path.join(__dirname, "public")));
+
+// app.use("/public", express.static(path.join(__dirname, "public")));
+
+app.use(bodyParser.json());
+var path = require("path");
+app.use(
+    "/public",
+    express.static(path.join(__dirname, "public"), { dotfiles: "allow" })
+);
+app.use(express.static(path.join(__dirname, "build")));
+const root = path.join(__dirname, "build");
+// app.use(fallback("index.html", { root: root }));
+app.get("/", function (req, res) {
+    res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 //Dependencies
-app.use(express.json());
+
 app.use(
     cors({
-        origin: ["http://localhost:3000"],
+        origin: [
+            "*",
+            "http://localhost:3000",
+            "http://dd252935.kemeneth.net",
+            "http://dd252935.kemeneth.net:9080",
+            "127.0.0.1:9080",
+            "http://127.0.0.1:9080",
+        ],
         methods: ["GET", "POST"],
         credentials: true,
     })
