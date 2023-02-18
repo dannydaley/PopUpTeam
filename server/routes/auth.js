@@ -86,6 +86,7 @@ router.post("/signin", (req, res) => {
             // If password with salt and compares to database
             if (PasswordHash(password, rows[0].salt) == rows[0].password) {
                 // Create session
+console.log(process.env.SESSION_SECRET);
 		req.session.userData = {};
                 req.session.key = rows[0].user_name + randomstring.generate();
                 req.session.userData.firstName = rows[0].first_name;
