@@ -6,7 +6,6 @@ app.use(express.json());
 const cors = require("cors");
 const http = require("http");
 
-const session = require("./lib/session");
 const socket = require("./lib/socket");
 
 const authRoutes = require("./routes/auth");
@@ -56,7 +55,8 @@ app.use(
     })
 );
 
-app.use(session); //Session config
+const session = require("./lib/session");
+app.use(session);
 
 //Routes
 app.use("/kanban", kanbanRouter); // Initialise kanban router

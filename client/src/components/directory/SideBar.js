@@ -71,7 +71,7 @@ export default function SideBar() {
             .get(process.env.REACT_APP_SERVER + "/auth/signin")
             .then((res) => {
                 console.log("from sidebar");
-                console.log(res);
+                console.log(res.data.userData);
                 //If user is logged in set login data
                 if (res.data.loggedIn === true) {
                     console.log(res);
