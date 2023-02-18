@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-
+var randomstring = require("randomstring");
 const { PasswordHash, salt } = require("../lib/security");
 const { upload, defaultProfilePicture } = require("../lib/imageUpload");
 const db = require("../config/db");
@@ -86,7 +86,8 @@ router.post("/signin", (req, res) => {
             // If password with salt and compares to database
             if (PasswordHash(password, rows[0].salt) == rows[0].password) {
                 // Create session
-                req.session.key = user.username + randomstring.generate();
+		req.session.userData = {};
+                req.session.key = rows[0].user_name + randomstring.generate();
                 req.session.userData.firstName = rows[0].first_name;
                 req.session.userData.lastName = rows[0].last_name;
                 req.session.userData.username = rows[0].user_name;
@@ -122,6 +123,7 @@ router.post("/signin", (req, res) => {
 // Get login data
 router.get("/signin", (req, res) => {
     // If user is logged in send user data
+console.log(req.session)
     if (req.session.userData.username) {
         res.send({
             loggedIn: true,
