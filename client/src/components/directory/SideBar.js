@@ -72,7 +72,6 @@ export default function SideBar() {
             .then((res) => {
                 //If user is logged in set login data
                 if (res.data.loggedIn === true) {
-                    console.log(res);
                     setUsername(res.data.username);
                     setFirstName(res.data.firstName);
                     setLastName(res.data.lastName);
