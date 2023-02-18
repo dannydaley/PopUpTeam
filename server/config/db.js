@@ -21,17 +21,17 @@ let mysql = require("mysql");
 
 //Database setup
 var db = mysql.createConnection({
-    host: process.env.DATABASEHOST,
-    port: process.env.DATABASEPORT,
-    user: process.env.DATABASEUSER,
-    password: process.env.DATABASEPASSWORD,
-    database: process.env.DATABASENAME,
+    // host: process.env.DATABASEHOST,
+    // port: process.env.DATABASEPORT,
+    // user: process.env.DATABASEUSER,
+    // password: process.env.DATABASEPASSWORD,
+    // database: process.env.DATABASENAME,
 
-    // host: "eu-cdbr-west-03.cleardb.net",
-    // user: "bf0cbc17226879",
-    // port: 3306,
-    // password: "671885a1",
-    // database: "heroku_f29376daf1042d8",
+    host: "eu-cdbr-west-03.cleardb.net",
+    user: "bf0cbc17226879",
+    port: 3306,
+    password: "671885a1",
+    database: "heroku_f29376daf1042d8",
 
     // host: "mysql15.namesco.net",
     // user: "popupteam2",
