@@ -1,5 +1,4 @@
-const mysql = require("mysql");
-
+let mysql = require("mysql");
 /* 
   If you encounter: 
   Error: Connection lost: The server closed the connection
