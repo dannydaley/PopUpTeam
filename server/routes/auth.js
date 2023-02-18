@@ -86,21 +86,22 @@ router.post("/signin", (req, res) => {
             // If password with salt and compares to database
             if (PasswordHash(password, rows[0].salt) == rows[0].password) {
                 // Create session
-                req.session.firstName = rows[0].first_name;
-                req.session.lastName = rows[0].last_name;
-                req.session.username = rows[0].user_name;
-                req.session.ProfilePicture = rows[0].profile_picture;
-                req.session.aboutMe = rows[0].about_me;
-                req.session.phone = rows[0].phone;
-                req.session.email = rows[0].email;
-                req.session.work = rows[0].work;
-                req.session.team = rows[0].team;
-                req.session.hourlyRate = rows[0].hourly_rate;
-                req.session.birthday = rows[0].birthday;
-                req.session.location = rows[0].location;
-                req.session.country = rows[0].country;
-                req.session.work = rows[0].work;
-                req.session.education = rows[0].education;
+                req.session.key = user.username + randomstring.generate();
+                req.session.userData.firstName = rows[0].first_name;
+                req.session.userData.lastName = rows[0].last_name;
+                req.session.userData.username = rows[0].user_name;
+                req.session.userData.ProfilePicture = rows[0].profile_picture;
+                req.session.userData.aboutMe = rows[0].about_me;
+                req.session.userData.phone = rows[0].phone;
+                req.session.userData.email = rows[0].email;
+                req.session.userData.work = rows[0].work;
+                req.session.userData.team = rows[0].team;
+                req.session.userData.hourlyRate = rows[0].hourly_rate;
+                req.session.userData.birthday = rows[0].birthday;
+                req.session.userData.location = rows[0].location;
+                req.session.userData.country = rows[0].country;
+                req.session.userData.work = rows[0].work;
+                req.session.userData.education = rows[0].education;
                 console.log("Session created:", req.session); // Print session
                 res.send("Login successful");
             }
@@ -121,23 +122,23 @@ router.post("/signin", (req, res) => {
 // Get login data
 router.get("/signin", (req, res) => {
     // If user is logged in send user data
-    if (req.session.username) {
+    if (req.session.userData.username) {
         res.send({
             loggedIn: true,
-            username: req.session.username,
-            firstName: req.session.firstName,
-            lastName: req.session.lastName,
-            profilePicture: req.session.ProfilePicture,
-            aboutMe: req.session.aboutMe,
-            phone: req.session.phone,
-            email: req.session.email,
-            work: req.session.work,
-            team: req.session.team,
-            hourlyRate: req.session.hourlyRate,
-            birthday: req.session.birthday,
-            country: req.session.country,
-            work: req.session.work,
-            education: req.session.education,
+            username: req.session.userData.username,
+            firstName: req.session.userData.firstName,
+            lastName: req.session.userData.lastName,
+            profilePicture: req.session.userData.ProfilePicture,
+            aboutMe: req.session.userData.aboutMe,
+            phone: req.session.userData.phone,
+            email: req.session.userData.email,
+            work: req.session.userData.work,
+            team: req.session.userData.team,
+            hourlyRate: req.session.userData.hourlyRate,
+            birthday: req.session.userData.birthday,
+            country: req.session.userData.country,
+            work: req.session.userData.work,
+            education: req.session.userData.education,
         });
     }
 
@@ -150,7 +151,7 @@ router.get("/signin", (req, res) => {
 // Logout
 router.post("/signout", (req, res) => {
     req.session = null;
-    // req.session.destroy(); // Destroy session
+    // req.session.userData.destroy(); // Destroy session
     res.send("Logged out");
 });
 

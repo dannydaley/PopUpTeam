@@ -31,7 +31,7 @@ export default function Login() {
             })
             .then((res) => {
                 setMessage(res.data);
-
+                console.log(res.data);
                 //If validation passed
                 if (res.data === "Login successful") {
                     navigate("/directory");

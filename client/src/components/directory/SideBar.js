@@ -70,12 +70,15 @@ export default function SideBar() {
         axios
             .get(process.env.REACT_APP_SERVER + "/auth/signin")
             .then((res) => {
+                console.log("from sidebar");
+                console.log(res);
                 //If user is logged in set login data
                 if (res.data.loggedIn === true) {
-                    setUsername(res.data.username);
-                    setFirstName(res.data.firstName);
+                    console.log(res);
+                    setUsername(res.data.userData.username);
+                    setFirstName(res.data.userData.firstName);
                     setLastName(res.data.lastName);
-                    setProfilePicture(res.data.profilePicture);
+                    setProfilePicture(res.data.userData.profilePicture);
                 }
             })
             .catch((err) => {
