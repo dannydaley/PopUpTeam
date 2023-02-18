@@ -8,7 +8,7 @@ import {
     FunnelIcon,
     MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import Message from "../components/directory/Message";
 
 import axios from "axios";
@@ -25,7 +25,7 @@ export default function Settingspage() {
     useEffect(() => {
         // Get session user data
         axios
-            .get("http://localhost:8080/auth/signin")
+            .get(process.env.REACT_APP_SERVER + "/auth/signin")
             .then((res) => {
                 //If user is logged in set login data
                 if (res.data.loggedIn === true) {
@@ -40,7 +40,7 @@ export default function Settingspage() {
             });
     }, []);
 
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const changeProfilePicture = async (image) => {
         let formData = new FormData();
         formData.append("image", image);
@@ -48,7 +48,9 @@ export default function Settingspage() {
         formData.append("username", username);
         await axios
             .post(
-                "http://localhost:8080/settings" + "/changeProfilePicture",
+                process.env.REACT_APP_SERVER +
+                    "/settings" +
+                    "/changeProfilePicture",
                 formData,
                 {
                     headers: { "Content-Type": "multipart/form-data" },
@@ -64,20 +66,20 @@ export default function Settingspage() {
             });
     };
 
-
     async function saveNewSettings() {
-        await axios.post("http://localhost:8080/settings/updateSettings", {
-            username: username,
-          newFirstName: newFirstName,
-          newLastName: newLastName,
-          newEmail: newEmail,
-          newAbout: newAbout    
-        }).then((res) => {
-            if (res.data.status === "success") {
-               navigate('/directory') 
-            }
-        }           
-        )
+        await axios
+            .post(process.env.REACT_APP_SERVER + "/settings/updateSettings", {
+                username: username,
+                newFirstName: newFirstName,
+                newLastName: newLastName,
+                newEmail: newEmail,
+                newAbout: newAbout,
+            })
+            .then((res) => {
+                if (res.data.status === "success") {
+                    navigate("/directory");
+                }
+            });
     }
 
     return (
@@ -140,7 +142,9 @@ export default function Settingspage() {
                                         className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         placeholder="you@example.com"
                                         defaultValue={""}
-                                        onChange={(event) => setNewAbout(event.target.value)}
+                                        onChange={(event) =>
+                                            setNewAbout(event.target.value)
+                                        }
                                     />
                                 </div>
                                 <p className="mt-2 text-sm text-gray-500">
@@ -262,7 +266,9 @@ export default function Settingspage() {
                                         id="first-name"
                                         autoComplete="given-name"
                                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                        onChange={(event) => setNewFirstName(event.target.value)}
+                                        onChange={(event) =>
+                                            setNewFirstName(event.target.value)
+                                        }
                                     />
                                 </div>
 
@@ -279,7 +285,9 @@ export default function Settingspage() {
                                         id="last-name"
                                         autoComplete="family-name"
                                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                        onChange={(event) => setNewLastName(event.target.value)}
+                                        onChange={(event) =>
+                                            setNewLastName(event.target.value)
+                                        }
                                     />
                                 </div>
 
@@ -296,7 +304,9 @@ export default function Settingspage() {
                                         id="email-address"
                                         autoComplete="email"
                                         className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                        onChange={(event) => setNewEmail(event.target.value)}
+                                        onChange={(event) =>
+                                            setNewEmail(event.target.value)
+                                        }
                                     />
                                 </div>
 

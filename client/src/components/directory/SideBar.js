@@ -1,49 +1,84 @@
-import { Fragment, useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import { Fragment, useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
-import { Dialog, Transition } from '@headlessui/react';
-import { Bars3Icon, CalendarIcon, KeyIcon, FolderIcon, Cog6ToothIcon, HomeIcon, UsersIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import Logo from '../Logo2';
+import { Dialog, Transition } from "@headlessui/react";
+import {
+    Bars3Icon,
+    CalendarIcon,
+    KeyIcon,
+    FolderIcon,
+    Cog6ToothIcon,
+    HomeIcon,
+    UsersIcon,
+    XMarkIcon,
+} from "@heroicons/react/24/outline";
+import Logo from "../Logo2";
 
 function classNames(...classes) {
-    return classes.filter(Boolean).join(' ')
-};
+    return classes.filter(Boolean).join(" ");
+}
 
 export default function SideBar() {
-    const navigate = useNavigate()
-    const location = useLocation()
-    
-    const [sidebarOpen, setSidebarOpen] = useState(false)
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    const [username, setUsername] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [profilePicture, setProfilePicture] = useState('');
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
+    const [username, setUsername] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [profilePicture, setProfilePicture] = useState("");
 
     //Must be brought into function to prevent top level hook error
     const navigation = [
         // { name: 'Dashboard', href: 'dashboard', icon: HomeIcon, current: (location.pathname === "/dashboard" ? true : false) },
-        { name: 'Directory', href: 'directory', icon: UsersIcon, current: (location.pathname === "/directory" ? true : false) },
-        { name: 'Projects', href: 'projects', icon: FolderIcon, current: (location.pathname === "/projects" ? true : false) },
-        { name: 'Kanban', href: 'kanban', icon: CalendarIcon, current: (location.pathname === "/kanban" ? true : false) },
-        { name: 'Settings', href: 'settings', icon: Cog6ToothIcon, current: (location.pathname === "/settings" ? true : false) },
-        { name: 'Logout',  href: '/', icon: KeyIcon, current: (location.pathname === "/" ? true : false) },
+        {
+            name: "Directory",
+            href: "directory",
+            icon: UsersIcon,
+            current: location.pathname === "/directory" ? true : false,
+        },
+        {
+            name: "Projects",
+            href: "projects",
+            icon: FolderIcon,
+            current: location.pathname === "/projects" ? true : false,
+        },
+        {
+            name: "Kanban",
+            href: "kanban",
+            icon: CalendarIcon,
+            current: location.pathname === "/kanban" ? true : false,
+        },
+        {
+            name: "Settings",
+            href: "settings",
+            icon: Cog6ToothIcon,
+            current: location.pathname === "/settings" ? true : false,
+        },
+        {
+            name: "Logout",
+            href: "/",
+            icon: KeyIcon,
+            current: location.pathname === "/" ? true : false,
+        },
     ];
 
     useEffect(() => {
         // Get session user data
-        axios.get('http://localhost:8080/auth/signin') 
-            .then(res => {
+        axios
+            .get(process.env.REACT_APP_SERVER + "/auth/signin")
+            .then((res) => {
                 //If user is logged in set login data
                 if (res.data.loggedIn === true) {
                     setUsername(res.data.username);
                     setFirstName(res.data.firstName);
                     setLastName(res.data.lastName);
                     setProfilePicture(res.data.profilePicture);
-                };
-            }).catch(err => {
+                }
+            })
+            .catch((err) => {
                 console.log(err);
             });
     }, []);
@@ -51,16 +86,18 @@ export default function SideBar() {
     // Logout user
     const onSignOut = () => {
         // Logout user
-        axios.post('http://localhost:8080/auth/signout')
-            .then(res => {
+        axios
+            .post(process.env.REACT_APP_SERVER + "/auth/signout")
+            .then((res) => {
                 //Default data
-                setUsername('');
-                setFirstName('');
-                setLastName(''); 
-                setProfilePicture('');
+                setUsername("");
+                setFirstName("");
+                setLastName("");
+                setProfilePicture("");
 
-                navigate('/'); // Redirects to home page
-            }).catch(err => {
+                navigate("/"); // Redirects to home page
+            })
+            .catch((err) => {
                 console.log(err);
             });
     };
@@ -69,7 +106,11 @@ export default function SideBar() {
         <>
             {/* Mobile sidebar */}
             <Transition.Root show={sidebarOpen} as={Fragment}>
-                <Dialog as="div" className="relative z-40 md:hidden" onClose={setSidebarOpen}>
+                <Dialog
+                    as="div"
+                    className="relative z-40 md:hidden"
+                    onClose={setSidebarOpen}
+                >
                     <Transition.Child
                         as={Fragment}
                         enter="transition-opacity ease-linear duration-300"
@@ -106,10 +147,17 @@ export default function SideBar() {
                                         <button
                                             type="button"
                                             className="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                                            onClick={() => setSidebarOpen(false)}
+                                            onClick={() =>
+                                                setSidebarOpen(false)
+                                            }
                                         >
-                                            <span className="sr-only">Close sidebar</span>
-                                            <XMarkIcon className="h-6 w-6 text-white" aria-hidden="true" />
+                                            <span className="sr-only">
+                                                Close sidebar
+                                            </span>
+                                            <XMarkIcon
+                                                className="h-6 w-6 text-white"
+                                                aria-hidden="true"
+                                            />
                                         </button>
                                     </div>
                                 </Transition.Child>
@@ -128,19 +176,25 @@ export default function SideBar() {
                                                 href={item.href}
                                                 className={classNames(
                                                     item.current
-                                                        ? 'bg-indigo-800 text-white'
-                                                        : 'text-white hover:bg-indigo-600 hover:bg-opacity-75',
-                                                    'group flex items-center px-2 py-2 text-base font-medium rounded-md'
+                                                        ? "bg-indigo-800 text-white"
+                                                        : "text-white hover:bg-indigo-600 hover:bg-opacity-75",
+                                                    "group flex items-center px-2 py-2 text-base font-medium rounded-md"
                                                 )}
                                             >
-                                                <item.icon className="mr-4 h-6 w-6 flex-shrink-0 text-indigo-300" aria-hidden="true" />
+                                                <item.icon
+                                                    className="mr-4 h-6 w-6 flex-shrink-0 text-indigo-300"
+                                                    aria-hidden="true"
+                                                />
                                                 {item.name}
                                             </a>
                                         ))}
                                     </nav>
                                 </div>
                                 <div className="flex flex-shrink-0 border-t border-indigo-800 p-4">
-                                    <a href="#" className="group block flex-shrink-0">
+                                    <a
+                                        href="#"
+                                        className="group block flex-shrink-0"
+                                    >
                                         <div className="flex items-center">
                                             <div>
                                                 <img
@@ -150,8 +204,12 @@ export default function SideBar() {
                                                 />
                                             </div>
                                             <div className="ml-3">
-                                                <p className="text-base font-medium text-white">!!</p>
-                                                <p className="text-sm font-medium text-indigo-200 group-hover:text-white">View profile</p>
+                                                <p className="text-base font-medium text-white">
+                                                    !!
+                                                </p>
+                                                <p className="text-sm font-medium text-indigo-200 group-hover:text-white">
+                                                    View profile
+                                                </p>
                                             </div>
                                         </div>
                                     </a>
@@ -201,7 +259,6 @@ export default function SideBar() {
                                 ></path>
                             </svg> */}
                             <Logo />
-                            
                         </div>
                         <nav className="mt-5 flex-1 space-y-1 px-2">
                             {navigation.map((item) => (
@@ -209,32 +266,48 @@ export default function SideBar() {
                                     key={item.name}
                                     href={item.href}
                                     className={classNames(
-                                        item.current ? 'bg-indigo-800 text-white' : 'text-white hover:bg-indigo-600 hover:bg-opacity-75',
-                                        'group flex items-center px-2 py-2 text-sm font-medium rounded-md'
+                                        item.current
+                                            ? "bg-indigo-800 text-white"
+                                            : "text-white hover:bg-indigo-600 hover:bg-opacity-75",
+                                        "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
                                     )}
                                 >
-                                    <item.icon className="mr-3 h-6 w-6 flex-shrink-0 text-indigo-300" aria-hidden="true" />
+                                    <item.icon
+                                        className="mr-3 h-6 w-6 flex-shrink-0 text-indigo-300"
+                                        aria-hidden="true"
+                                    />
                                     {item.name}
                                 </a>
                             ))}
                         </nav>
                     </div>
                     <div className="flex flex-shrink-0 border-t border-indigo-800 p-4">
-                        <a href="#" className="group block w-full flex-shrink-0">
+                        <a
+                            href="#"
+                            className="group block w-full flex-shrink-0"
+                        >
                             <div className="flex items-center">
                                 <div>
                                     <img
                                         className="inline-block h-9 w-9 rounded-full"
                                         // USER PROFILE PHOTO BELOW
-                                        src={'http://localhost:8080/public/' + profilePicture}
+                                        src={
+                                            process.env.REACT_APP_SERVER +
+                                            "/public/" +
+                                            profilePicture
+                                        }
                                         alt="Logged in user profile picture"
                                     />
                                 </div>
                                 <div className="ml-3">
-                                    <p className="text-sm font-medium text-white">{firstName} {lastName}</p>
+                                    <p className="text-sm font-medium text-white">
+                                        {firstName} {lastName}
+                                    </p>
                                     <div className="">
                                         <a href="/settings">
-                                        <p className="text-xs font-medium text-indigo-200 hover:text-white">View profile</p>
+                                            <p className="text-xs font-medium text-indigo-200 hover:text-white">
+                                                View profile
+                                            </p>
                                         </a>
                                         {/* <p onClick={onSignOut} className="text-xs font-medium text-indigo-200 hover:text-white">Logout</p> */}
                                     </div>
@@ -246,5 +319,4 @@ export default function SideBar() {
             </div>
         </>
     );
-};
-         
+}
