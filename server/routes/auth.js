@@ -149,7 +149,8 @@ router.get("/signin", (req, res) => {
 
 // Logout
 router.post("/signout", (req, res) => {
-    req.session.destroy(); // Destroy session
+    req.session = null;
+    // req.session.destroy(); // Destroy session
     res.send("Logged out");
 });
 
