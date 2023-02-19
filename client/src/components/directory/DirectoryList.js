@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+/* eslint-disable jsx-a11y/no-redundant-roles */
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 
 import { FunnelIcon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
@@ -34,10 +35,6 @@ let searchResults = {
 export default function DirectoryList(props) {
     const { setProfile, setRenderMessage } = props;
 
-    let rawDirectory;
-    let rawDirectoryLength;
-
-    let directory = [];
     const [directoryList, changeDirectoryList] = useState("directory");
     const [directoryLoaded, setDirectoryLoaded] = useState(false);
 
@@ -58,63 +55,88 @@ export default function DirectoryList(props) {
         });
     }
 
-    function getDirectory() {
-        axios
-            .get(process.env.REACT_APP_SERVER + "/search/getDirectory")
-            .then((res) => {
-                directory = {
-                    A: [],
-                    B: [],
-                    C: [],
-                    D: [],
-                    E: [],
-                    F: [],
-                    G: [],
-                    H: [],
-                    I: [],
-                    J: [],
-                    K: [],
-                    L: [],
-                    M: [],
-                    N: [],
-                    O: [],
-                    P: [],
-                    Q: [],
-                    R: [],
-                    S: [],
-                    T: [],
-                    U: [],
-                    V: [],
-                    W: [],
-                    X: [],
-                    Y: [],
-                };
-                rawDirectory = res.data;
-                console.log(res.data);
-                rawDirectoryLength = rawDirectory.length;
-                // loop through each of the fetched user elements
-                let sortedUsers = [];
-                rawDirectory.forEach((element) => {
-                    if (!sortedUsers.includes(element.user_name)) {
-                        //     // loop through each of the directory keys ie A, B, C etc
-                        sortedUsers.push(element.user_name);
-                        Object.keys(directory).forEach((letter) => {
-                            // if first letter of users last name, raised to upper case matches the directory key
-                            if (element.last_name[0].toUpperCase() === letter) {
-                                // add the element to that directory key
-                                directory[letter].push(element);
-                            }
+    const rawDirectory = useRef([]);
+
+    const directory = useRef({
+        A: [],
+        B: [],
+        C: [],
+        D: [],
+        E: [],
+        F: [],
+        G: [],
+        H: [],
+        I: [],
+        J: [],
+        K: [],
+        L: [],
+        M: [],
+        N: [],
+        O: [],
+        P: [],
+        Q: [],
+        R: [],
+        S: [],
+        T: [],
+        U: [],
+        V: [],
+        W: [],
+        X: [],
+        Y: [],
+    });
+
+    useEffect(
+        () =>
+            async function getDirectory() {
+                await axios
+                    .get(process.env.REACT_APP_SERVER + "/search/getDirectory")
+                    .then((res) => {
+                        // set up a temp holding object
+                        let tempDirectory = {
+                            A: [],
+                            B: [],
+                            C: [],
+                            D: [],
+                            E: [],
+                            F: [],
+                            G: [],
+                            H: [],
+                            I: [],
+                            J: [],
+                            K: [],
+                            L: [],
+                            M: [],
+                            N: [],
+                            O: [],
+                            P: [],
+                            Q: [],
+                            R: [],
+                            S: [],
+                            T: [],
+                            U: [],
+                            V: [],
+                            W: [],
+                            X: [],
+                            Y: [],
+                        };
+                        // apply raw list to rawdirectory variable
+                        rawDirectory.current = res.data;
+                        res.data.forEach((element) => {
+                            tempDirectory[
+                                element.last_name[0].toUpperCase()
+                            ].push(element);
                         });
-                    } else {
-                        return;
-                    }
-                });
-                setDirectoryLoaded(true);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }
+
+                        directory.current = tempDirectory;
+
+                        setDirectoryLoaded(true);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    });
+            },
+        []
+    );
 
     function searchDirectory(query) {
         // only search if query is greater than 3 characters
@@ -148,21 +170,16 @@ export default function DirectoryList(props) {
                 Y: [],
             };
             // loop through each user in the raw directory list
-            rawDirectory.forEach((element) => {
+            rawDirectory.current.forEach((element) => {
                 // if the first and last name when joined together (raised to uppercase) contains the query (raised to uppercase)..
                 if (
                     (element.first_name + " " + element.last_name)
                         .toLocaleUpperCase()
                         .includes(query.toUpperCase())
                 ) {
-                    // loop through each of the directory keys ie A, B, C etc
-                    Object.keys(searchResults).forEach((letter) => {
-                        // if first letter of users last name, raised to upper case matches the directory key
-                        if (element.last_name[0].toUpperCase() === letter) {
-                            // add the element to that directory key
-                            searchResults[letter].push(element);
-                        }
-                    });
+                    searchResults[element.last_name[0].toUpperCase()].push(
+                        element
+                    );
                 } else {
                     return;
                 }
@@ -175,14 +192,14 @@ export default function DirectoryList(props) {
         }
     }
 
-    getDirectory(props);
-
     return (
         <aside className="hidden w-96 flex-shrink-0 border-r border-gray-200 xl:order-first xl:flex xl:flex-col overflow-auto max-h-screen">
             <div className="px-6 pt-6 pb-4">
                 <h2 className="text-lg font-medium text-gray-900">Directory</h2>
                 <p className="mt-1 text-sm text-gray-600">
-                    Search directory of {rawDirectoryLength} employees
+                    Search directory of{" "}
+                    {rawDirectory.current ? rawDirectory.current.length : ""}{" "}
+                    employees
                 </p>
                 <form className="mt-6 flex space-x-4" action="#">
                     <div className="min-w-0 flex-1">
@@ -222,13 +239,13 @@ export default function DirectoryList(props) {
             </div>
 
             {/* Directory list */}
-            {directoryLoaded && directory !== undefined ? (
+            {directoryLoaded ? (
                 <nav
                     className="min-h-0 flex-1 overflow-y-auto"
                     aria-label="Directory"
                 >
                     {directoryList === "directory"
-                        ? Object.keys(directory).map((letter) => (
+                        ? Object.keys(directory.current).map((letter) => (
                               <div key={letter} className="relative">
                                   <div className="sticky top-0 z-10 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
                                       <h3>{letter}</h3>
@@ -237,50 +254,52 @@ export default function DirectoryList(props) {
                                       role="list"
                                       className="relative z-0 divide-y divide-gray-200"
                                   >
-                                      {directory[letter].map((person) => (
-                                          <li
-                                              key={person.id}
-                                              onClick={() => {
-                                                  loadProfile(person);
-                                                  setRenderMessage(false);
-                                              }}
-                                          >
-                                              <div className="relative flex items-center space-x-3 px-6 py-5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 hover:bg-gray-50">
-                                                  <div className="flex-shrink-0">
-                                                      <img
-                                                          className="h-10 w-10 rounded-full"
-                                                          src={
-                                                              process.env
-                                                                  .REACT_APP_SERVER +
-                                                              "/public/" +
-                                                              person.profile_picture
-                                                          }
-                                                          alt=""
-                                                      />
-                                                  </div>
-                                                  <div className="min-w-0 flex-1">
-                                                      <a
-                                                          href="#"
-                                                          className="focus:outline-none"
-                                                      >
-                                                          {/* Extend touch target to entire panel */}
-                                                          <span
-                                                              className="absolute inset-0"
-                                                              aria-hidden="true"
+                                      {directory.current[letter].map(
+                                          (person) => (
+                                              <li
+                                                  key={person.id}
+                                                  onClick={() => {
+                                                      loadProfile(person);
+                                                      setRenderMessage(false);
+                                                  }}
+                                              >
+                                                  <div className="relative flex items-center space-x-3 px-6 py-5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 hover:bg-gray-50">
+                                                      <div className="flex-shrink-0">
+                                                          <img
+                                                              className="h-10 w-10 rounded-full"
+                                                              src={
+                                                                  process.env
+                                                                      .REACT_APP_SERVER +
+                                                                  "/public/" +
+                                                                  person.profile_picture
+                                                              }
+                                                              alt=""
                                                           />
-                                                          <p className="text-sm font-medium text-gray-900">
-                                                              {person.first_name +
-                                                                  " " +
-                                                                  person.last_name}
-                                                          </p>
-                                                          <p className="truncate text-sm text-gray-500">
-                                                              {person.work}
-                                                          </p>
-                                                      </a>
+                                                      </div>
+                                                      <div className="min-w-0 flex-1">
+                                                          <a
+                                                              href="/"
+                                                              className="focus:outline-none"
+                                                          >
+                                                              {/* Extend touch target to entire panel */}
+                                                              <span
+                                                                  className="absolute inset-0"
+                                                                  aria-hidden="true"
+                                                              />
+                                                              <p className="text-sm font-medium text-gray-900">
+                                                                  {person.first_name +
+                                                                      " " +
+                                                                      person.last_name}
+                                                              </p>
+                                                              <p className="truncate text-sm text-gray-500">
+                                                                  {person.work}
+                                                              </p>
+                                                          </a>
+                                                      </div>
                                                   </div>
-                                              </div>
-                                          </li>
-                                      ))}
+                                              </li>
+                                          )
+                                      )}
                                   </ul>
                               </div>
                           ))
@@ -310,7 +329,7 @@ export default function DirectoryList(props) {
                                                   </div>
                                                   <div className="min-w-0 flex-1">
                                                       <a
-                                                          href="#"
+                                                          href="/"
                                                           className="focus:outline-none"
                                                       >
                                                           {/* Extend touch target to entire panel */}
