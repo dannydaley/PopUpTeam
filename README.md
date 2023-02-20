@@ -1,6 +1,6 @@
 # PopUpTeam
 
-POPUPTEAM is built around the idea that if clients need a project/business designed, staffed or developed, we can connect them with a team of creatives looking for work on a freelance basis, with the ability to search for local profiles to improve the local freelance economy. TEST
+POPUPTEAM is built around the idea that if clients need a project/business designed, staffed or developed, we can connect them with a team of creatives looking for work on a freelance basis, with the ability to search for local profiles to improve the local freelance economy.
 
 Development Board - https://tasks.office.com/falmouthac.onmicrosoft.com/Home/PlanViews/QljmKZUhmUaXG6Pi2WEfPZYAFoNH?Type=PlanLink&Channel=Link&CreatedTime=638016053231940000
 
