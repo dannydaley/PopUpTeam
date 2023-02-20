@@ -1,6 +1,6 @@
 # PopUpTeam
 
-POPUPTEAM is built around the idea that if clients need a project/business designed, staffed or developed, we can connect them with a team of creatives looking for work on a freelance basis, with the ability to search for local profiles to improve the local freelance economy.
+POPUPTEAM is built around the idea that if clients need a project/business designed, staffed or developed, we can connect them with a team of creatives looking for work on a freelance basis, with the ability to search for local profiles to improve the local freelance economy. TEST
 
 Development Board - https://tasks.office.com/falmouthac.onmicrosoft.com/Home/PlanViews/QljmKZUhmUaXG6Pi2WEfPZYAFoNH?Type=PlanLink&Channel=Link&CreatedTime=638016053231940000
 
@@ -11,16 +11,15 @@ Presentation - https://falmouthac-my.sharepoint.com/:p:/g/personal/lw254830_falm
 ## Contents
 
 - [PopUpTeam](#popupteam)
-    - [Contents](#contents)
-    - [Main Features](#main-features)
-    - [Repository Layout](#repository-layout)
-        - [Main](#main)
-        - [Documentation](#documentation)
-    - [Installation](#installation)
-        - [Prerequisites](#prerequisites)
-        - [User Guide](#user-guide)
-    - [Commit Message Key](#commit-message-key)
-
+  - [Contents](#contents)
+  - [Main Features](#main-features)
+  - [Repository Layout](#repository-layout)
+    - [Main](#main)
+    - [Documentation](#documentation)
+  - [Installation](#installation)
+    - [Prerequisites](#prerequisites)
+    - [User Guide](#user-guide)
+  - [Commit Message Key](#commit-message-key)
 
 ## Main Features
 
@@ -63,8 +62,8 @@ This branch contains:
 ### User Guide
 
 1. If you have downloaded the optional repository browser clone the repository and pull.
-If you haven’t downloaded the repository browser download a zip folder from the repository under 'code' tab then the 'code' dropdown button then click download zip.
-Then extract the folder somewhere in your files.
+   If you haven’t downloaded the repository browser download a zip folder from the repository under 'code' tab then the 'code' dropdown button then click download zip.
+   Then extract the folder somewhere in your files.
 
 2. If you are using an IDE open the entire project folder in the IDE. If you aren’t skip to the next step.
 
@@ -103,7 +102,7 @@ Then extract the folder somewhere in your files.
 `$ npm run start`
 
 10. Finally enter the local URL (http:localhost:3000) into your web browser. Database functionality can be found (http:localhost:3000/dev)
-Additional if you wish to view the database outside of the source code enter the information found in 'server/config/db.js' into mySQLworkbench as a new connection in the same format it appears here.
+    Additional if you wish to view the database outside of the source code enter the information found in 'server/config/db.js' into mySQLworkbench as a new connection in the same format it appears here.
 
 ## Commit Message Key
 
@@ -117,4 +116,3 @@ Additional if you wish to view the database outside of the source code enter the
 - dep: Dependancies added to the project.
 - chore: Miscellaneous such as altering assets.
 - del: Deleted or removed unused code, files or other assets.
-
