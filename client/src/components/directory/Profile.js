@@ -152,26 +152,30 @@ export default function Profile(props) {
                   {profileData.name}
                 </h1>
               </div>
-              <div className="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setRenderMessage(!renderMessage);
-                    !renderMessage && joinRoom();
-                  }}
-                  className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
-                >
-                  <EnvelopeIcon
-                    className="-ml-1 mr-2 h-5 w-5 text-gray-400"
-                    aria-hidden="true"
-                  />
-                  {renderMessage ? (
-                    <span>Close Message</span>
-                  ) : (
-                    <span>Message</span>
-                  )}
-                </button>
-              </div>
+
+              {/* Message button */}
+              {sender !== profile.firstName + " " + profile.lastName && (
+                <div className="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setRenderMessage(!renderMessage);
+                      !renderMessage && joinRoom();
+                    }}
+                    className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
+                  >
+                    <EnvelopeIcon
+                      className="-ml-1 mr-2 h-5 w-5 text-gray-400"
+                      aria-hidden="true"
+                    />
+                    {renderMessage ? (
+                      <span>Close Message</span>
+                    ) : (
+                      <span>Message</span>
+                    )}
+                  </button>
+                </div>
+              )}
             </div>
           </div>
           <div className="mt-6 hidden min-w-0 flex-1 sm:block 2xl:hidden">
@@ -187,9 +191,9 @@ export default function Profile(props) {
         <div className="border-b border-gray-200">
           <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
             <nav className="-mb-px flex space-x-8" aria-label="Tabs">
-              {tabs.map((tab) => (
+              {tabs.map((tab, index) => (
                 <a
-                  key={tab.name}
+                  key={index}
                   href={tab.href}
                   className={classNames(
                     tab.current
@@ -199,7 +203,11 @@ export default function Profile(props) {
                   )}
                   aria-current={tab.current ? "page" : undefined}
                 >
-                  {tab.name}
+                  {index === 2 && sender === profile.firstName + " " + profile.lastName ? (
+                    <></>
+                  ) : (
+                    <span>{tab.name}</span>
+                  )}
                 </a>
               ))}
             </nav>
