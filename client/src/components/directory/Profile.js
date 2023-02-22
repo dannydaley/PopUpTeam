@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import io from "socket.io-client";
 import axios from "axios";
 
@@ -50,23 +51,24 @@ export default function Profile(props) {
     sender,
   } = props;
 
-  const profileData = {
+  const profileHeader = {
     name: profile.firstName + " " + profile.lastName,
     profile_picture: profile.profilePicture,
     coverImageUrl:
-      "https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
-    about_me: profile.aboutMe,
-    fields: {
-      Phone: profile.phone,
-      email: profile.email,
-      work: profile.work,
-      team: profile.team,
-      country: profile.country,
-      location: profile.location,
-      hourly_rate: profile.hourlyRate,
-      birthday: profile.birthday,
-    },
+      "https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",  
   };
+
+  const profileFields = [
+    {label: "About Me", value: profile.aboutMe},
+    {label: "Phone", value: profile.phone},
+    {label: "Email", value: profile.email},
+    {label: "Work", value: profile.work},
+    {label: "Team", value: profile.team},
+    {label: "Country", value: profile.country},
+    {label: "Location", value: profile.location},
+    {label: "Hourly Rate", value: profile.hourlyRate},
+    {label: "Birthday", value: profile.birthday},
+  ];
 
   const socket = io.connect("http://localhost:8080");
 
@@ -126,6 +128,34 @@ export default function Profile(props) {
     return classes.filter(Boolean).join(" ");
   };
 
+  // Render profile field
+  function renderProfileField(label, value, link) {
+    // If the value is null, render a link to add the field
+    if (value === null) {
+      return (
+        <>
+          {/* If the sender is the current user, render a link to add the field */}
+          {sender === profile.firstName + " " + profile.lastName ? (
+            <div className="text-xs italic text-gray-400">
+              Add {label} <Link className="text-blue-500 hover:underline hover:text-blue-700" to={link}>Here</Link>
+            </div>
+          ) : (
+            <div className="text-xs italic text-gray-400">
+              {profile.firstName} has not added {label} yet
+            </div>
+          )}
+        </>
+      );
+      /* Else the value is not null, render the value */
+    } else {
+      return (
+        <div className="text-sm text-gray-400">
+          {value}
+        </div>
+      );
+    };
+  };
+
   return (
     <article>
       {/* Profile header */}
@@ -133,7 +163,7 @@ export default function Profile(props) {
         <div>
           <img
             className="h-32 w-full object-cover lg:h-48"
-            src={profileData.coverImageUrl}
+            src={profileHeader.coverImageUrl}
             alt=""
           />
         </div>
@@ -142,14 +172,14 @@ export default function Profile(props) {
             <div className="flex">
               <img
                 className="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
-                src={"http://localhost:8080/public/" + profileData.profile_picture}
+                src={"http://localhost:8080/public/" + profileHeader.profile_picture}
                 alt=""
               />
             </div>
             <div className="mt-6 sm:flex sm:min-w-0 sm:flex-1 sm:items-center sm:justify-end sm:space-x-6 sm:pb-1">
               <div className="mt-6 min-w-0 flex-1 sm:hidden 2xl:block">
                 <h1 className="truncate text-2xl font-bold text-gray-900">
-                  {profileData.name}
+                  {profileHeader.name}
                 </h1>
               </div>
 
@@ -180,7 +210,7 @@ export default function Profile(props) {
           </div>
           <div className="mt-6 hidden min-w-0 flex-1 sm:block 2xl:hidden">
             <h1 className="truncate text-2xl font-bold text-gray-900">
-              {profileData.name}
+              {profileHeader.name}
             </h1>
           </div>
         </div>
@@ -230,25 +260,40 @@ export default function Profile(props) {
           {/* Description list */}
           <div className="mx-auto mt-6 max-w-5xl px-4 sm:px-6 lg:px-8">
             <dl className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-              {Object.keys(profileData.fields).map((field) => (
-                <div key={field} className="sm:col-span-1">
-                  <dt className="text-sm font-medium text-gray-500">{field}</dt>
-                  <dd className="mt-1 text-sm text-gray-900">
-                    {profileData.fields[field]}
+              {profileFields.map((field, index) => (
+                <div key={index} className="sm:col-span-1">
+                  <dt className="text-sm font-medium text-gray-500">{field.label}</dt>
+
+                  <dd className="mt-2">
+                    {(() => {
+      switch (index) {
+        case 0:
+          return renderProfileField("a description", profile.aboutMe, "/settings");
+        case 1:
+          return renderProfileField("a phone number", profile.phone, "/settings");
+        case 2:
+          return renderProfileField("an email", profile.email, "/settings");
+        case 3:
+          return renderProfileField("a work", profile.work, "/settings");
+        case 4:
+          return renderProfileField("a team", profile.team, "/settings");
+        case 5:
+          return renderProfileField("a country", profile.country, "/settings");
+        case 6:
+          return renderProfileField("a location", profile.location, "/settings");
+        case 7:
+          return renderProfileField("a hourly rate", profile.hourlyRate, "/settings");
+        case 8:
+          return renderProfileField("a date of birth", profile.birthday, "/settings");
+        default:
+          return null;
+      }
+                    })()}
                   </dd>
                 </div>
               ))}
-              <div className="sm:col-span-2">
-                <dt className="text-sm font-medium text-gray-500">About</dt>
-                <dd
-                  className="mt-1 max-w-prose space-y-5 text-sm text-gray-900"
-                  dangerouslySetInnerHTML={{
-                    __html: profileData.about_me,
-                  }}
-                />
-              </div>
             </dl>
-          </div>
+          </div>  
 
           {/* Team member list */}
           <div className="mx-auto mt-8 max-w-5xl px-4 pb-12 sm:px-6 lg:px-8">

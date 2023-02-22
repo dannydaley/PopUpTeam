@@ -135,6 +135,7 @@ router.get("/signin", (req, res) => {
             team: req.session.team,
             hourlyRate: req.session.hourlyRate,
             birthday: req.session.birthday,
+            location: req.session.location,
             country: req.session.country,
             work: req.session.work,
             education: req.session.education,
