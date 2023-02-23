@@ -52,16 +52,13 @@ export default function SideBar(props) {
   // Logout user
   const onSignOut = () => {
     // Logout user
-    axios
-      .post("http://localhost:8080/auth/signout")
+    axios.post("http://localhost:8080/auth/signout")
       .then((res) => {
         //Default data
         setUsername("");
         setFirstName("");
         setLastName("");
         setProfilePicture("");
-
-        navigate("/"); // Redirects to home page
       })
       .catch((err) => {
         console.log(err);
@@ -102,7 +99,7 @@ export default function SideBar(props) {
     },
     {
       name: "Logout",
-      link: "/",
+      link: "",
       icon: KeyIcon,
       current: location.pathname === "/" ? true : false,
       onClick: onSignOut,
@@ -232,6 +229,7 @@ export default function SideBar(props) {
                     if (location.pathname === `/${item.link}`) {
                       e.preventDefault();
                     };
+                    item.onClick();
                   }}            
                   className={classNames(
                     item.current
