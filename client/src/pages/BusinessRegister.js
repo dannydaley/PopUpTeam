@@ -23,7 +23,7 @@ export default function Register() {
     // Insert user into database
     const insertRow = () => {
         axios
-            .post("http://localhost:8080/auth/signUp", {
+            .post(process.env.REACT_APP_SERVER + "/auth/signUp", {
                 signUpUserName: formData.userName,
                 signUpFirstName: formData.firstName,
                 signUpLastName: formData.lastName,

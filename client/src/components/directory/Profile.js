@@ -172,7 +172,8 @@ export default function Profile(props) {
                             <img
                                 className="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
                                 src={
-                                    "http://localhost:8080/public/" +
+                                    process.env.REACT_APP_SERVER +
+                                    "/public/" +
                                     profileHeader.profile_picture
                                 }
                                 alt=""

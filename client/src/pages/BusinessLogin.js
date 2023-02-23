@@ -20,26 +20,26 @@ export default function Login() {
         setMessage(location.state);
     }, [location]);
 
+    // const validateRow = () => {
+    //     console.log(process.env.REACT_APP_SERVER);
+    //     // Validate login
+    //     axios
+    //         .post(process.env.REACT_APP_SERVER + "/auth/signin", {
+    //             email: emailInput,
+    //             password: passwordInput,
+    //         })
+    //         .then((res) => {
+    //             setMessage(res.data);
+    //             //If validation passed
+    //             if (res.data === "Login successful") {
+    //                 navigate("/directory");
+    //             }
+    //         });
+    // };
     const validateRow = () => {
-        console.log(process.env.REACT_APP_SERVER);
         // Validate login
         axios
             .post(process.env.REACT_APP_SERVER + "/auth/signin", {
-                email: emailInput,
-                password: passwordInput,
-            })
-            .then((res) => {
-                setMessage(res.data);
-                //If validation passed
-                if (res.data === "Login successful") {
-                    navigate("/directory");
-                }
-            });
-    };
-    const validateRow = () => {
-        // Validate login
-        axios
-            .post("http://localhost:8080/auth/signin", {
                 email: formData.email,
                 password: formData.password,
             })

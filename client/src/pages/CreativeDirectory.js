@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import axios from "axios";
 
 import SideBar from "../components/directory/SideBar";
 import Profile from "../components/directory/Profile";

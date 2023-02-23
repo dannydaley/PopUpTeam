@@ -23,88 +23,88 @@ import KanbanPage from "./pages/KanbanPage";
 axios.defaults.withCredentials = true; // Allows axios to send cookies to the server
 
 function App() {
-  const [profile, setProfile] = useState({
-    firstName: "",
-    lastName: "",
-    profilePicture: "",
-    aboutMe: "",
-    phone: "",
-    email: "",
-    work: "",
-    team: "",
-    country: "",
-    location: "",
-    hourlyRate: "",
-    birthday: "",
-  });
+    const [profile, setProfile] = useState({
+        firstName: "",
+        lastName: "",
+        profilePicture: "",
+        aboutMe: "",
+        phone: "",
+        email: "",
+        work: "",
+        team: "",
+        country: "",
+        location: "",
+        hourlyRate: "",
+        birthday: "",
+    });
 
-  const [sender, setSender] = useState("");
+    const [sender, setSender] = useState("");
 
-  // Get session user data
-  useEffect(() => {
-    axios
-      .get("http://localhost:8080/auth/signin")
-      .then((res) => {
-        //If user is logged in set login data
-        if (res.data.loggedIn === true) {
-          setProfile({
-            firstName: res.data.firstName,
-            lastName: res.data.lastName,
-            profilePicture: res.data.profilePicture,
-            aboutMe: res.data.aboutMe,
-            phone: res.data.phone,
-            email: res.data.email,
-            work: res.data.work,
-            team: res.data.team,
-            hourlyRate: res.data.hourlyRate,
-            birthday: res.data.birthday,
-            location: res.data.location,
-            country: res.data.country,
-          });
+    // Get session user data
+    useEffect(() => {
+        axios
+            .get(process.env.REACT_APP_SERVER + "/auth/signin")
+            .then((res) => {
+                //If user is logged in set login data
+                if (res.data.loggedIn === true) {
+                    setProfile({
+                        firstName: res.data.firstName,
+                        lastName: res.data.lastName,
+                        profilePicture: res.data.profilePicture,
+                        aboutMe: res.data.aboutMe,
+                        phone: res.data.phone,
+                        email: res.data.email,
+                        work: res.data.work,
+                        team: res.data.team,
+                        hourlyRate: res.data.hourlyRate,
+                        birthday: res.data.birthday,
+                        location: res.data.location,
+                        country: res.data.country,
+                    });
 
-          setSender(res.data.firstName + " " + res.data.lastName);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+                    setSender(res.data.firstName + " " + res.data.lastName);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
 
-  return (
-    <Routes>
-      {/* Index */}
-      <Route path="/" element={<Home 
-        profile={profile}
-        setProfile={setProfile}
-      />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/become-a-creative" element={<BecomeACreative />} />
+    return (
+        <Routes>
+            {/* Index */}
+            <Route
+                path="/"
+                element={<Home profile={profile} setProfile={setProfile} />}
+            />
+            <Route path="/about" element={<About />} />
+            <Route path="/become-a-creative" element={<BecomeACreative />} />
 
-      {/* Authentication */}
-      <Route path="/business-login" element={<Login />} />
-      <Route path="/business-register" element={<Register />} />
+            {/* Authentication */}
+            <Route path="/business-login" element={<Login />} />
+            <Route path="/business-register" element={<Register />} />
 
-      {/* Directory */}
-      <Route
-        path="/directory"
-        element={
-          <CreativeDirectory 
-            profile={profile} 
-            setProfile={setProfile} 
-            sender={sender}
-          />
-        }
-      />
-      <Route path="/projects" element={<NewProject />} />
-      <Route path="*" element={<Error />} />
-      <Route path="/settings" element={<Settings />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/project" element={<Project />} />
+            {/* Directory */}
+            <Route
+                path="/directory"
+                element={
+                    <CreativeDirectory
+                        profile={profile}
+                        setProfile={setProfile}
+                        sender={sender}
+                    />
+                }
+            />
+            <Route path="/projects" element={<NewProject />} />
+            <Route path="*" element={<Error />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/project" element={<Project />} />
 
-      {/* Kanban */}
-      <Route path="/kanban" element={<KanbanPage />} />
-    </Routes>
-  );
-};
+            {/* Kanban */}
+            <Route path="/kanban" element={<KanbanPage />} />
+        </Routes>
+    );
+}
 
 export default App;

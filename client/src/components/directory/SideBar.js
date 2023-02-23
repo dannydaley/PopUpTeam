@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
 
@@ -9,7 +9,6 @@ import {
     KeyIcon,
     FolderIcon,
     Cog6ToothIcon,
-    HomeIcon,
     UsersIcon,
     XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -31,7 +30,7 @@ export default function SideBar(props) {
     const onSignOut = () => {
         // Logout user
         axios
-            .post("http://localhost:8080/auth/signout")
+            .post(process.env.REACT_APP_SERVER + "/auth/signout")
             .then((res) => {
                 //Default data
                 setProfile({
@@ -254,10 +253,11 @@ export default function SideBar(props) {
                             <img
                                 className="inline-block h-9 w-9 rounded-full"
                                 src={
-                                    "http://localhost:8080/public/" +
+                                    process.env.REACT_APP_SERVER +
+                                    "/public/" +
                                     profile.profilePicture
                                 }
-                                alt="Logged in user profile picture"
+                                alt="Logged in user profile-picture"
                             />
 
                             <div className="ml-3">
