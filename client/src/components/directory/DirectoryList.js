@@ -1,40 +1,10 @@
 /* eslint-disable jsx-a11y/no-redundant-roles */
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
-
 import { FunnelIcon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
-
-let searchResults = {
-    A: [],
-    B: [],
-    C: [],
-    D: [],
-    E: [],
-    F: [],
-    G: [],
-    H: [],
-    I: [],
-    J: [],
-    K: [],
-    L: [],
-    M: [],
-    N: [],
-    O: [],
-    P: [],
-    Q: [],
-    R: [],
-    S: [],
-    T: [],
-    U: [],
-    V: [],
-    W: [],
-    X: [],
-    Y: [],
-};
 
 export default function DirectoryList(props) {
     const { setProfile, setRenderMessage } = props;
-    const [directoryData, setDirectoryData] = useState([]);
 
     const [directoryList, changeDirectoryList] = useState("directory");
     const [directoryLoaded, setDirectoryLoaded] = useState(false);
@@ -86,65 +56,63 @@ export default function DirectoryList(props) {
         Y: [],
     });
 
+    const searchResults = useRef({
+        A: [],
+        B: [],
+        C: [],
+        D: [],
+        E: [],
+        F: [],
+        G: [],
+        H: [],
+        I: [],
+        J: [],
+        K: [],
+        L: [],
+        M: [],
+        N: [],
+        O: [],
+        P: [],
+        Q: [],
+        R: [],
+        S: [],
+        T: [],
+        U: [],
+        V: [],
+        W: [],
+        X: [],
+        Y: [],
+    });
+
     useEffect(
         () =>
-            async function getDirectory() {
-                await axios
-                    .get(process.env.REACT_APP_SERVER + "/search/getDirectory")
-                    .then((res) => {
-                        // set up a temp holding object
-                        let tempDirectory = {
-                            A: [],
-                            B: [],
-                            C: [],
-                            D: [],
-                            E: [],
-                            F: [],
-                            G: [],
-                            H: [],
-                            I: [],
-                            J: [],
-                            K: [],
-                            L: [],
-                            M: [],
-                            N: [],
-                            O: [],
-                            P: [],
-                            Q: [],
-                            R: [],
-                            S: [],
-                            T: [],
-                            U: [],
-                            V: [],
-                            W: [],
-                            X: [],
-                            Y: [],
-                        };
-                        // apply raw list to rawdirectory variable
-                        rawDirectory.current = res.data;
-                        res.data.forEach((element) => {
-                            tempDirectory[
-                                element.last_name[0].toUpperCase()
-                            ].push(element);
-                        });
-
-                        directory.current = tempDirectory;
-                        setDirectoryData(tempDirectory);
-
-                        setDirectoryLoaded(true);
-                    })
-                    .catch((err) => {
-                        console.log(err);
+            axios
+                .get(process.env.REACT_APP_SERVER + "/search/getDirectory")
+                .then((res) => {
+                    // apply raw list to rawdirectory variable
+                    rawDirectory.current = res.data;
+                    // add each user from the response data to directory at the corresponding letter,
+                    // by first letter of last name
+                    res.data.forEach((element) => {
+                        directory.current[
+                            element.last_name[0].toUpperCase()
+                        ].push(element);
                     });
-            },
-        []
+                    // set directory as loaded to reveal result
+                    setDirectoryLoaded(true);
+                })
+                .catch((err) => {
+                    console.log(err);
+                }),
+
+        [directory]
     );
 
     function searchDirectory(query) {
         // only search if query is greater than 3 characters
         if (query.length > 3) {
             // empty the search results list
-            searchResults = {
+            searchResults.current = {
                 A: [],
                 B: [],
                 C: [],
@@ -179,9 +147,9 @@ export default function DirectoryList(props) {
                         .toLocaleUpperCase()
                         .includes(query.toUpperCase())
                 ) {
-                    searchResults[element.last_name[0].toUpperCase()].push(
-                        element
-                    );
+                    searchResults.current[
+                        element.last_name[0].toUpperCase()
+                    ].push(element);
                 } else {
                     return;
                 }
@@ -200,7 +168,7 @@ export default function DirectoryList(props) {
                 <h2 className="text-lg font-medium text-gray-900">Directory</h2>
                 <p className="mt-1 text-sm text-gray-600">
                     Search directory of{" "}
-                    {rawDirectory.current ? rawDirectory.current.length : ""}{" "}
+                    {directoryLoaded ? rawDirectory.current.length : ""}{" "}
                     employees
                 </p>
                 <form className="mt-6 flex space-x-4" action="#">
@@ -247,7 +215,7 @@ export default function DirectoryList(props) {
                     aria-label="Directory"
                 >
                     {directoryList === "directory"
-                        ? Object.keys(directoryData).map((letter) => (
+                        ? Object.keys(directory.current).map((letter) => (
                               <div key={letter} className="relative">
                                   <div className="sticky top-0 z-10 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
                                       <h3>{letter}</h3>
@@ -256,54 +224,56 @@ export default function DirectoryList(props) {
                                       role="list"
                                       className="relative z-0 divide-y divide-gray-200"
                                   >
-                                      {directoryData[letter].map((person) => (
-                                          <li
-                                              key={person.id}
-                                              onClick={() => {
-                                                  loadProfile(person);
-                                                  setRenderMessage(false);
-                                              }}
-                                          >
-                                              <div className="relative flex items-center space-x-3 px-6 py-5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 hover:bg-gray-50">
-                                                  <div className="flex-shrink-0">
-                                                      <img
-                                                          className="h-10 w-10 rounded-full"
-                                                          src={
-                                                              process.env
-                                                                  .REACT_APP_SERVER +
-                                                              "/public/" +
-                                                              person.profile_picture
-                                                          }
-                                                          alt=""
-                                                      />
-                                                  </div>
-                                                  <div className="min-w-0 flex-1">
-                                                      <a
-                                                          href="/"
-                                                          className="focus:outline-none"
-                                                      >
-                                                          {/* Extend touch target to entire panel */}
-                                                          <span
-                                                              className="absolute inset-0"
-                                                              aria-hidden="true"
+                                      {directory.current[letter].map(
+                                          (person) => (
+                                              <li
+                                                  key={person.id}
+                                                  onClick={() => {
+                                                      loadProfile(person);
+                                                      setRenderMessage(false);
+                                                  }}
+                                              >
+                                                  <div className="relative flex items-center space-x-3 px-6 py-5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 hover:bg-gray-50">
+                                                      <div className="flex-shrink-0">
+                                                          <img
+                                                              className="h-10 w-10 rounded-full"
+                                                              src={
+                                                                  process.env
+                                                                      .REACT_APP_SERVER +
+                                                                  "/public/" +
+                                                                  person.profile_picture
+                                                              }
+                                                              alt=""
                                                           />
-                                                          <p className="text-sm font-medium text-gray-900">
-                                                              {person.first_name +
-                                                                  " " +
-                                                                  person.last_name}
-                                                          </p>
-                                                          <p className="truncate text-sm text-gray-500">
-                                                              {person.work}
-                                                          </p>
-                                                      </a>
+                                                      </div>
+                                                      <div className="min-w-0 flex-1">
+                                                          <a
+                                                              href="/"
+                                                              className="focus:outline-none"
+                                                          >
+                                                              {/* Extend touch target to entire panel */}
+                                                              <span
+                                                                  className="absolute inset-0"
+                                                                  aria-hidden="true"
+                                                              />
+                                                              <p className="text-sm font-medium text-gray-900">
+                                                                  {person.first_name +
+                                                                      " " +
+                                                                      person.last_name}
+                                                              </p>
+                                                              <p className="truncate text-sm text-gray-500">
+                                                                  {person.work}
+                                                              </p>
+                                                          </a>
+                                                      </div>
                                                   </div>
-                                              </div>
-                                          </li>
-                                      ))}
+                                              </li>
+                                          )
+                                      )}
                                   </ul>
                               </div>
                           ))
-                        : Object.keys(searchResults).map((letter) => (
+                        : Object.keys(searchResults.current).map((letter) => (
                               <div key={letter} className="relative">
                                   <div className="sticky top-0 z-10 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
                                       <h3>{letter}</h3>
@@ -312,44 +282,46 @@ export default function DirectoryList(props) {
                                       role="list"
                                       className="relative z-0 divide-y divide-gray-200"
                                   >
-                                      {searchResults[letter].map((person) => (
-                                          <li key={person.id}>
-                                              <div className="relative flex items-center space-x-3 px-6 py-5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 hover:bg-gray-50">
-                                                  <div className="flex-shrink-0">
-                                                      <img
-                                                          className="h-10 w-10 rounded-full"
-                                                          src={
-                                                              process.env
-                                                                  .REACT_APP_SERVER +
-                                                              "/public/" +
-                                                              person.profile_picture
-                                                          }
-                                                          alt=""
-                                                      />
-                                                  </div>
-                                                  <div className="min-w-0 flex-1">
-                                                      <a
-                                                          href="/"
-                                                          className="focus:outline-none"
-                                                      >
-                                                          {/* Extend touch target to entire panel */}
-                                                          <span
-                                                              className="absolute inset-0"
-                                                              aria-hidden="true"
+                                      {searchResults.current[letter].map(
+                                          (person) => (
+                                              <li key={person.id}>
+                                                  <div className="relative flex items-center space-x-3 px-6 py-5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 hover:bg-gray-50">
+                                                      <div className="flex-shrink-0">
+                                                          <img
+                                                              className="h-10 w-10 rounded-full"
+                                                              src={
+                                                                  process.env
+                                                                      .REACT_APP_SERVER +
+                                                                  "/public/" +
+                                                                  person.profile_picture
+                                                              }
+                                                              alt=""
                                                           />
-                                                          <p className="text-sm font-medium text-gray-900">
-                                                              {person.first_name +
-                                                                  " " +
-                                                                  person.last_name}
-                                                          </p>
-                                                          <p className="truncate text-sm text-gray-500">
-                                                              {person.work}
-                                                          </p>
-                                                      </a>
+                                                      </div>
+                                                      <div className="min-w-0 flex-1">
+                                                          <a
+                                                              href="/"
+                                                              className="focus:outline-none"
+                                                          >
+                                                              {/* Extend touch target to entire panel */}
+                                                              <span
+                                                                  className="absolute inset-0"
+                                                                  aria-hidden="true"
+                                                              />
+                                                              <p className="text-sm font-medium text-gray-900">
+                                                                  {person.first_name +
+                                                                      " " +
+                                                                      person.last_name}
+                                                              </p>
+                                                              <p className="truncate text-sm text-gray-500">
+                                                                  {person.work}
+                                                              </p>
+                                                          </a>
+                                                      </div>
                                                   </div>
-                                              </div>
-                                          </li>
-                                      ))}
+                                              </li>
+                                          )
+                                      )}
                                   </ul>
                               </div>
                           ))}
