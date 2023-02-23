@@ -1,5 +1,5 @@
 import { Fragment, useState, useEffect } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
 
 import { Dialog, Transition } from "@headlessui/react";
@@ -20,34 +20,11 @@ function classNames(...classes) {
 }
 
 export default function SideBar(props) {
-  const navigate = useNavigate();
   const location = useLocation();
 
-  const { isDesktop, showDirectory, setShowDirectory } = props;
+  const { isDesktop, showDirectory, setShowDirectory, profile, setProfile } = props;
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const [username, setUsername] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [profilePicture, setProfilePicture] = useState("");
-
-  useEffect(() => {
-    // Get session user data
-    axios.get("http://localhost:8080/auth/signin")
-      .then((res) => {
-        //If user is logged in set login data
-        if (res.data.loggedIn === true) {
-          setUsername(res.data.username);
-          setFirstName(res.data.firstName);
-          setLastName(res.data.lastName);
-          setProfilePicture(res.data.profilePicture);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   // Logout user
   const onSignOut = () => {
@@ -55,10 +32,21 @@ export default function SideBar(props) {
     axios.post("http://localhost:8080/auth/signout")
       .then((res) => {
         //Default data
-        setUsername("");
-        setFirstName("");
-        setLastName("");
-        setProfilePicture("");
+        setProfile({
+          firstName: "",
+          lastName: "",
+          profilePicture: "",
+          aboutMe: "",
+          phone: "",
+          email: "",
+          work: "",
+          team: "",
+          country: "",
+          location: "",
+          hourlyRate: "",
+          birthday: "",
+          skills: [],
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -253,13 +241,13 @@ export default function SideBar(props) {
             <div className="flex items-center">
               <img
                 className="inline-block h-9 w-9 rounded-full"
-                src={"http://localhost:8080/public/" + profilePicture}
+                src={"http://localhost:8080/public/" + profile.profilePicture}
                 alt="Logged in user profile picture"
               />
 
               <div className="ml-3">
                 <p className="text-sm font-medium text-white">
-                  {firstName} {lastName}
+                  {profile.firstName} {profile.lastName}
                 </p>
                 <div className="">
                   <a href="/settings">

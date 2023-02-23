@@ -31,6 +31,7 @@ export default function Login()  {
       //If validation passed
       if (res.data === 'Login successful') {
         navigate('/directory')
+        window.location.reload(); // Reload page to account information
       };
     });
   };
