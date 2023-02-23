@@ -1,5 +1,5 @@
 import { Fragment, useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import axios from "axios";
 
 import { Dialog, Transition } from "@headlessui/react";
@@ -19,9 +19,11 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function SideBar() {
+export default function SideBar(props) {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const { isDesktop, showDirectory, setShowDirectory } = props;
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -32,8 +34,7 @@ export default function SideBar() {
 
   useEffect(() => {
     // Get session user data
-    axios
-      .get("http://localhost:8080/auth/signin")
+    axios.get("http://localhost:8080/auth/signin")
       .then((res) => {
         //If user is logged in set login data
         if (res.data.loggedIn === true) {
@@ -71,31 +72,37 @@ export default function SideBar() {
   const navigation = [
     {
       name: "Directory",
-      href: "directory",
+      link: "directory",
       icon: UsersIcon,
       current: location.pathname === "/directory" ? true : false,
+      onClick: () => {
+        if (!isDesktop) {
+          setShowDirectory(!showDirectory)
+          setSidebarOpen(false);
+        };
+      },
     },
     {
       name: "Projects",
-      href: "projects",
+      link: "projects",
       icon: FolderIcon,
       current: location.pathname === "/projects" ? true : false,
     },
     {
       name: "Kanban",
-      href: "kanban",
+      link: "kanban",
       icon: CalendarIcon,
       current: location.pathname === "/kanban" ? true : false,
     },
     {
       name: "Settings",
-      href: "settings",
+      link: "settings",
       icon: Cog6ToothIcon,
       current: location.pathname === "/settings" ? true : false,
     },
     {
       name: "Logout",
-      href: "/",
+      link: "/",
       icon: KeyIcon,
       current: location.pathname === "/" ? true : false,
       onClick: onSignOut,
@@ -166,9 +173,10 @@ export default function SideBar() {
                   </div>
                   <nav className="mt-5 space-y-1 px-2">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href={item.href}
+                        to={`/${item.link}`}
+                        onClick={item.onClick}
                         className={classNames(
                           item.current
                             ? "bg-indigo-800 text-white"
@@ -181,7 +189,7 @@ export default function SideBar() {
                           aria-hidden="true"
                         />
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </nav>
                 </div>
@@ -216,10 +224,15 @@ export default function SideBar() {
             {/* Sidebar content */}
             <nav className="mt-5 flex-1 space-y-1 px-2">
               {navigation.map((item) => (
-                <a
+                <Link
                   key={item.name}
-                  href={item.href}
-                  onClick={item.onClick}
+                  to={`/${item.link}`}
+                  onClick={(e) => {
+                    // If the link is the current page, prevent the default action
+                    if (location.pathname === `/${item.link}`) {
+                      e.preventDefault();
+                    };
+                  }}            
                   className={classNames(
                     item.current
                       ? "bg-indigo-800 text-white"
@@ -232,7 +245,7 @@ export default function SideBar() {
                     aria-hidden="true"
                   />
                   {item.name}
-                </a>
+                </Link>
               ))}
             </nav>
           </div>

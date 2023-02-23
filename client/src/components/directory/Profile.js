@@ -157,7 +157,7 @@ export default function Profile(props) {
   };
 
   return (
-    <article>
+    <article className="min-w-[350px]">
       {/* Profile header */}
       <div>
         <div>
@@ -266,28 +266,28 @@ export default function Profile(props) {
 
                   <dd className="mt-2">
                     {(() => {
-      switch (index) {
-        case 0:
-          return renderProfileField("a description", profile.aboutMe, "/settings");
-        case 1:
-          return renderProfileField("a phone number", profile.phone, "/settings");
-        case 2:
-          return renderProfileField("an email", profile.email, "/settings");
-        case 3:
-          return renderProfileField("a work", profile.work, "/settings");
-        case 4:
-          return renderProfileField("a team", profile.team, "/settings");
-        case 5:
-          return renderProfileField("a country", profile.country, "/settings");
-        case 6:
-          return renderProfileField("a location", profile.location, "/settings");
-        case 7:
-          return renderProfileField("a hourly rate", profile.hourlyRate, "/settings");
-        case 8:
-          return renderProfileField("a date of birth", profile.birthday, "/settings");
-        default:
-          return null;
-      }
+                      switch (index) {
+                        case 0:
+                          return renderProfileField("a description", profile.aboutMe, "/settings");
+                        case 1:
+                          return renderProfileField("a phone number", profile.phone, "/settings");
+                        case 2:
+                          return renderProfileField("an email", profile.email, "/settings");
+                        case 3:
+                          return renderProfileField("a work", profile.work, "/settings");
+                        case 4:
+                          return renderProfileField("a team", profile.team, "/settings");
+                        case 5:
+                          return renderProfileField("a country", profile.country, "/settings");
+                        case 6:
+                          return renderProfileField("a location", profile.location, "/settings");
+                        case 7:
+                          return renderProfileField("a hourly rate", profile.hourlyRate, "/settings");
+                        case 8:
+                          return renderProfileField("a date of birth", profile.birthday, "/settings");
+                        default:
+                          return null;
+                      }
                     })()}
                   </dd>
                 </div>

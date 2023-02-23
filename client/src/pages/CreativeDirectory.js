@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useMediaQuery } from 'react-responsive'
 import axios from "axios";
 
 import SideBar from "../components/directory/SideBar";
@@ -6,7 +7,13 @@ import Profile from "../components/directory/Profile";
 import DirectoryList from "../components/directory/DirectoryList";
 
 export default function CreativeDirectory() {
+  const isDesktop = useMediaQuery({
+    query: '(min-width: 1024px)'
+  });
+  
+  const [showDirectory, setShowDirectory] = useState(true);
   const [renderMessage, setRenderMessage] = useState(false);
+
   const [profile, setProfile] = useState({
     firstName: "",
     lastName: "",
@@ -55,7 +62,11 @@ export default function CreativeDirectory() {
 
   return (
     <div class="flex">
-      <SideBar />
+      <SideBar 
+        isDesktop={isDesktop}
+        showDirectory={showDirectory}
+        setShowDirectory={setShowDirectory}
+      />
 
       <div className="flex w-screen h-auto">
         <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
@@ -70,6 +81,9 @@ export default function CreativeDirectory() {
             </main>
 
             <DirectoryList
+              isDesktop={isDesktop}
+              showDirectory={showDirectory}
+              setShowDirectory={setShowDirectory}
               setProfile={setProfile}
               setRenderMessage={setRenderMessage}
             />
