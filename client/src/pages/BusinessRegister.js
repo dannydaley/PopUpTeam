@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import Helmet from "react-helmet";
 import axios from "axios";
 
+import useFormData from "../components/authentication/useFormData";
 import {
     ContainsCapital,
     ContainsNumber,
@@ -10,30 +11,24 @@ import {
 } from "../components/authentication/InputFormatter";
 import AuthLayout from "../components/authentication/AuthLayout";
 import Button from "../components/Button";
-import TextField from "../components/authentication/Fields";
+import Input from "../components/authentication/Input";
 import Logo from "../components/Logo";
 
 export default function Register() {
     const navigate = useNavigate();
 
-    const [signUpUserName, setSignUpUserName] = useState("");
-    const [signUpFirstName, setSignUpFirstName] = useState("");
-    const [signUpLastName, setSignUpLastName] = useState("");
-    const [signUpEmail, setSignUpEmail] = useState("");
-    const [signUpPassword, setSignUpPassword] = useState("");
-    const [signUpConfirmPassword, setSignUpConfirmPassword] = useState("");
-
+    const { formData, handleChange } = useFormData();
     const [error, setError] = useState("");
 
+    // Insert user into database
     const insertRow = () => {
-        // Insert user into database
         axios
-            .post(process.env.REACT_APP_SERVER + "/auth/signUp", {
-                signUpEmail: signUpEmail,
-                signUpUserName: signUpUserName,
-                signUpFirstName: signUpFirstName,
-                signUpLastName: signUpLastName,
-                signUpPassword: signUpPassword,
+            .post("http://localhost:8080/auth/signUp", {
+                signUpUserName: formData.userName,
+                signUpFirstName: formData.firstName,
+                signUpLastName: formData.lastName,
+                signUpEmail: formData.email,
+                signUpPassword: formData.password,
             })
             .then((res) => {
                 setError(res.data);
@@ -51,35 +46,35 @@ export default function Register() {
 
         // // If first or last name contain numbers or special characters
         if (
-            ContainsNumber(signUpFirstName) ||
-            ContainsSpecial(signUpFirstName) ||
-            ContainsNumber(signUpLastName) ||
-            ContainsSpecial(signUpLastName)
+            ContainsNumber(formData.firstName) ||
+            ContainsSpecial(formData.firstName) ||
+            ContainsNumber(formData.lastName) ||
+            ContainsSpecial(formData.lastName)
         ) {
             setError("Names may only contain alphabetic characters");
             return;
         }
 
         // If password doesn't contain a capital
-        if (!ContainsCapital(signUpPassword)) {
+        if (!ContainsCapital(formData.password)) {
             setError("Password must contain at least one uppercase letter");
             return;
         }
 
         // If password doesn't contain a number
-        if (!ContainsNumber(signUpPassword)) {
+        if (!ContainsNumber(formData.password)) {
             setError("Password must contain at least one number");
             return;
         }
 
         // If password is less than 8 characters
-        if (signUpPassword.length < 8) {
+        if (formData.password.length < 8) {
             setError("Password must be at least 8 characters long");
             return;
         }
 
         // If passwords don't match
-        if (signUpConfirmPassword !== signUpPassword) {
+        if (formData.confirmPassword !== formData.password) {
             setError("Passwords do not match");
             return;
         }
@@ -117,174 +112,137 @@ export default function Register() {
 
                 <form
                     onSubmit={onSubmitSignUp}
-                    onKeyPress={(e) => {
+                    onKeyDown={(e) => {
                         e.key === "Enter" && onSubmitSignUp(); //Submit form on enter
                     }}
-                    className="mt-10 grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2"
+                    className="mt-10"
                 >
                     {/* Username */}
-                    <TextField
+                    <Input
                         label="Username"
-                        id="username"
-                        name="first_name"
                         type="text"
-                        autoComplete="username"
-                        required
-                        className="col-span-full"
-                        onChange={(e) => {
-                            setSignUpUserName(e.target.value);
-                        }}
-                        class={`${
-                            error === "Username already exists"
-                                ? "w-full border-red-500 rounded"
-                                : "border-gray-200"
-                        }`}
+                        name="userName"
+                        value={formData.userName}
+                        handleChange={handleChange}
+                        error={error === "Username already exists" ? error : ""}
                     />
 
                     {/* Username validation */}
                     {error === "Username already exists" && (
-                        <p class="col-span-full -mt-4 text-xs italic text-red-500">
+                        <p class="col-span-full -mt-4 mb-4 text-xs italic text-red-500">
                             Username already exists
                         </p>
                     )}
 
                     {/* First and last name */}
-                    <TextField
-                        label="First name"
-                        id="first_name"
-                        name="first_name"
-                        type="text"
-                        autoComplete="given-name"
-                        required
-                        onChange={(e) => {
-                            setSignUpFirstName(e.target.value);
-                        }}
-                        class={`${
-                            error ===
-                            "Names may only contain alphabetic characters"
-                                ? "-mt-4 w-full border-red-500 rounded"
-                                : "border-gray-200"
-                        }`}
-                    />
+                    <div class="flex flex-row space-x-5">
+                        <Input
+                            label="First name"
+                            type="text"
+                            name="firstName"
+                            value={formData.firstName}
+                            handleChange={handleChange}
+                            error={
+                                error ===
+                                "Names may only contain alphabetic characters"
+                                    ? error
+                                    : ""
+                            }
+                        />
 
-                    <TextField
-                        label="Last name"
-                        id="last_name"
-                        name="last_name"
-                        type="text"
-                        autoComplete="family-name"
-                        required
-                        onChange={(e) => {
-                            setSignUpLastName(e.target.value);
-                        }}
-                        class={`${
-                            error ===
-                            "Names may only contain alphabetic characters"
-                                ? "-mt-4 w-full border-red-500 rounded"
-                                : "border-gray-200"
-                        }`}
-                    />
+                        <Input
+                            label="Last name"
+                            type="text"
+                            name="lastName"
+                            value={formData.lastName}
+                            handleChange={handleChange}
+                            error={
+                                error ===
+                                "Names may only contain alphabetic characters"
+                                    ? error
+                                    : ""
+                            }
+                        />
+                    </div>
 
                     {/* Name validation */}
                     {error ===
                         "Names may only contain alphabetic characters" && (
-                        <p class="col-span-full -mt-4 text-xs italic text-red-500">
+                        <p class="-mt-4 mb-4 text-xs italic text-red-500">
                             Names may only contain alphabetic characters
                         </p>
                     )}
 
                     {/* Email */}
-                    <TextField
-                        className="col-span-full"
-                        label="Email address"
-                        id="email"
-                        name="email"
+                    <Input
+                        label="Email Address"
                         type="email"
-                        autoComplete="email"
-                        required
-                        onChange={(e) => {
-                            setSignUpEmail(e.target.value);
-                        }}
-                        class={`${
-                            error === "Email already exists"
-                                ? "-mt-4 w-full border-red-500 rounded"
-                                : "border-gray-200"
-                        }`}
+                        name="email"
+                        value={formData.email}
+                        handleChange={handleChange}
+                        error={error === "Email already exists" ? error : ""}
                     />
 
                     {/* Email validation */}
                     {error === "Email already exists" && (
-                        <p class="-mt-4 text-xs italic text-red-500">
+                        <p class="-mt-4 mb-4 text-xs italic text-red-500">
                             Email already exists
                         </p>
                     )}
 
                     {/* Password */}
-                    <TextField
-                        className="col-span-full"
+                    <Input
                         label="Password"
-                        id="password"
-                        name="password"
                         type="password"
-                        autoComplete="new-password"
-                        required
-                        onChange={(e) => {
-                            setSignUpPassword(e.target.value);
-                        }}
-                        class={`${
+                        name="password"
+                        value={formData.password}
+                        handleChange={handleChange}
+                        error={
                             error ===
                                 "Password must contain at least one uppercase letter" ||
                             error ===
                                 "Password must contain at least one number" ||
                             error ===
-                                "Password must be at least 8 characters long" ||
-                            error === "Passwords do not match"
-                                ? "-mt-4 w-full border-red-500 rounded"
-                                : "border-gray-200"
-                        }`}
+                                "Password must be at least 8 characters long"
+                                ? error
+                                : "" || error === "Passwords do not match"
+                                ? error
+                                : ""
+                        }
                     />
 
-                    <TextField
-                        className="col-span-full"
+                    <Input
                         label="Confirm Password"
-                        id="password"
-                        name="confirmPassword"
                         type="password"
-                        autoComplete="new-password"
-                        required
-                        onChange={(e) => {
-                            setSignUpConfirmPassword(e.target.value);
-                        }}
-                        class={`${
-                            error === "Passwords do not match"
-                                ? "w-full border-red-500 rounded"
-                                : "border-gray-200"
-                        }`}
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        handleChange={handleChange}
+                        error={error === "Passwords do not match" ? error : ""}
                     />
 
                     {/* Password validation */}
                     {error ===
                         "Password must contain at least one uppercase letter" && (
-                        <p class="col-span-full -mt-4 text-xs italic text-red-500">
+                        <p class="col-span-full -mt-4 mb-4 text-xs italic text-red-500">
                             Password must contain at least one uppercase letter
                         </p>
                     )}
 
                     {error === "Password must contain at least one number" && (
-                        <p class="col-span-full -mt-4 text-xs italic text-red-500">
+                        <p class="col-span-full -mt-4 mb-4 text-xs italic text-red-500">
                             Password must contain at least one number
                         </p>
                     )}
 
                     {error ===
                         "Password must be at least 8 characters long" && (
-                        <p class="col-span-full -mt-4 text-xs italic text-red-500">
+                        <p class="col-span-full -mt-4 mb-4 text-xs italic text-red-500">
                             Password must be at least 8 characters long
                         </p>
                     )}
 
                     {error === "Passwords do not match" && (
-                        <p class="col-span-full -mt-4 text-xs italic text-red-500">
+                        <p class="col-span-full -mt-4 mb-4 text-xs italic text-red-500">
                             Passwords do not match
                         </p>
                     )}

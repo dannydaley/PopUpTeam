@@ -1,62 +1,30 @@
 import { useState, useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
 import axios from "axios";
 
 import SideBar from "../components/directory/SideBar";
 import Profile from "../components/directory/Profile";
 import DirectoryList from "../components/directory/DirectoryList";
 
-export default function CreativeDirectory() {
-    const [renderMessage, setRenderMessage] = useState(false);
-    const [profile, setProfile] = useState({
-        firstName: "",
-        lastName: "",
-        profilePicture: "",
-        aboutMe: "",
-        phone: "",
-        email: "",
-        work: "",
-        team: "",
-        country: "",
-        location: "",
-        hourlyRate: "",
-        birthday: "",
+export default function CreativeDirectory(props) {
+    const isDesktop = useMediaQuery({
+        query: "(min-width: 1024px)",
     });
 
-    const [sender, setSender] = useState("");
+    const [showDirectory, setShowDirectory] = useState(true);
+    const [renderMessage, setRenderMessage] = useState(false);
 
-    useEffect(() => {
-        // Get session user data
-        axios
-            .get(process.env.REACT_APP_SERVER + "/auth/signin")
-            .then((res) => {
-                //If user is logged in set login data
-                if (res.data.loggedIn === true) {
-                    setProfile({
-                        firstName: res.data.firstName,
-                        lastName: res.data.lastName,
-                        profilePicture: res.data.profilePicture,
-                        aboutMe: res.data.aboutMe,
-                        phone: res.data.phone,
-                        email: res.data.email,
-                        work: res.data.work,
-                        team: res.data.team,
-                        hourlyRate: res.data.hourlyRate,
-                        birthday: res.data.birthday,
-                        location: res.data.location,
-                        country: res.data.country,
-                    });
-
-                    setSender(res.data.firstName + " " + res.data.lastName);
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, []);
+    const { profile, setProfile, sender } = props;
 
     return (
         <div class="flex">
-            <SideBar />
+            <SideBar
+                isDesktop={isDesktop}
+                showDirectory={showDirectory}
+                setShowDirectory={setShowDirectory}
+                profile={profile}
+                setProfile={setProfile}
+            />
 
             <div className="flex w-screen h-auto">
                 <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
@@ -71,6 +39,9 @@ export default function CreativeDirectory() {
                         </main>
 
                         <DirectoryList
+                            isDesktop={isDesktop}
+                            showDirectory={showDirectory}
+                            setShowDirectory={setShowDirectory}
                             setProfile={setProfile}
                             setRenderMessage={setRenderMessage}
                         />

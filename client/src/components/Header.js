@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Popover, Transition } from '@headlessui/react';
 import clsx from 'clsx';
@@ -43,7 +43,9 @@ function MobileNavIcon({ open }) {
     );
 };
 
-function MobileNavigation() {
+function MobileNavigation(props) {
+    const { profile } = props;
+
     return (
         <Popover>
             <Popover.Button
@@ -82,8 +84,13 @@ function MobileNavigation() {
                         <MobileNavLink href="/about">About</MobileNavLink>
                         <MobileNavLink href="/become-a-creative">Become a creative</MobileNavLink>
                         <MobileNavLink href="/#pricing">Pricing</MobileNavLink>
-                        <hr className="m-2 border-slate-300/40" />
-                        <MobileNavLink href="/businesslogin">Sign in</MobileNavLink>
+
+                        {profile.email === "" && (
+                            <>
+                                <hr className="m-2 border-slate-300/40" />
+                                <MobileNavLink href="/businesslogin">Sign in</MobileNavLink>
+                            </>
+                        )}
                     </Popover.Panel>
                 </Transition.Child>
             </Transition.Root>
@@ -92,10 +99,13 @@ function MobileNavigation() {
 };
 
 export default function Header(props) {
+    const { profile, setProfile } = props;
+
     return (
         <header className="py-10">
                 <Container>
                     <nav className="relative z-50 flex justify-between">
+                        {/* Navbar */}
                         <div className="flex items-center md:gap-x-12">
                             <Link href="/#" aria-label="Home">
                                 <Logo className="h-10 w-auto" />
@@ -108,24 +118,45 @@ export default function Header(props) {
                                 <NavLink href="/become-a-creative">Become a creative</NavLink>
                             </div>
                         </div>
+
+                        {/* Sign in and register */}
                         <div className="flex items-center gap-x-5 md:gap-x-8">
-                            <div className="hidden md:block">
-                                <NavLink {...props} href="/business-login">Sign in</NavLink>
-                                {/* <NavLink {...props} href="/business-register">Get started today</NavLink> */}
-                            </div>
-                    
+                            {profile.email === "" ? (
+                                <>
+                                    <div className="hidden md:block">
+                                        <NavLink {...props} href="/business-login">Sign in</NavLink>
+                                    </div>
+                            
+                                    <a href="/business-register">
+                                        <Button color="blue">
+                                            <span>
+                                                Get started <span className="hidden lg:inline">today</span>
+                                            </span>
+                                        </Button>
+                                    </a>                                
+                                </>
+                            ) : (
+                                <Link
+                                    to="/directory" 
+                                    className="flex items-center space-x-2.5"
+                                >
+                                    <img
+                                        className="inline-block h-9 w-9 rounded-full"
+                                        src={"http://localhost:8080/public/" + profile.profilePicture}
+                                        alt="Logged in user profile picture"
+                                    />
 
-                            <a href="/business-register">
-                            <Button color="blue">
-                                <span>
-                                    Get started <span className="hidden lg:inline">today</span>
-                                </span>
-                            </Button>
-                            </a>
-
+                                    <div className="text-sm font-medium">
+                                        {profile.firstName} {profile.lastName}
+                                    </div>
+                                </Link>
+                            )}
 
                             <div className="-mr-1 md:hidden">
-                                <MobileNavigation />
+                                <MobileNavigation 
+                                    profile={profile}
+                                    setProfile={setProfile}
+                                />
                             </div>
                         </div>
                     </nav>
