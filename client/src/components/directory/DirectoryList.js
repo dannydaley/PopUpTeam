@@ -3,60 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { FunnelIcon, MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 
-// export default function DirectoryList(props) {
-//     const { setProfile, setRenderMessage } = props;
-
-//     const [directoryList, changeDirectoryList] = useState("directory");
-//     const [directoryLoaded, setDirectoryLoaded] = useState(false);
-
-//     function loadProfile(userData) {
-//         setProfile({
-//             firstName: userData.first_name,
-//             lastName: userData.last_name,
-//             profilePicture: userData.profile_picture,
-//             aboutMe: userData.about_me,
-//             phone: userData.phone,
-//             email: userData.email,
-//             work: userData.work,
-//             team: userData.team,
-//             hourlyRate: userData.hourly_rate,
-//             birthday: userData.birthday,
-//             location: userData.location,
-//             country: userData.country,
-//         });
-//     }
-
-//     const rawDirectory = useRef([]);
-
-//     const directory = useRef({
-//         A: [],
-//         B: [],
-//         C: [],
-//         D: [],
-//         E: [],
-//         F: [],
-//         G: [],
-//         H: [],
-//         I: [],
-//         J: [],
-//         K: [],
-//         L: [],
-//         M: [],
-//         N: [],
-//         O: [],
-//         P: [],
-//         Q: [],
-//         R: [],
-//         S: [],
-//         T: [],
-//         U: [],
-//         V: [],
-//         W: [],
-//         X: [],
-//         Y: [],
-//         Z: [],
-//     })
-
 export default function DirectoryList(props) {
     const [directoryList, changeDirectoryList] = useState("directory");
     const [directoryLoaded, setDirectoryLoaded] = useState(false);
@@ -121,8 +67,8 @@ export default function DirectoryList(props) {
         W: [],
         X: [],
         Y: [],
-        Z: [],
     });
+
     const searchResults = useRef({
         A: [],
         B: [],
