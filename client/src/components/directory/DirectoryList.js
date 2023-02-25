@@ -100,7 +100,7 @@ export default function DirectoryList(props) {
     useEffect(
         () =>
             axios
-                .get(process.env.REACT_APP_SERVER + "/search/getDirectory")
+                .get("https://popupteam.kemeneth.net" + "/search/getDirectory")
                 .then((res) => {
                     // apply raw list to rawdirectory variable
                     rawDirectory.current = res.data;
