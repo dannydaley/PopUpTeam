@@ -132,7 +132,7 @@ export default function Message(props) {
                                                     "/public/" +
                                                     profilePicture
                                                 }
-                                                alt="Profile picture"
+                                                alt="Profile"
                                                 class="rounded-full"
                                             ></img>
                                         </div>

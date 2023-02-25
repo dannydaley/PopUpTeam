@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
 
@@ -25,6 +25,36 @@ export default function SideBar(props) {
         props;
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    useEffect(() => {
+        // Get session user data
+        axios
+            .get(process.env.REACT_APP_SERVER + "/auth/signin")
+            .then((res) => {
+                console.log(res);
+                //If user is logged in set login data
+                if (res.data.loggedIn === true) {
+                    setProfile({
+                        firstName: res.data.firstName,
+                        lastName: res.data.lastName,
+                        profilePicture: res.data.profilePicture,
+                        aboutMe: res.data.aboutMe,
+                        phone: res.data.phone,
+                        email: res.data.email,
+                        work: res.data.work,
+                        team: "",
+                        country: "",
+                        location: "",
+                        hourlyRate: "",
+                        birthday: "",
+                        skills: [],
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }, []);
 
     // Logout user
     const onSignOut = () => {
@@ -257,7 +287,7 @@ export default function SideBar(props) {
                                     "/public/" +
                                     profile.profilePicture
                                 }
-                                alt="Logged in user profile-picture"
+                                alt="Logged in user profile"
                             />
 
                             <div className="ml-3">

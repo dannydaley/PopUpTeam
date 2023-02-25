@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { Popover, Transition } from "@headlessui/react";
 import clsx from "clsx";
@@ -164,7 +164,7 @@ export default function Header(props) {
                                         "/public/" +
                                         profile.profilePicture
                                     }
-                                    alt="Logged in user profile picture"
+                                    alt="Logged in user profile"
                                 />
 
                                 <div className="text-sm font-medium">
