@@ -4,6 +4,7 @@ const app = express();
 app.use(express.json());
 const http = require("http");
 const socket = require("./lib/socket");
+var fallback = require("express-history-api-fallback");
 
 const cors = require("cors");
 
@@ -34,7 +35,7 @@ app.use(
 );
 app.use(express.static(path.join(__dirname, "build")));
 const root = path.join(__dirname, "build");
-// app.use(fallback("index.html", { root: root }));
+app.use(fallback("index.html", { root: root }));
 app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "build", "index.html"));
 });
