@@ -90,9 +90,11 @@ export default function Register() {
 
             <AuthLayout>
                 <div className="flex flex-col">
-                    <Link to="/" aria-label="Home">
-                        <Logo className="h-10 w-auto" />
-                    </Link>
+                    <Logo 
+                        width={170}
+                        image={"logo.png"} 
+                    />
+
                     <div className="mt-20">
                         <h2 className="text-lg font-semibold text-gray-900">
                             Get started for free
