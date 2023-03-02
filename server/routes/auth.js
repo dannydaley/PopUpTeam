@@ -91,7 +91,7 @@ router.post("/signin", (req, res) => {
                 req.session.userData.firstName = rows[0].first_name;
                 req.session.userData.lastName = rows[0].last_name;
                 req.session.userData.username = rows[0].user_name;
-                req.session.userData.ProfilePicture = rows[0].profile_picture;
+                req.session.userData.profilePicture = rows[0].profile_picture;
                 req.session.userData.aboutMe = rows[0].about_me;
                 req.session.userData.phone = rows[0].phone;
                 req.session.userData.email = rows[0].email;
@@ -127,23 +127,9 @@ router.post("/signin", (req, res) => {
 router.get("/signin", (req, res) => {
     // If user is logged in send user data
     if (req.session.userData.username) {
-        res.send({
+        res.json({
             loggedIn: true,
-            username: req.session.username,
-            firstName: req.session.firstName,
-            lastName: req.session.lastName,
-            profilePicture: req.session.ProfilePicture,
-            aboutMe: req.session.aboutMe,
-            phone: req.session.phone,
-            email: req.session.email,
-            work: req.session.work,
-            team: req.session.team,
-            hourlyRate: req.session.hourlyRate,
-            birthday: req.session.birthday,
-            location: req.session.location,
-            country: req.session.country,
-            work: req.session.work,
-            education: req.session.education,
+            userData: req.session.userData,
         });
     }
 
