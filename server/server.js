@@ -35,7 +35,7 @@ app.use(
 );
 app.use(express.static(path.join(__dirname, "build")));
 const root = path.join(__dirname, "build");
-
+app.use(fallback("index.html", { root: root }));
 app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "build", "index.html"));
 });
@@ -70,7 +70,7 @@ const devRoutes = require("./routes/devSetup");
 app.use("/dev", devRoutes);
 
 const PORT = process.env.PORT || 8080;
-app.use(fallback("index.html", { root: root }));
+
 //Server port
 server.listen(process.env.PORT || PORT, () => {
     socket(server); // Socket.io server
