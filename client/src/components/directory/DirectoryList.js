@@ -275,10 +275,7 @@ export default function DirectoryList(props) {
                                                                   />
                                                               </div>
                                                               <div className="min-w-0 flex-1">
-                                                                  <a
-                                                                      href="/"
-                                                                      className="focus:outline-none"
-                                                                  >
+                                                                  <div className="focus:outline-none">
                                                                       {/* Extend touch target to entire panel */}
                                                                       <span
                                                                           className="absolute inset-0"
@@ -294,7 +291,7 @@ export default function DirectoryList(props) {
                                                                               person.work
                                                                           }
                                                                       </p>
-                                                                  </a>
+                                                                  </div>
                                                               </div>
                                                           </div>
                                                       </li>

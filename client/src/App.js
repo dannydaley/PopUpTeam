@@ -23,20 +23,23 @@ import KanbanPage from "./pages/KanbanPage";
 axios.defaults.withCredentials = true; // Allows axios to send cookies to the server
 
 function App() {
-    const [profile, setProfile] = useState({
-        firstName: "",
-        lastName: "",
-        profilePicture: "",
-        aboutMe: "",
-        phone: "",
-        email: "",
-        work: "",
-        team: "",
-        country: "",
-        location: "",
-        hourlyRate: "",
-        birthday: "",
-    });
+    const userData = {
+      firstName: "",
+      lastName: "",
+      profilePicture: "",
+      aboutMe: "",
+      phone: "",
+      email: "",
+      work: "",
+      team: "",
+      country: "",
+      location: "",
+      hourlyRate: "",
+      birthday: "",
+    };
+
+    const [profile, setProfile] = useState(userData);
+    const [account, setAccount] = useState(userData);
 
     const [sender, setSender] = useState("");
 
@@ -62,20 +65,24 @@ function App() {
                         country: res.data.country,
                     });
 
+                    //setAccount(userData);
+
                     setSender(res.data.firstName + " " + res.data.lastName);
+
+                    console.log("Sender" + sender, "Account" + account);
                 }
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+    }, [account, sender]);
 
     return (
         <Routes>
             {/* Index */}
             <Route
                 path="/"
-                element={<Home profile={profile} setProfile={setProfile} />}
+                element={<Home profile={account} setProfile={setAccount} />}
             />
             <Route path="/about" element={<About />} />
             <Route path="/become-a-creative" element={<BecomeACreative />} />
@@ -91,6 +98,8 @@ function App() {
                     <CreativeDirectory
                         profile={profile}
                         setProfile={setProfile}
+                        account={account}
+                        setAccount={setAccount}
                         sender={sender}
                     />
                 }

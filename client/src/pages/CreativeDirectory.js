@@ -13,7 +13,7 @@ export default function CreativeDirectory(props) {
     const [showDirectory, setShowDirectory] = useState(true);
     const [renderMessage, setRenderMessage] = useState(false);
 
-    const { profile, setProfile, sender } = props;
+    const { profile, setProfile, account, setAccount, sender } = props;
 
     return (
         <div class="flex">
@@ -21,8 +21,8 @@ export default function CreativeDirectory(props) {
                 isDesktop={isDesktop}
                 showDirectory={showDirectory}
                 setShowDirectory={setShowDirectory}
-                profile={profile}
-                setProfile={setProfile}
+                account={account}
+                setAccount={setAccount}
             />
 
             <div className="flex w-screen h-auto">
