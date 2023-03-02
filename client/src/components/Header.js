@@ -15,6 +15,7 @@ function MobileNavigation(props) {
 
     return (
         <Popover>
+            {/* Mobile menu toggle */}
             <Popover.Button
                 className="relative z-10 flex h-8 w-8 items-center justify-center [&:not(:focus-visible)]:focus:outline-none"
                 aria-label="Toggle Navigation"
@@ -40,6 +41,7 @@ function MobileNavigation(props) {
             </Popover.Button>
             
             <Transition.Root show={mobileMenu}>
+                {/* Overlay */}
                 <Transition.Child
                     as={Fragment}
                     enter="duration-150 ease-out"
@@ -49,8 +51,13 @@ function MobileNavigation(props) {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <Popover.Overlay className="fixed inset-0 bg-slate-300/50" />
+                    <Popover.Overlay 
+                        onClick={() => setMobileMenu(false)}
+                        className="fixed inset-0 bg-slate-300/50" 
+                    />
                 </Transition.Child>
+
+                {/* Menu */}
                 <Transition.Child
                     as={Fragment}
                     enter="duration-150 ease-out"
@@ -130,6 +137,7 @@ export default function Header(props) {
                             image={"logo.png"} 
                         />
 
+                        {/* Nav links */}
                         <div className="hidden lg:flex lg:gap-x-6">
                             <div onClick={() => ScrollTo({ target: "features", offset: -80 })}>
                                 <NavLink>
@@ -197,6 +205,7 @@ export default function Header(props) {
                             </Link>
                         )}
 
+                        {/* Mobile menu */}
                         <div className="-mr-1 lg:hidden">
                             <MobileNavigation
                                 profile={profile}
