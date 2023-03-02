@@ -24,18 +24,18 @@ axios.defaults.withCredentials = true; // Allows axios to send cookies to the se
 
 function App() {
     const userData = {
-      firstName: "",
-      lastName: "",
-      profilePicture: "",
-      aboutMe: "",
-      phone: "",
-      email: "",
-      work: "",
-      team: "",
-      country: "",
-      location: "",
-      hourlyRate: "",
-      birthday: "",
+        firstName: "",
+        lastName: "",
+        profilePicture: "",
+        aboutMe: "",
+        phone: "",
+        email: "",
+        work: "",
+        team: "",
+        country: "",
+        location: "",
+        hourlyRate: "",
+        birthday: "",
     };
 
     const [profile, setProfile] = useState(userData);
@@ -86,7 +86,10 @@ function App() {
             <Route path="/become-a-creative" element={<BecomeACreative />} />
 
             {/* Authentication */}
-            <Route path="/business-login" element={<Login />} />
+            <Route
+                path="/business-login"
+                element={<Login account={account} setAccount={setAccount} />}
+            />
             <Route path="/business-register" element={<Register />} />
 
             {/* Directory */}

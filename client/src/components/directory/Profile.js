@@ -44,11 +44,15 @@ const teamPlaceHolder = [
 ];
 
 export default function Profile(props) {
-    const { profile, renderMessage, setRenderMessage, sender } = props;
+    const { profile, renderMessage, setRenderMessage, sender, account } = props;
 
     const profileHeader = {
-        name: profile.firstName + " " + profile.lastName,
-        profile_picture: profile.profilePicture,
+        name:
+            profile.firstName === undefined
+                ? account.firstName + " " + account.lastName
+                : profile.firstName + " " + profile.lastName,
+
+        profile_picture: profile.profilePicture || account.profilePicture,
         coverImageUrl:
             "https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
     };
@@ -187,29 +191,32 @@ export default function Profile(props) {
                             </div>
 
                             {/* Message button */}
-                            {sender !==
-                                profile.firstName + " " + profile.lastName && (
-                                <div className="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            setRenderMessage(!renderMessage);
-                                            !renderMessage && joinRoom();
-                                        }}
-                                        className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
-                                    >
-                                        <EnvelopeIcon
-                                            className="-ml-1 mr-2 h-5 w-5 text-gray-400"
-                                            aria-hidden="true"
-                                        />
-                                        {renderMessage ? (
-                                            <span>Close Message</span>
-                                        ) : (
-                                            <span>Message</span>
-                                        )}
-                                    </button>
-                                </div>
-                            )}
+                            {sender !== profile.firstName ||
+                                account.firstName + " " + profile.lastName ||
+                                (account.lastName && (
+                                    <div className="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                setRenderMessage(
+                                                    !renderMessage
+                                                );
+                                                !renderMessage && joinRoom();
+                                            }}
+                                            className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
+                                        >
+                                            <EnvelopeIcon
+                                                className="-ml-1 mr-2 h-5 w-5 text-gray-400"
+                                                aria-hidden="true"
+                                            />
+                                            {renderMessage ? (
+                                                <span>Close Message</span>
+                                            ) : (
+                                                <span>Message</span>
+                                            )}
+                                        </button>
+                                    </div>
+                                ))}
                         </div>
                     </div>
                     <div className="mt-6 hidden min-w-0 flex-1 sm:block 2xl:hidden">
@@ -285,55 +292,64 @@ export default function Profile(props) {
                                                 case 0:
                                                     return renderProfileField(
                                                         "a description",
-                                                        profile.aboutMe,
+                                                        profile.aboutMe ||
+                                                            account.aboutMe,
                                                         "/settings"
                                                     );
                                                 case 1:
                                                     return renderProfileField(
                                                         "a phone number",
-                                                        profile.phone,
+                                                        profile.phone ||
+                                                            account.phone,
                                                         "/settings"
                                                     );
                                                 case 2:
                                                     return renderProfileField(
                                                         "an email",
-                                                        profile.email,
+                                                        profile.email ||
+                                                            account.email,
                                                         "/settings"
                                                     );
                                                 case 3:
                                                     return renderProfileField(
                                                         "a work",
-                                                        profile.work,
+                                                        profile.work ||
+                                                            account.work,
                                                         "/settings"
                                                     );
                                                 case 4:
                                                     return renderProfileField(
                                                         "a team",
-                                                        profile.team,
+                                                        profile.team ||
+                                                            account.team,
                                                         "/settings"
                                                     );
                                                 case 5:
                                                     return renderProfileField(
                                                         "a country",
-                                                        profile.country,
+                                                        profile.country ||
+                                                            account.country,
                                                         "/settings"
                                                     );
                                                 case 6:
                                                     return renderProfileField(
                                                         "a location",
-                                                        profile.location,
+                                                        profile.location ||
+                                                            account.location,
                                                         "/settings"
                                                     );
                                                 case 7:
                                                     return renderProfileField(
                                                         "a hourly rate",
-                                                        profile.hourlyRate,
+                                                        profile.hourlyRate ||
+                                                            account.hourlyRate,
                                                         "/settings"
                                                     );
                                                 case 8:
                                                     return renderProfileField(
                                                         "a date of birth",
-                                                        profile.birthday,
+                                                        profile.birthday ||
+                                                            account.birthday,
                                                         "/settings"
                                                     );
                                                 default:

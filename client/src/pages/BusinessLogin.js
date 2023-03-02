@@ -9,10 +9,11 @@ import Button from "../components/Button";
 import Input from "../components/authentication/Input";
 import Logo from "../components/Logo";
 
-export default function Login() {
+export default function Login(props) {
     const navigate = useNavigate();
     const location = useLocation();
-
+    const { isDesktop, showDirectory, setShowDirectory, account, setAccount } =
+        props;
     const { formData, handleChange } = useFormData();
     const [message, setMessage] = useState("");
 
@@ -43,13 +44,28 @@ export default function Login() {
                 email: formData.email,
                 password: formData.password,
             })
-            .then((res) => {
-                setMessage(res.data);
+            // .then((response) => response.json())
+            .then((data) => {
+                setMessage(data.data.login);
 
                 //If validation passed
-                if (res.data === "Login successful") {
+                if (data.data.login === "Login successful") {
+                    setAccount({
+                        firstName: data.data.userData.firstName,
+                        lastName: data.data.userData.lastName,
+                        profilePicture: data.data.userData.ProfilePicture,
+                        aboutMe: data.data.userData.aboutMe,
+                        phone: data.data.userData.phone,
+                        email: data.data.userData.email,
+                        work: data.data.userData.work,
+                        team: data.data.userData.team,
+                        country: data.data.userData.country,
+                        location: data.data.userData.location,
+                        hourlyRate: data.data.userData.hourlyRate,
+                        birthday: data.data.userData.birthday,
+                        skills: [],
+                    });
                     navigate("/directory");
-                    window.location.reload(); // Reload page to account information
                 }
             });
     };

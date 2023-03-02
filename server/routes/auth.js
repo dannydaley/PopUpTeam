@@ -104,7 +104,10 @@ router.post("/signin", (req, res) => {
                 req.session.userData.work = rows[0].work;
                 req.session.userData.education = rows[0].education;
                 console.log("Session created:", req.session); // Print session
-                res.send("Login successful");
+                res.json({
+                    login: "Login successful",
+                    userData: req.session.userData,
+                });
             }
 
             // If password is incorrect

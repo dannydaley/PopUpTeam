@@ -30,6 +30,7 @@ export default function CreativeDirectory(props) {
                     <div className="relative z-0 flex flex-1 overflow-hidden">
                         <main className="relative z-0 flex-1 overflow-y-auto focus:outline-none xl:order-last max-h-screen">
                             <Profile
+                                account={account}
                                 profile={profile}
                                 renderMessage={renderMessage}
                                 setRenderMessage={setRenderMessage}

@@ -15,7 +15,6 @@ router.get("/getDirectory", (req, res, next) => {
                 res.status(500).send(err.message);
                 return;
             }
-            console.log(directoryData);
             // respond with data if no errors
             res.json(directoryData);
         }
