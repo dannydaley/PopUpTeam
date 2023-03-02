@@ -52,7 +52,10 @@ export default function Profile(props) {
                 ? account.firstName + " " + account.lastName
                 : profile.firstName + " " + profile.lastName,
 
-        profile_picture: profile.profilePicture || account.profilePicture,
+        profile_picture:
+            profile.profilePicture === undefined
+                ? account.profilePicture
+                : profile.profilePicture,
         coverImageUrl:
             "https://images.unsplash.com/photo-1444628838545-ac4016a5418a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80",
     };
@@ -177,8 +180,9 @@ export default function Profile(props) {
                                 className="h-24 w-24 rounded-full ring-4 ring-white sm:h-32 sm:w-32"
                                 src={
                                     process.env.REACT_APP_SERVER +
-                                    "/public/" +
-                                    profileHeader.profile_picture
+                                        "/public/" +
+                                        profileHeader.profile_picture ||
+                                    account.profilePicture
                                 }
                                 alt=""
                             />

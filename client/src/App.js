@@ -51,23 +51,27 @@ function App() {
                 //If user is logged in set login data
                 if (res.data.loggedIn === true) {
                     setProfile({
-                        firstName: res.data.firstName,
-                        lastName: res.data.lastName,
-                        profilePicture: res.data.profilePicture,
-                        aboutMe: res.data.aboutMe,
-                        phone: res.data.phone,
-                        email: res.data.email,
-                        work: res.data.work,
-                        team: res.data.team,
-                        hourlyRate: res.data.hourlyRate,
-                        birthday: res.data.birthday,
-                        location: res.data.location,
-                        country: res.data.country,
+                        firstName: res.data.userData.firstName,
+                        lastName: res.data.userData.lastName,
+                        profilePicture: res.data.userData.profilePicture,
+                        aboutMe: res.data.userData.aboutMe,
+                        phone: res.data.userData.phone,
+                        email: res.data.userData.email,
+                        work: res.data.userData.work,
+                        team: res.data.userData.team,
+                        hourlyRate: res.data.userData.hourlyRate,
+                        birthday: res.data.userData.birthday,
+                        location: res.data.userData.location,
+                        country: res.data.userData.country,
                     });
 
-                    setAccount(userData);
+                    setAccount(res.data.userData);
 
-                    setSender(res.data.firstName + " " + res.data.lastName);
+                    setSender(
+                        res.data.userData.firstName +
+                            " " +
+                            res.data.userData.lastName
+                    );
                 }
             })
             .catch((err) => {

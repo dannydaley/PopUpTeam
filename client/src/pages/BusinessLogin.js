@@ -37,7 +37,7 @@ export default function Login(props) {
                     setAccount({
                         firstName: data.data.userData.firstName,
                         lastName: data.data.userData.lastName,
-                        profilePicture: data.data.userData.ProfilePicture,
+                        profilePicture: data.data.userData.profilePicture,
                         aboutMe: data.data.userData.aboutMe,
                         phone: data.data.userData.phone,
                         email: data.data.userData.email,
@@ -69,10 +69,7 @@ export default function Login(props) {
 
             <AuthLayout>
                 <div className="flex flex-col">
-                    <Logo 
-                        width={170}
-                        image={"logo.png"} 
-                    />
+                    <Logo width={170} image={"logo.png"} />
                     <div className="mt-20">
                         <h2 className="text-lg font-semibold text-gray-900">
                             Sign in to your account
