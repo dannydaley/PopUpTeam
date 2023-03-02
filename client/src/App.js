@@ -65,17 +65,15 @@ function App() {
                         country: res.data.country,
                     });
 
-                    //setAccount(userData);
+                    setAccount(userData);
 
                     setSender(res.data.firstName + " " + res.data.lastName);
-
-                    console.log("Sender" + sender, "Account" + account);
                 }
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, [account, sender]);
+    }, []);
 
     return (
         <Routes>
