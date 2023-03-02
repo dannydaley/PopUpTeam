@@ -1,15 +1,6 @@
 import SideBar from "../components/directory/SideBar";
-import { Fragment, useState, useEffect } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import {
-    ChevronLeftIcon,
-    EnvelopeIcon,
-    FunnelIcon,
-    MagnifyingGlassIcon,
-} from "@heroicons/react/20/solid";
-import { useNavigate, Link, useLocation } from "react-router-dom";
-import Message from "../components/directory/Message";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
@@ -97,7 +88,6 @@ export default function Settingspage() {
                 <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
                     <div className="md:grid md:grid-cols-3 md:gap-6">
                         <div className="md:col-span-1">
-                            <h3 className="text-lg font-medium leading-6 text-gray-900"></h3>
                             <p className="mt-1 text-sm text-gray-500">
                                 This information will be displayed publicly so
                                 be careful what you share.

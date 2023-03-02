@@ -1,8 +1,6 @@
-import React from "react";
 import Helmet from "react-helmet";
 
 import CallToAction from "../components/index/CallToAction";
-import Faqs from "../components/index/Faqs";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Hero from "../components/index/Hero";
@@ -38,7 +36,6 @@ export default function Home(props) {
         <CallToAction />
         <Testimonials />
         <Pricing />
-        {/* <Faqs /> */}
       </>
 
       <Banner />
