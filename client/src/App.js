@@ -82,7 +82,7 @@ function App() {
                 path="/"
                 element={<Home profile={account} setProfile={setAccount} />}
             />
-            <Route path="/about" element={<About />} />
+            <Route path="/about" element={<About account={account} />} />
             <Route path="/become-a-creative" element={<BecomeACreative />} />
 
             {/* Authentication */}
@@ -105,14 +105,20 @@ function App() {
                     />
                 }
             />
-            <Route path="/projects" element={<NewProject />} />
+            <Route
+                path="/projects"
+                element={<NewProject account={account} />}
+            />
             <Route path="*" element={<Error />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/project" element={<Project />} />
+            <Route path="/settings" element={<Settings account={account} />} />
+            <Route
+                path="/dashboard"
+                element={<Dashboard account={account} />}
+            />
+            <Route path="/project" element={<Project account={account} />} />
 
             {/* Kanban */}
-            <Route path="/kanban" element={<KanbanPage />} />
+            <Route path="/kanban" element={<KanbanPage account={account} />} />
         </Routes>
     );
 }

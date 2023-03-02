@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
 
-export default function Settingspage() {
+export default function Settingspage(props) {
+    const { account } = props;
+
     const [username, setUsername] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
@@ -76,6 +78,7 @@ export default function Settingspage() {
     return (
         <div class="flex">
             <SideBar
+                account={account}
                 //Replace with actual user data from user session
                 userData={{
                     firstName: "test",
