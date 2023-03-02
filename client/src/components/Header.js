@@ -116,7 +116,7 @@ export default function Header(props) {
                     {/* Navbar */}
                     <div className="flex items-center md:gap-x-12">
                         <Logo 
-                            width={70}
+                            width={90}
                             image={"logo.png"} 
                         />
 
