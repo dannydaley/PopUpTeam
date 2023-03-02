@@ -21,22 +21,6 @@ export default function Login(props) {
         setMessage(location.state);
     }, [location]);
 
-    // const validateRow = () => {
-    //     console.log(process.env.REACT_APP_SERVER);
-    //     // Validate login
-    //     axios
-    //         .post(process.env.REACT_APP_SERVER + "/auth/signin", {
-    //             email: emailInput,
-    //             password: passwordInput,
-    //         })
-    //         .then((res) => {
-    //             setMessage(res.data);
-    //             //If validation passed
-    //             if (res.data === "Login successful") {
-    //                 navigate("/directory");
-    //             }
-    //         });
-    // };
     const validateRow = () => {
         // Validate login
         axios
@@ -85,9 +69,10 @@ export default function Login(props) {
 
             <AuthLayout>
                 <div className="flex flex-col">
-                    <Link to="/" aria-label="Home">
-                        <Logo className="h-10 w-auto" />
-                    </Link>
+                    <Logo 
+                        width={170}
+                        image={"logo.png"} 
+                    />
                     <div className="mt-20">
                         <h2 className="text-lg font-semibold text-gray-900">
                             Sign in to your account

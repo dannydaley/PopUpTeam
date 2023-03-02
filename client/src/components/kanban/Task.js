@@ -96,13 +96,13 @@ const Task = ({ task, getColumns, dragId }) => {
 					background: "rgba(0,0,0,0.50)",
 				}}
 				trigger={
-					<div className="flex items-center gap-2 w-full cursor-pointer">
-						<p>{task.title}</p>
+					<div className="flex items-center gap-3 w-full cursor-pointer">
 						<div>
 							<div
 								className={`w-2 h-2 rounded ${labelColors[task.color]}`}
 							></div>
 						</div>
+						<p>{task.title}</p>
 					</div>
 				}
 				modal

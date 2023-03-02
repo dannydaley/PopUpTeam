@@ -1,17 +1,3 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import { PlusIcon } from '@heroicons/react/20/solid'
 
 const people = [
@@ -81,7 +67,7 @@ export default function Example() {
       </div>
       <div className="mt-10">
         <h3 className="text-sm font-medium text-gray-500">Team members previously added to projects</h3>
-        <ul role="list" className="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
+        <ul className="mt-4 divide-y divide-gray-200 border-t border-b border-gray-200">
           {people.map((person, personIdx) => (
             <li key={personIdx} className="flex items-center justify-between space-x-3 py-4">
               <div className="flex min-w-0 flex-1 items-center space-x-3">

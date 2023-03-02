@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useState } from "react";
 import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
 
@@ -12,7 +12,7 @@ import {
     UsersIcon,
     XMarkIcon,
 } from "@heroicons/react/24/outline";
-import Logo from "../Logo2";
+import Logo from "../Logo";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -159,7 +159,10 @@ export default function SideBar(props) {
                                 {/*  Sidebar content */}
                                 <div className="h-0 flex-1 overflow-y-auto pt-5 pb-4">
                                     <div className="flex flex-shrink-0 items-center px-4">
-                                        <Logo />
+                                        <Logo
+                                            width={170}
+                                            image={"logo-white.png"}
+                                        />
                                     </div>
                                     <nav className="mt-5 space-y-1 px-2">
                                         {navigation.map((item) => (
@@ -207,12 +210,9 @@ export default function SideBar(props) {
             <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
                 <div className="flex min-h-0 flex-1 flex-col bg-indigo-700">
                     <div className="flex flex-1 flex-col overflow-y-auto pt-5 pb-4">
-                        <a
-                            href="/"
-                            className="flex flex-shrink-0 items-center px-4"
-                        >
-                            <Logo />
-                        </a>
+                        <div className="flex flex-shrink-0 items-center px-4">
+                            <Logo width={140} image={"logo-white.png"} />
+                        </div>
 
                         {/* Sidebar content */}
                         <nav className="mt-5 flex-1 space-y-1 px-2">

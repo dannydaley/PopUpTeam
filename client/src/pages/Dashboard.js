@@ -1,11 +1,4 @@
-import {
-  Bars4Icon,
-  CalendarIcon,
-  ClockIcon,
-  PhotoIcon,
-  TableCellsIcon,
-  ViewColumnsIcon,
-} from '@heroicons/react/24/outline'
+import { CalendarIcon } from '@heroicons/react/24/outline'
 
 import SideBar from "../components/directory/SideBar";
 
