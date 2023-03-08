@@ -13,7 +13,7 @@ export default function Login(props) {
     const navigate = useNavigate();
     const location = useLocation();
     
-    const setAccount = props;
+    const { setAccount } = props;
     const { formData, handleChange } = useFormData();
     const [message, setMessage] = useState("");
 
