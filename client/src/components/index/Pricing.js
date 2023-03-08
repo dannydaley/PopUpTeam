@@ -1,7 +1,8 @@
-import clsx from 'clsx';
+import { Link } from "react-router-dom"
+import clsx from "clsx";
 
-import Button from '../Button';
-import Container from '../Container';
+import Button from "../Button";
+import Container from "../Container";
 
 function SwirlyDoodle({ className }) {
     return (
@@ -67,7 +68,6 @@ function Plan({ name, price, description, href, features, featured = false }) {
                 {price}
             </p>
             <ul
-                role="list"
                 className={clsx(
                     'order-last mt-10 flex flex-col gap-y-3 text-sm',
                     featured ? 'text-white' : 'text-slate-200'
@@ -80,6 +80,7 @@ function Plan({ name, price, description, href, features, featured = false }) {
                     </li>
                 ))}
             </ul>
+
             <Button
                 href={href}
                 variant={featured ? 'solid' : 'outline'}
@@ -118,10 +119,10 @@ export default function Pricing() {
                         name="Starter"
                         price="$9"
                         description="Good for anyone who is self-employed and just getting started."
-                        href="/register"
+                        href="/business-register"
                         features={[
-                            'KEY FEATURE',
-                            'KEY FEATURE',
+                            "Feature 1",
+                            "Feature 2",
                         ]}
                     />
                     <Plan
@@ -129,22 +130,20 @@ export default function Pricing() {
                         name="Small business"
                         price="$15"
                         description="Perfect for small / medium sized businesses."
-                        href="/register"
+                        href="/business-register"
                         features={[
-                            'KEY FEATURE',
-                            'KEY FEATURE',
-
+                            "Feature 1",
+                            "Feature 2",
                         ]}
                     />
                     <Plan
                         name="Enterprise"
                         price="$39"
                         description="For even the biggest enterprise companies."
-                        href="/register"
+                        href="/business-register"
                         features={[
-                            'KEY FEATURE',
-                            'KEY FEATURE',
-
+                            "Feature 1",
+                            "Feature 2",
                         ]}
                     />
                 </div>

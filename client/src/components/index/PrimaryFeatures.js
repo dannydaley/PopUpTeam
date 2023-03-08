@@ -61,7 +61,6 @@ export default function PrimaryFeatures() {
                 alt=""
                 width={2245}
                 height={1636}
-                unoptimized
             />
             <Container className="relative">
                 <div className="max-w-2xl md:mx-auto md:text-center xl:max-w-none">
@@ -131,8 +130,7 @@ export default function PrimaryFeatures() {
                                             <img
                                                 className="w-full"
                                                 src={feature.image}
-                                                alt=""
-                                                priority
+                                                alt="Feature"
                                                 sizes="(min-width: 1024px) 67.8125rem, (min-width: 640px) 100vw, 45rem"
                                             />
                                         </div>

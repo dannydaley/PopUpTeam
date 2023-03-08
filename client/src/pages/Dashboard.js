@@ -58,10 +58,7 @@ export default function Dashboard(props) {
                     Get started by selecting a template or start from an empty
                     project.
                 </p>
-                <ul
-                    role="list"
-                    className="mt-6 divide-y divide-gray-200 border-t border-b border-gray-200"
-                >
+                <ul className="mt-6 divide-y divide-gray-200 border-t border-b border-gray-200">
                     {items.map((item, itemIdx) => (
                         <li key={itemIdx}>
                             <div className="group relative flex items-start space-x-3 py-4">

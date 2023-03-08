@@ -242,60 +242,55 @@ export default function DirectoryList(props) {
                                               <div className="sticky top-0 z-10 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
                                                   <h3>{letter}</h3>
                                               </div>
-                                              <ul
-                                                  role="list"
-                                                  className="relative z-0 divide-y divide-gray-200"
-                                              >
-                                                  {directory.current[
-                                                      letter
-                                                  ].map((person) => (
-                                                      <li
-                                                          key={person.id}
-                                                          onClick={() => {
-                                                              loadProfile(
-                                                                  person
-                                                              );
-                                                              setRenderMessage(
-                                                                  false
-                                                              );
-                                                          }}
-                                                      >
-                                                          <div className="relative flex items-center space-x-3 px-6 py-5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 hover:bg-gray-50">
-                                                              <div className="flex-shrink-0">
-                                                                  <img
-                                                                      className="h-10 w-10 rounded-full"
-                                                                      src={
-                                                                          process
-                                                                              .env
-                                                                              .REACT_APP_SERVER +
-                                                                          "/public/" +
-                                                                          person.profile_picture
-                                                                      }
-                                                                      alt=""
-                                                                  />
-                                                              </div>
-                                                              <div className="min-w-0 flex-1">
-                                                                  <div className="focus:outline-none">
-                                                                      {/* Extend touch target to entire panel */}
-                                                                      <span
-                                                                          className="absolute inset-0"
-                                                                          aria-hidden="true"
-                                                                      />
-                                                                      <p className="text-sm font-medium text-gray-900">
-                                                                          {person.first_name +
-                                                                              " " +
-                                                                              person.last_name}
-                                                                      </p>
-                                                                      <p className="truncate text-sm text-gray-500">
-                                                                          {
-                                                                              person.work
-                                                                          }
-                                                                      </p>
-                                                                  </div>
-                                                              </div>
-                                                          </div>
-                                                      </li>
-                                                  ))}
+                                              <ul className="relative z-0 divide-y divide-gray-200">
+                                                {directory.current[letter].map((person) => (
+                                                    <li
+                                                        key={person.id}
+                                                        onClick={() => {
+                                                            loadProfile(
+                                                                person
+                                                            );
+                                                            setRenderMessage(
+                                                                false
+                                                            );
+                                                        }}
+                                                    >
+                                                        <div className="relative flex items-center space-x-3 px-6 py-5 focus-within:ring-2 focus-within:ring-inset focus-within:ring-blue-600 hover:bg-gray-50">
+                                                            <div className="flex-shrink-0">
+                                                                <img
+                                                                    className="h-10 w-10 rounded-full"
+                                                                    src={
+                                                                        process
+                                                                            .env
+                                                                            .REACT_APP_SERVER +
+                                                                        "/public/" +
+                                                                        person.profile_picture
+                                                                    }
+                                                                    alt=""
+                                                                />
+                                                            </div>
+                                                            <div className="min-w-0 flex-1">
+                                                                <div className="focus:outline-none">
+                                                                    {/* Extend touch target to entire panel */}
+                                                                    <span
+                                                                        className="absolute inset-0"
+                                                                        aria-hidden="true"
+                                                                    />
+                                                                    <p className="text-sm font-medium text-gray-900">
+                                                                        {person.first_name +
+                                                                            " " +
+                                                                            person.last_name}
+                                                                    </p>
+                                                                    <p className="truncate text-sm text-gray-500">
+                                                                        {
+                                                                            person.work
+                                                                        }
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                ))}
                                               </ul>
                                           </div>
                                       )
@@ -309,10 +304,7 @@ export default function DirectoryList(props) {
                                               <div className="sticky top-0 z-10 border-t border-b border-gray-200 bg-gray-50 px-6 py-1 text-sm font-medium text-gray-500">
                                                   <h3>{letter}</h3>
                                               </div>
-                                              <ul
-                                                  role="list"
-                                                  className="relative z-0 divide-y divide-gray-200"
-                                              >
+                                              <ul className="relative z-0 divide-y divide-gray-200">
                                                   {searchResults.current[
                                                       letter
                                                   ].map((person) => (

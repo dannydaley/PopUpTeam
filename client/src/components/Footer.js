@@ -146,7 +146,7 @@ export default function Footer() {
                         <div className="md:grid md:grid-cols-2 md:gap-8">
                             <div>
                                 <h3 className="text-base font-medium text-gray-900">Company</h3>
-                                <ul role="list" className="mt-4 space-y-4">
+                                <ul className="mt-4 space-y-4">
                                     {navigation.company.map((item) => (
                                         <li key={item.name}>
                                             <a href={item.href} className="text-base text-gray-500 hover:text-gray-900">
@@ -158,7 +158,7 @@ export default function Footer() {
                             </div>
                             <div className="mt-12 md:mt-0">
                                 <h3 className="text-base font-medium text-gray-900">Legal</h3>
-                                <ul role="list" className="mt-4 space-y-4">
+                                <ul className="mt-4 space-y-4">
                                     {navigation.legal.map((item) => (
                                         <li key={item.name}>
                                             <a href={item.href} className="text-base text-gray-500 hover:text-gray-900">

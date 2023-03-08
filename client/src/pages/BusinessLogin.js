@@ -12,8 +12,8 @@ import Logo from "../components/Logo";
 export default function Login(props) {
     const navigate = useNavigate();
     const location = useLocation();
-    const { isDesktop, showDirectory, setShowDirectory, account, setAccount } =
-        props;
+    
+    const setAccount = props;
     const { formData, handleChange } = useFormData();
     const [message, setMessage] = useState("");
 
