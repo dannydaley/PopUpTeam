@@ -22,7 +22,7 @@ export default function CallToAction() {
           <p className="mt-4 text-lg tracking-tight text-white">
             It’s time to take control of your team. Sign up today and see the creatives online today.
           </p>
-          <Button href="/register" color="white" className="mt-10">
+          <Button href="/business-register" color="white" className="mt-10">
             Build your team today
           </Button>
         </div>

@@ -124,7 +124,7 @@ function MobileNavigation(props) {
 };
 
 export default function Header(props) {
-    const { profile, setProfile } = props;
+    const { profile } = props;
 
     return (
         <header className="py-10">
@@ -173,7 +173,7 @@ export default function Header(props) {
                                     </NavLink>
                                 </div>
 
-                                <a href="/business-register">
+                                <Link to="/business-register">
                                     <Button color="blue">
                                         <span>
                                             Get started{" "}
@@ -182,7 +182,7 @@ export default function Header(props) {
                                             </span>
                                         </span>
                                     </Button>
-                                </a>
+                                </Link>
                             </>
                         ) : (
                             <Link
@@ -207,10 +207,7 @@ export default function Header(props) {
 
                         {/* Mobile menu */}
                         <div className="-mr-1 lg:hidden">
-                            <MobileNavigation
-                                profile={profile}
-                                setProfile={setProfile}
-                            />
+                            <MobileNavigation profile={profile} />
                         </div>
                     </div>
                 </nav>

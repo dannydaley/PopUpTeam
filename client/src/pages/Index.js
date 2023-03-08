@@ -25,9 +25,7 @@ export default function Home(props) {
         />
       </Helmet>
 
-      <Header 
-        profile={profile}
-      />
+      <Header profile={profile} />
       
       <>
         <Hero />

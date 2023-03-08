@@ -82,10 +82,13 @@ function App() {
             {/* Index */}
             <Route
                 path="/"
-                element={<Home profile={account} setProfile={setAccount} />}
+                element={<Home profile={account} />}
             />
-            <Route path="/about" element={<About account={account} />} />
-            <Route path="/become-a-creative" element={<BecomeACreative />} />
+            <Route path="/about" element={<About />} />
+            <Route 
+                path="/become-a-creative" 
+                element={<BecomeACreative profile={account} />} 
+            />
 
             {/* Authentication */}
             <Route

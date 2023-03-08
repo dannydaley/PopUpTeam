@@ -24,7 +24,7 @@ export default function Hero() {
                 quick and easy, with a lots of active creatives available.
             </p>
             <div className="mt-10 flex justify-center gap-x-6">
-                <Button href="/register">Build your team today</Button>
+                <Button href="/business-register">Build your team today</Button>
                 
                 {/* POP UP VIDEO HERE */}
                 <Button
