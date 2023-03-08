@@ -49,7 +49,9 @@ export default function Login(props) {
                         birthday: data.data.userData.birthday,
                         skills: [],
                     });
+                    
                     navigate("/directory");
+                    window.location.reload(); // Ensures account information and message system updates
                 }
             });
     };

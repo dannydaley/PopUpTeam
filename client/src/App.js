@@ -68,9 +68,7 @@ function App() {
                     setAccount(res.data.userData);
 
                     setSender(
-                        res.data.userData.firstName +
-                            " " +
-                            res.data.userData.lastName
+                        res.data.userData.firstName + " " + res.data.userData.lastName
                     );
                 }
             })

@@ -4,7 +4,7 @@ const crypto = require("crypto");
 const socket = (server) => {
   const io = new Server(server, {
     cors: {
-      origin: "http://localhost:3000",
+      origin: process.env.FRONT_END,
       methods: ["GET", "POST"],
       credentials: true,
     },

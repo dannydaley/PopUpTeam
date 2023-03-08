@@ -5,7 +5,7 @@ const db = require("../config/db");
 
 // Add message to recipient from sender
 router.post("/insertMessage", (req, res) => {
-    const sender = (req.session.firstName + ' ' + req.session.lastName);
+    const sender = (req.session.userData.firstName + ' ' + req.session.userData.lastName);
     const { recipient, message, time, date } = req.body;
 
     const insertMessage = "INSERT INTO messages (sender, recipient, message, time, date) VALUES(?, ?, ?, ?, ?)"; // Inserts new message
@@ -18,7 +18,7 @@ router.post("/insertMessage", (req, res) => {
 
 // Get all messages
 router.get("/getMessages", (req, res) => {
-  const sender = (req.session.firstName + ' ' + req.session.lastName);
+  const sender = (req.session.userData.firstName + ' ' + req.session.userData.lastName);
   const recipient = req.query.recipient;
 
   // Selects all messages where sender is logged in user and recipient is specified recipient

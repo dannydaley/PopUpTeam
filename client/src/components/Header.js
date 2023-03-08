@@ -111,7 +111,7 @@ function MobileNavigation(props) {
                         {profile.email === "" && (
                             <>
                                 <hr className="m-2 border-slate-300/40" />
-                                <NavLink href="/businesslogin">
+                                <NavLink href="/business-login">
                                     Sign in
                                 </NavLink>
                             </>

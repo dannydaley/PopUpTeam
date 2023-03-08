@@ -10,15 +10,7 @@ const cors = require("cors");
 
 app.use(
     cors({
-        origin: [
-            "*",
-            "http://localhost:3000",
-            "http://dd252935.kemeneth.net",
-            "http://dd252935.kemeneth.net:9080",
-            "http://localhost:9090",
-            "http://localhost:3050",
-            "http://127.0.0.1:9080",
-        ],
+        origin: process.env.FRONT_END,
         methods: ["GET", "POST"],
         credentials: true,
     })

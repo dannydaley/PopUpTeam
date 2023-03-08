@@ -97,11 +97,11 @@ export default function Profile(props) {
                 setMessageList(
                     res.data.sort((a, b) => {
                         // Sort by date
-                        if (a.date < b.date) return 1; // If a is greater than b list a first
-                        if (a.date > b.date) return -1; // If a is less than b list b first
+                        if (a.date < b.date) return -1; // If a is less than b list a first
+                        if (a.date > b.date) return 1; // If a is less than b list b first
                         // Sort by time
-                        if (a.time < b.time) return 1;
-                        if (a.time > b.time) return -1;
+                        if (a.time < b.time) return -1;
+                        if (a.time > b.time) return 1;
                         return 0;
                     })
                 );
@@ -116,11 +116,11 @@ export default function Profile(props) {
                 setMessageList((prevMessageList) =>
                     [...prevMessageList, data].sort((a, b) => {
                         // Sort by date
-                        if (a.date < b.date) return 1; // If a is greater than b list a first
-                        if (a.date > b.date) return -1; // If a is less than b list b first
+                        if (a.date < b.date) return -1; // If a is less than b list a first
+                        if (a.date > b.date) return 1; // If a is less than b list b first
                         // Sort by time
-                        if (a.time < b.time) return 1;
-                        if (a.time > b.time) return -1;
+                        if (a.time < b.time) return -1;
+                        if (a.time > b.time) return 1;
                         return 0;
                     })
                 );
@@ -195,32 +195,30 @@ export default function Profile(props) {
                             </div>
 
                             {/* Message button */}
-                            {sender !== profile.firstName ||
-                                account.firstName + " " + profile.lastName ||
-                                (account.lastName && (
-                                    <div className="justify-stretch mt-6 flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-                                        <button
-                                            type="button"
-                                            onClick={() => {
-                                                setRenderMessage(
-                                                    !renderMessage
-                                                );
-                                                !renderMessage && joinRoom();
-                                            }}
-                                            className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
-                                        >
-                                            <EnvelopeIcon
-                                                className="-ml-1 mr-2 h-5 w-5 text-gray-400"
-                                                aria-hidden="true"
-                                            />
-                                            {renderMessage ? (
-                                                <span>Close Message</span>
-                                            ) : (
-                                                <span>Message</span>
-                                            )}
-                                        </button>
-                                    </div>
-                                ))}
+                            {sender !== profile.firstName + " " + profile.lastName && (
+                                <div className="min-w-[155px] justify-stretch mt-6 flex flex-row sm:space-x-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            setRenderMessage(
+                                                !renderMessage
+                                            );
+                                            !renderMessage && joinRoom();
+                                        }}
+                                        className="inline-flex justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2"
+                                    >
+                                        <EnvelopeIcon
+                                            className="-ml-1 mr-2 h-5 w-5 text-gray-400"
+                                            aria-hidden="true"
+                                        />
+                                        {renderMessage ? (
+                                            <span>Close Message</span>
+                                        ) : (
+                                            <span>Message</span>
+                                        )}
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div className="mt-6 hidden min-w-0 flex-1 sm:block 2xl:hidden">
