@@ -13,6 +13,10 @@ var logger = require("morgan");
 // };
 // app.use(cors(corsOptions));
 
+var indexRouter = require("./routes/index");
+
+var app = express();
+
 app.use(
     cors({
         origin: [
@@ -28,9 +32,6 @@ app.use(
         credentials: true,
     })
 );
-var indexRouter = require("./routes/index");
-
-var app = express();
 
 app.use(logger("dev"));
 app.use(express.json());
