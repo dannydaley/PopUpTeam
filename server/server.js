@@ -58,6 +58,7 @@ const server = http.createServer(app);
 const session = require("./lib/session");
 app.use(session);
 
+const kanbanServer = require("./kanban-server/routes/index");
 const authRoutes = require("./routes/auth");
 const searchRoutes = require("./routes/search");
 const messageRoutes = require("./routes/messages");
@@ -69,6 +70,8 @@ app.use("/search", searchRoutes); //Search routes
 app.use("/messages", messageRoutes); //Message routes
 app.use("/settings", settingsRoutes);
 
+//kanban routes
+app.use("/kanban", kanbanServer);
 const devRoutes = require("./routes/devSetup");
 app.use("/dev", devRoutes);
 
