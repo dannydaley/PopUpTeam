@@ -24,7 +24,7 @@ app.use(
             "https://popupteam.kemeneth.net",
             "https://popupteam.kemeneth.net:3050",
         ],
-        methods: ["GET", "POST"],
+        methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true,
     })
 );

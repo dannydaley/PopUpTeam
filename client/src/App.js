@@ -115,10 +115,10 @@ function App() {
                 element={<NewProject account={account} />}
             />
             <Route path="*" element={<Error />} />
-            <Route path="/settings" element={<Settings account={account} />} />
+            <Route path="/settings" element={<Settings account={account} setAccount={setAccount} />} />
             <Route
                 path="/dashboard"
-                element={<Dashboard account={account} />}
+                element={<Dashboard account={account} setAccount={setAccount} />}
             />
             <Route path="/project" element={<Project account={account} />} />
 
