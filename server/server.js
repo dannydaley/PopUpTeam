@@ -5,6 +5,7 @@ app.use(express.json());
 const http = require("http");
 const socket = require("./lib/socket");
 var fallback = require("express-history-api-fallback");
+var logger = require("morgan");
 
 const cors = require("cors");
 
@@ -71,7 +72,7 @@ app.use("/messages", messageRoutes); //Message routes
 app.use("/settings", settingsRoutes);
 
 //kanban routes
-app.use("/kanban", kanbanServer);
+app.use("/kanban-server", kanbanServer);
 const devRoutes = require("./routes/devSetup");
 app.use("/dev", devRoutes);
 
