@@ -59,7 +59,7 @@ const server = http.createServer(app);
 const session = require("./lib/session");
 app.use(session);
 
-const kanbanServer = require("./kanban-server/routes/index");
+const kanbanServer = require("./kanban-server/app");
 const authRoutes = require("./routes/auth");
 const searchRoutes = require("./routes/search");
 const messageRoutes = require("./routes/messages");
