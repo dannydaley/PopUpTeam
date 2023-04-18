@@ -1,78 +1,67 @@
-import SideBar from "../components/directory/SideBar";
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import SideBar from "../components/directory/SideBar";
+
 export default function Settingspage(props) {
-  const { account } = props;
-
-  const [username, setUsername] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [newAbout, setNewAbout] = useState("");
-  const [newFirstName, setNewFirstName] = useState("");
-  const [newLastName, setNewLastName] = useState("");
-
-  useEffect(() => {
-    // Get session user data
-    axios
-      .get(process.env.REACT_APP_SERVER + "/auth/signin")
-      .then((res) => {
-        if (res.data.loggedIn === true) {
-          setUsername(res.data.username);
-          setUsername(res.data.username);
-          setFirstName(res.data.firstName);
-          setLastName(res.data.lastName);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
+  const { account, setAccount } = props;
   const navigate = useNavigate();
+
   const changeProfilePicture = async (image) => {
     let formData = new FormData();
     formData.append("image", image);
-    formData.append("uploader", firstName + lastName);
-    formData.append("username", username);
-    await axios
-      .post(
+    formData.append("uploader", account.firstName + account.lastName);
+    formData.append("username", account.username);
+
+    try {
+      const res = await axios.post(
         process.env.REACT_APP_SERVER + "/settings" + "/changeProfilePicture",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
-          body: JSON.stringify({
-            username: username,
-            name: firstName + lastName,
-          }),
         }
-      )
-      .then((res) => {
-        this.setState({ profilePicture: res.data.profilePicture });
-      });
+      );
+      setAccount({ ...account, profilePicture: res.data.profilePicture });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  async function saveNewSettings() {
-    await axios
-      .post(process.env.REACT_APP_SERVER + "/settings/updateSettings", {
-        username: username,
-        newFirstName: newFirstName,
-        newLastName: newLastName,
-        newAbout: newAbout,
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setAccount((prevAccount) => ({
+      ...prevAccount,
+      [name]: value,
+    }));
+  };
+
+  const updateAccount = (e) => {
+    e.preventDefault();
+
+    axios
+      .put(process.env.REACT_APP_SERVER + "/settings/updateAccount", {
+        aboutMe: account.aboutMe,
+        work: account.work,
+        firstName: account.firstName,
+        lastName: account.lastName,
+        birthday: account.birthday,
+        phone: account.phone,
+        location: account.location,
+        country: account.country,
+        hourlyRate: account.hourlyRate,
       })
       .then((res) => {
-        if (res.data.status === "success") {
+        if (res.data.includes("Updated")) {
           navigate("/directory");
         }
       });
-  }
+  };
 
   return (
     <div class="flex">
       <SideBar account={account} />
 
-      <form className="space-y-6 px-6 py-6">
+      <form onSubmit={updateAccount} className="space-y-6 px-6 py-6">
         {/* Basic Information */}
         <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:p-6">
           <div className="md:grid md:grid-cols-3 md:gap-6">
@@ -90,38 +79,31 @@ export default function Settingspage(props) {
             <div className="mt-5 space-y-6 md:col-span-2 md:mt-0">
               {/* About */}
               <div>
-                <label
-                  htmlFor="about"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label className="block text-sm font-medium text-gray-700">
                   About
                 </label>
                 <div className="mt-1">
                   <textarea
-                    id="about"
-                    name="about"
+                    type="text"
+                    name="aboutMe"
                     rows={3}
+                    value={account.aboutMe}
+                    onChange={handleInputChange}
                     className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    placeholder="you@example.com"
-                    defaultValue={""}
-                    onChange={(event) => setNewAbout(event.target.value)}
                   />
                 </div>
               </div>
 
               {/* Work */}
               <div className="w-1/2 col-span-6 sm:col-span-3">
-                <label
-                  htmlFor="work"
-                  className="block text-sm font-medium text-gray-700"
-                >
+                <label className="block text-sm font-medium text-gray-700">
                   Work
                 </label>
                 <input
                   type="text"
                   name="work"
-                  id="work"
-                  autoComplete="family-name"
+                  value={account.work}
+                  onChange={handleInputChange}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 />
               </div>
@@ -132,15 +114,16 @@ export default function Settingspage(props) {
                   Photo
                 </label>
                 <div className="mt-1 flex items-center space-x-5">
-                  <span className="inline-block h-12 w-12 overflow-hidden rounded-full bg-gray-100">
-                    <svg
-                      className="h-full w-full text-gray-300"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                  </span>
+                  <img
+                    src={
+                      process.env.REACT_APP_SERVER +
+                      "/public/" +
+                      account.profilePicture
+                    }
+                    alt="profile"
+                    className="h-12 w-12 rounded-full border border-gray-300"
+                  ></img>
+
                   <button
                     id="loadFileXml"
                     type="button"
@@ -185,10 +168,7 @@ export default function Settingspage(props) {
                       />
                     </svg>
                     <div className="flex text-sm text-gray-600">
-                      <label
-                        htmlFor="file-upload"
-                        className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500"
-                      >
+                      <label className="relative cursor-pointer rounded-md bg-white font-medium text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 hover:text-indigo-500">
                         <span>Upload a file</span>
                         <input
                           id="file-upload"
@@ -221,74 +201,96 @@ export default function Settingspage(props) {
                 Use a permanent address where you can receive mail.
               </p>
             </div>
+
             <div className="mt-5 md:col-span-2 md:mt-0">
               <div className="grid grid-cols-6 gap-6">
                 <div className="col-span-6 sm:col-span-3">
-                  <label
-                    htmlFor="first-name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
+                  <label className="block text-sm font-medium text-gray-700">
                     first name
                   </label>
                   <input
                     type="text"
-                    name="first-name"
-                    id="first-name"
-                    autoComplete="given-name"
+                    name="firstName"
+                    value={account.firstName}
+                    onChange={handleInputChange}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    onChange={(event) => setNewFirstName(event.target.value)}
                   />
                 </div>
 
                 <div className="col-span-6 sm:col-span-3">
-                  <label
-                    htmlFor="last-name"
-                    className="block text-sm font-medium text-gray-700"
-                  >
+                  <label className="block text-sm font-medium text-gray-700">
                     last name
                   </label>
                   <input
                     type="text"
-                    name="last-name"
-                    id="last-name"
-                    autoComplete="family-name"
+                    name="lastName"
+                    value={account.firstName}
+                    onChange={handleInputChange}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                    onChange={(event) => setNewLastName(event.target.value)}
                   />
                 </div>
 
-                <div className="col-span-6 sm:col-span-3">
-                  <label
-                    htmlFor="country"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Country
-                  </label>
-                  <select
-                    id="country"
-                    name="country"
-                    autoComplete="country-name"
-                    className="mt-1 block w-full rounded-md border border-gray-300 bg-white py-2 px-3 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-                  >
-                    <option>Canada</option>
-                    <option>United States</option>
-                    <option>United Kingdom</option>
-                    <option>Mexico</option>
-                  </select>
-                </div>
-
                 <div className="col-span-6">
-                  <label
-                    htmlFor="region"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    State / Province / County
+                  <label className="block text-sm font-medium text-gray-700">
+                    Birthday
                   </label>
                   <input
                     type="text"
-                    name="region"
-                    id="region"
-                    autoComplete="address-level1"
+                    name="birthday"
+                    value={account.birthday}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+
+                <div className="col-span-6">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Phone
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={account.phone}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+
+                <div className="col-span-6">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Location
+                  </label>
+                  <input
+                    type="text"
+                    name="location"
+                    value={account.location}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+
+                <div className="col-span-6">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Country
+                  </label>
+                  <input
+                    type="text"
+                    name="country"
+                    value={account.country}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+
+                <div className="col-span-6">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Hourly rate
+                  </label>
+                  <input
+                    type="text"
+                    name="hourlyRate"
+                    value={account.hourlyRate}
+                    onChange={handleInputChange}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
                 </div>
@@ -299,15 +301,11 @@ export default function Settingspage(props) {
 
         {/* Submit button */}
         <div className="flex justify-end">
-          <button
-            type="submit"
-            className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-            onClick={() => saveNewSettings()}
-          >
+          <button className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
             Save
           </button>
         </div>
       </form>
     </div>
   );
-};
+}
