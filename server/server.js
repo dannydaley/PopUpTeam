@@ -21,6 +21,7 @@ app.use(
             "http://localhost:9080",
             "http://localhost:9080/",
             "http://192.168.168.6:3000",
+            "https://popupteam.kemeneth.net",
         ],
         methods: ["GET", "POST"],
         credentials: true,
@@ -60,9 +61,6 @@ const authRoutes = require("./routes/auth");
 const searchRoutes = require("./routes/search");
 const messageRoutes = require("./routes/messages");
 const settingsRoutes = require("./routes/settings");
-
-// Import kanban router
-const kanbanRouter = require("./routes/kanban");
 
 //Routes
 app.use("/auth", authRoutes); //Login and register routes
