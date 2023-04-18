@@ -63,8 +63,8 @@ const settingsRoutes = require("./routes/settings");
 
 // Import kanban router
 const kanbanRouter = require("./routes/kanban");
+
 //Routes
-app.use("/kanban", kanbanRouter); // Initialise kanban router
 app.use("/auth", authRoutes); //Login and register routes
 app.use("/search", searchRoutes); //Search routes
 app.use("/messages", messageRoutes); //Message routes
