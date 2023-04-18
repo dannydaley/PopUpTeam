@@ -10,7 +10,18 @@ const cors = require("cors");
 
 app.use(
     cors({
-        origin: process.env.FRONT_END,
+        origin: [
+            // remove the * wildcard when done testing
+            "*",
+            process.env.FRONTEND,
+            "localhost:3000",
+            "http://localhost:3000",
+            "http://localhost:3000/",
+            "localhost:9080",
+            "http://localhost:9080",
+            "http://localhost:9080/",
+            "http://192.168.168.6:3000",
+        ],
         methods: ["GET", "POST"],
         credentials: true,
     })
