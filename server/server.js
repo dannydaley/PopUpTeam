@@ -39,7 +39,7 @@ app.use(
 );
 app.use(express.static(path.join(__dirname, "build")));
 const root = path.join(__dirname, "build");
-// app.use(fallback("index.html", { root: root }));
+
 app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "build", "index.html"));
 });
@@ -73,6 +73,9 @@ app.use("/settings", settingsRoutes);
 const devRoutes = require("./routes/devSetup");
 app.use("/dev", devRoutes);
 
+// fallback reroutes any unknown url entries to the front end
+// (Keep this at the end of the file)
+app.use(fallback("index.html", { root: root }));
 const PORT = process.env.PORT || 8080;
 
 //Server port
