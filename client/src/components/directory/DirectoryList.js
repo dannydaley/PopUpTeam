@@ -102,7 +102,6 @@ export default function DirectoryList(props) {
             axios
                 .get(process.env.REACT_APP_SERVER + "/search/getDirectory")
                 .then((res) => {
-                    console.log(process.env.REACT_APP_SERVER);
                     // apply raw list to rawdirectory variable
                     rawDirectory.current = res.data.directoryData;
                     // add each user from the response data to directory at the corresponding letter,
