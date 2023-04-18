@@ -22,7 +22,7 @@ app.use(
             "http://localhost:9080/",
             "http://192.168.168.6:3000",
             "https://popupteam.kemeneth.net",
-            "http://popupteam.kemeneth.net:3050",
+            "https://popupteam.kemeneth.net:3050",
         ],
         methods: ["GET", "POST"],
         credentials: true,
