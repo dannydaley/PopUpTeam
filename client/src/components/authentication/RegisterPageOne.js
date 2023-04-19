@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import Helmet from "react-helmet";
 import axios from "axios";
 
 import useFormData from "./useFormData";
@@ -84,10 +83,6 @@ export default function RegisterPageOne() {
 
   return (
     <>
-      <Helmet>
-        <title>Sign Up</title>
-      </Helmet>
-
       <AuthLayout>
         <div className="flex flex-col">
           <Logo width={170} image={"logo.png"} />

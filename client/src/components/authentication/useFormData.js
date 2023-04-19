@@ -8,7 +8,14 @@ export default function useFormData() {
     lastName: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
+    aboutMe: "",
+    phone: "",
+    work: "",
+    country: "",
+    location: "",
+    hourlyRate: "",
+    birthday: "",
   });
   
   // Handle input change
