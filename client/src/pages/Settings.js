@@ -57,35 +57,6 @@ export default function Settingspage(props) {
       });
   };
 
-  const inputFields = [
-    { label: "First Name", name: "firstName", value: account.firstName },
-    { label: "Last Name", name: "lastName", value: account.lastName },
-    { label: "Birthday", name: "birthday", value: account.birthday },
-    { label: "Phone", name: "phone", value: account.phone },
-    { label: "Location", name: "location", value: account.location },
-    { label: "Country", name: "country", value: account.country },
-    { label: "Hourly Rate", name: "hourlyRate", value: account.hourlyRate },
-  ];
-
-  function InputField(props) {
-    const { label, name, value } = props;
-
-    return (
-      <div className={`${name === "work" && "w-1/2"} col-span-6 sm:col-span-3`}>
-        <label className="block text-sm font-medium text-gray-700">
-          {label}
-        </label>
-        <input
-          type="text"
-          name={name}
-          value={value}
-          onChange={handleInputChange}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-        />
-      </div>
-    );
-  }
-
   return (
     <div class="flex">
       <SideBar account={account} />
@@ -124,7 +95,18 @@ export default function Settingspage(props) {
               </div>
 
               {/* Work */}
-              <InputField label="Work" name="work" value={account.work} />
+              <div className="w-1/2 col-span-6 sm:col-span-3">
+                <label className="block text-sm font-medium text-gray-700">
+                  Work
+                </label>
+                <input
+                  type="text"
+                  name="work"
+                  value={account.work}
+                  onChange={handleInputChange}
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                />
+              </div>
 
               {/* Profile picture */}
               <div>
@@ -222,14 +204,96 @@ export default function Settingspage(props) {
 
             <div className="mt-5 md:col-span-2 md:mt-0">
               <div className="grid grid-cols-6 gap-6">
-                {inputFields.map((inputField) => (
-                  <InputField
-                    key={inputField.name}
-                    label={inputField.label}
-                    name={inputField.name}
-                    value={inputField.value}
+                <div className="col-span-6 sm:col-span-3">
+                  <label className="block text-sm font-medium text-gray-700">
+                    first name
+                  </label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={account.firstName}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                   />
-                ))}
+                </div>
+
+                <div className="col-span-6 sm:col-span-3">
+                  <label className="block text-sm font-medium text-gray-700">
+                    last name
+                  </label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={account.firstName}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+
+                <div className="col-span-6">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Birthday
+                  </label>
+                  <input
+                    type="text"
+                    name="birthday"
+                    value={account.birthday}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+
+                <div className="col-span-6">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Phone
+                  </label>
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={account.phone}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+
+                <div className="col-span-6">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Location
+                  </label>
+                  <input
+                    type="text"
+                    name="location"
+                    value={account.location}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+
+                <div className="col-span-6">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Country
+                  </label>
+                  <input
+                    type="text"
+                    name="country"
+                    value={account.country}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
+
+                <div className="col-span-6">
+                  <label className="block text-sm font-medium text-gray-700">
+                    Hourly rate
+                  </label>
+                  <input
+                    type="text"
+                    name="hourlyRate"
+                    value={account.hourlyRate}
+                    onChange={handleInputChange}
+                    className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -244,4 +308,4 @@ export default function Settingspage(props) {
       </form>
     </div>
   );
-};
+}
