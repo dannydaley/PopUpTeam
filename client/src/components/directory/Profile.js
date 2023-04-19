@@ -308,7 +308,7 @@ export default function Profile(props) {
                           return renderProfileField(
                             "a team",
                             profile.team || account.team,
-                            "/settings"
+                            "/projects"
                           );
                         case 5:
                           return renderProfileField(

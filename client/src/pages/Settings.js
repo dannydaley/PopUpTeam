@@ -224,7 +224,7 @@ export default function Settingspage(props) {
                     Birthday
                   </label>
                   <input
-                    type="text"
+                    type="date"
                     name="birthday"
                     value={account.birthday}
                     onChange={handleInputChange}
