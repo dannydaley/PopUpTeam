@@ -1,5 +1,5 @@
 import SideBar from "../components/directory/SideBar";
-import AddTeam from "../components/directory/AddTeam";
+import AddTeam from "../components/projects/AddTeam";
 
 export default function NewProject(props) {
     const { account } = props;

@@ -1,4 +1,4 @@
-import ProjectList from "../components/directory/ProjectList";
+import ProjectList from "../components/projects/ProjectList";
 import SideBar from "../components/directory/SideBar";
 
 export default function Projects(props) {
