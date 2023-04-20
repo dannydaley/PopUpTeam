@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import useFormData from "./useFormData";
@@ -8,10 +8,8 @@ import {
   ContainsNumber,
   ContainsSpecial,
 } from "./InputFormatter";
-import AuthLayout from "./AuthLayout";
 import Button from "../Button";
 import Input from "./Input";
-import Logo from "../Logo";
 
 export default function RegisterPageOne() {
   const navigate = useNavigate();
@@ -83,172 +81,150 @@ export default function RegisterPageOne() {
 
   return (
     <>
-      <AuthLayout>
-        <div className="flex flex-col">
-          <Logo width={170} image={"logo.png"} />
+      <form
+        onSubmit={onSubmitSignUp}
+        onKeyDown={(e) => {
+          e.key === "Enter" && onSubmitSignUp(); //Submit form on enter
+        }}
+        className="mt-10"
+      >
+        {/* Username */}
+        <Input
+          label="Username"
+          type="text"
+          name="userName"
+          value={formData.userName}
+          handleChange={handleChange}
+          error={error === "Username already exists" ? error : ""}
+        />
 
-          <div className="mt-20">
-            <h2 className="text-lg font-semibold text-gray-900">
-              Get started for free
-            </h2>
-            <p className="mt-2 text-sm text-gray-700">
-              Already registered?{" "}
-              <Link
-                to="/business-login"
-                className="font-medium text-blue-600 hover:underline"
-              >
-                Sign in
-              </Link>{" "}
-              to your account.
-            </p>
-          </div>
-        </div>
+        {/* Username validation */}
+        {error === "Username already exists" && (
+          <p class="col-span-full -mt-4 mb-4 text-xs italic text-red-500">
+            Username already exists
+          </p>
+        )}
 
-        <form
-          onSubmit={onSubmitSignUp}
-          onKeyDown={(e) => {
-            e.key === "Enter" && onSubmitSignUp(); //Submit form on enter
-          }}
-          className="mt-10"
-        >
-          {/* Username */}
+        {/* First and last name */}
+        <div class="flex flex-row space-x-5">
           <Input
-            label="Username"
+            label="First name"
             type="text"
-            name="userName"
-            value={formData.userName}
-            handleChange={handleChange}
-            error={error === "Username already exists" ? error : ""}
-          />
-
-          {/* Username validation */}
-          {error === "Username already exists" && (
-            <p class="col-span-full -mt-4 mb-4 text-xs italic text-red-500">
-              Username already exists
-            </p>
-          )}
-
-          {/* First and last name */}
-          <div class="flex flex-row space-x-5">
-            <Input
-              label="First name"
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              handleChange={handleChange}
-              error={
-                error === "Names may only contain alphabetic characters"
-                  ? error
-                  : ""
-              }
-            />
-
-            <Input
-              label="Last name"
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              handleChange={handleChange}
-              error={
-                error === "Names may only contain alphabetic characters"
-                  ? error
-                  : ""
-              }
-            />
-          </div>
-
-          {/* Name validation */}
-          {error === "Names may only contain alphabetic characters" && (
-            <p class="-mt-4 mb-4 text-xs italic text-red-500">
-              Names may only contain alphabetic characters
-            </p>
-          )}
-
-          {/* Email */}
-          <Input
-            label="Email Address"
-            type="email"
-            name="email"
-            value={formData.email}
-            handleChange={handleChange}
-            error={error === "Email already exists" ? error : ""}
-          />
-
-          {/* Email validation */}
-          {error === "Email already exists" && (
-            <p class="-mt-4 mb-4 text-xs italic text-red-500">
-              Email already exists
-            </p>
-          )}
-
-          {/* Password */}
-          <Input
-            label="Password"
-            type="password"
-            name="password"
-            value={formData.password}
+            name="firstName"
+            value={formData.firstName}
             handleChange={handleChange}
             error={
-              error === "Password must contain at least one uppercase letter" ||
-              error === "Password must contain at least one number" ||
-              error === "Password must be at least 8 characters long"
-                ? error
-                : "" || error === "Passwords do not match"
+              error === "Names may only contain alphabetic characters"
                 ? error
                 : ""
             }
           />
 
           <Input
-            label="Confirm Password"
-            type="password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
+            label="Last name"
+            type="text"
+            name="lastName"
+            value={formData.lastName}
             handleChange={handleChange}
-            error={error === "Passwords do not match" ? error : ""}
+            error={
+              error === "Names may only contain alphabetic characters"
+                ? error
+                : ""
+            }
           />
+        </div>
 
-          {/* Password validation */}
-          {error === "Password must contain at least one uppercase letter" && (
-            <p class="col-span-full -mt-4 mb-4 text-xs italic text-red-500">
-              Password must contain at least one uppercase letter
-            </p>
-          )}
+        {/* Name validation */}
+        {error === "Names may only contain alphabetic characters" && (
+          <p class="-mt-4 mb-4 text-xs italic text-red-500">
+            Names may only contain alphabetic characters
+          </p>
+        )}
 
-          {error === "Password must contain at least one number" && (
-            <p class="col-span-full -mt-4 mb-4 text-xs italic text-red-500">
-              Password must contain at least one number
-            </p>
-          )}
+        {/* Email */}
+        <Input
+          label="Email Address"
+          type="email"
+          name="email"
+          value={formData.email}
+          handleChange={handleChange}
+          error={error === "Email already exists" ? error : ""}
+        />
 
-          {error === "Password must be at least 8 characters long" && (
-            <p class="col-span-full -mt-4 mb-4 text-xs italic text-red-500">
-              Password must be at least 8 characters long
-            </p>
-          )}
+        {/* Email validation */}
+        {error === "Email already exists" && (
+          <p class="-mt-4 mb-4 text-xs italic text-red-500">
+            Email already exists
+          </p>
+        )}
 
-          {error === "Passwords do not match" && (
-            <p class="col-span-full -mt-4 mb-4 text-xs italic text-red-500">
-              Passwords do not match
-            </p>
-          )}
+        {/* Password */}
+        <Input
+          label="Password"
+          type="password"
+          name="password"
+          value={formData.password}
+          handleChange={handleChange}
+          error={
+            error === "Password must contain at least one uppercase letter" ||
+            error === "Password must contain at least one number" ||
+            error === "Password must be at least 8 characters long"
+              ? error
+              : "" || error === "Passwords do not match"
+              ? error
+              : ""
+          }
+        />
 
-          {/* Submit button */}
-          <div className="col-span-full">
-            <Button
-              type="submit"
-              variant="solid"
-              color="blue"
-              className="w-full"
-              value="Sign Up"
-            >
-              <span>
-                Sign up <span aria-hidden="true">&rarr;</span>
-              </span>
-            </Button>
-          </div>
-        </form>
-      </AuthLayout>
+        <Input
+          label="Confirm Password"
+          type="password"
+          name="confirmPassword"
+          value={formData.confirmPassword}
+          handleChange={handleChange}
+          error={error === "Passwords do not match" ? error : ""}
+        />
+
+        {/* Password validation */}
+        {error === "Password must contain at least one uppercase letter" && (
+          <p class="col-span-full -mt-4 mb-4 text-xs italic text-red-500">
+            Password must contain at least one uppercase letter
+          </p>
+        )}
+
+        {error === "Password must contain at least one number" && (
+          <p class="col-span-full -mt-4 mb-4 text-xs italic text-red-500">
+            Password must contain at least one number
+          </p>
+        )}
+
+        {error === "Password must be at least 8 characters long" && (
+          <p class="col-span-full -mt-4 mb-4 text-xs italic text-red-500">
+            Password must be at least 8 characters long
+          </p>
+        )}
+
+        {error === "Passwords do not match" && (
+          <p class="col-span-full -mt-4 mb-4 text-xs italic text-red-500">
+            Passwords do not match
+          </p>
+        )}
+
+        {/* Submit button */}
+        <div className="col-span-full">
+          <Button
+            type="submit"
+            variant="solid"
+            color="blue"
+            className="w-full"
+            value="Sign Up"
+          >
+            <span>
+              Sign up <span aria-hidden="true">&rarr;</span>
+            </span>
+          </Button>
+        </div>
+      </form>
     </>
   );
 };
