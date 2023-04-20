@@ -14,7 +14,7 @@ import Register from "./pages/BusinessRegister";
 
 import CreativeDirectory from "./pages/CreativeDirectory";
 import NewProject from "./pages/NewProject";
-import Project from "./pages/Project";
+import Projects from "./pages/Projects";
 
 import Error from "./pages/404";
 
@@ -112,7 +112,7 @@ function App() {
             />
             <Route
                 path="/projects"
-                element={<NewProject account={account} />}
+                element={<Projects account={account} />}
             />
             <Route path="*" element={<Error />} />
             <Route path="/settings" element={<Settings account={account} setAccount={setAccount} />} />
@@ -120,7 +120,7 @@ function App() {
                 path="/dashboard"
                 element={<Dashboard account={account} setAccount={setAccount} />}
             />
-            <Route path="/project" element={<Project account={account} />} />
+            <Route path="/create-project" element={<NewProject account={account} />} />
 
             {/* Kanban */}
             <Route path="/kanban" element={<KanbanPage account={account} />} />
