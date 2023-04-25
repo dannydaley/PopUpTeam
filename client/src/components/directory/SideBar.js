@@ -21,7 +21,7 @@ function classNames(...classes) {
 export default function SideBar(props) {
     const location = useLocation();
 
-    const { isDesktop, showDirectory, setShowDirectory, account, setAccount } =
+    const { isDesktop, showDirectory, setShowDirectory, showProjects, setShowProjects, account, setAccount } =
         props;
 
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -65,7 +65,7 @@ export default function SideBar(props) {
                 if (!isDesktop) {
                     setShowDirectory(!showDirectory);
                     setSidebarOpen(false);
-                }
+                };
             },
         },
         {
@@ -73,6 +73,12 @@ export default function SideBar(props) {
             link: "projects",
             icon: FolderIcon,
             current: location.pathname === "/projects" ? true : false,
+            onClick: () => {
+                if (!isDesktop) {
+                    setShowProjects(!showProjects);
+                    setSidebarOpen(false);
+                };
+            },
         },
         {
             name: "Kanban",

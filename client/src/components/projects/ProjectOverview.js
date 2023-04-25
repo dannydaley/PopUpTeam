@@ -6,7 +6,7 @@ export default function ProjectOverview() {
       <div className="relative h-32 w-full object-cover lg:h-48 bg-gray-5a0">
         <div className="absolute flex flex-row items-center px-5 top-1/2 transform -translate-y-1/2 space-x-5">
           <img
-            className="h-24 w-24 rounded-full border border-gray-500 sm:h-32 sm:w-32"
+            className="h-16 w-16 sm:h-24 sm:w-24 lg:h-32 lg:w-32 rounded-full border border-gray-500"
             src="../images/background-auth.jpg"
             alt="Project logo"
           />
@@ -32,7 +32,7 @@ export default function ProjectOverview() {
           lacus.
         </p>
 
-        <div className="mt-8 flex flex-row w-full">
+        <div className="mt-8 flex flex-col sm:flex-row lg:flex-col xl:flex-row w-full space-y-8 sm:space-y-0 lg:space-y-8 xl:space-y-0">
           {/* Project leader */}
           <div className="w-1/2">
             <h2 className="text-base font-bold text-gray-700">

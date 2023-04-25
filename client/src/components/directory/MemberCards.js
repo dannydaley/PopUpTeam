@@ -31,7 +31,7 @@ const teamPlaceHolder = [
 
 export default function MemberCards() {
   return (
-    <div className="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-2">
+    <div className="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
       {teamPlaceHolder.map((person) => (
         <div
           key={person.handle}
