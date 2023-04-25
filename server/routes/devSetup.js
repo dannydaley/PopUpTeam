@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const db = require("../config/db");
 const userDataJSON = require("../config/users.json");
+const relationshipsJSON = require("../config/relationships.json");
 
 // users table setup endpoint
 router.get("/usersSetup", (req, res, next) => {
