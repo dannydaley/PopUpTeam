@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 
@@ -36,7 +37,7 @@ export default function ProjectList() {
   };
 
   return (
-    <div className="flex w-screen h-auto">
+    <div>
       {/* Project List */}
       <div className="w-96 h-screen flex flex-col border-r border-gray-200">
         {/* Heading */}
@@ -70,26 +71,25 @@ export default function ProjectList() {
           </div>
 
           {/* Create new project button */}
-          <button
-            type="button"
-            className="rounded-md border border-gray-300 p-2 text-center hover:border-gray-400"
-          >
-            <svg
-              className="mx-auto h-6 w-6 text-gray-700"
-              xmlns="http://www.w3.org/2000/svg"
-              stroke="currentColor"
-              fill="none"
-              viewBox="0 0 48 48"
-              aria-hidden="true"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8 14v20c0 4.418 7.163 8 16 8 1.381 0 2.721-.087 4-.252M8 14c0 4.418 7.163 8 16 8s16-3.582 16-8M8 14c0-4.418 7.163-8 16-8s16 3.582 16 8m0 0v14m0-4c0 4.418-7.163 8-16 8S8 28.418 8 24m32 10v6m0 0v6m0-6h6m-6 0h-6"
-              />
-            </svg>
-          </button>
+          <Link to="/create-project">
+            <button className="rounded-md border border-gray-300 p-2 text-center hover:border-gray-400">
+              <svg
+                className="mx-auto h-6 w-6 text-gray-700"
+                xmlns="http://www.w3.org/2000/svg"
+                stroke="currentColor"
+                fill="none"
+                viewBox="0 0 48 48"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 14v20c0 4.418 7.163 8 16 8 1.381 0 2.721-.087 4-.252M8 14c0 4.418 7.163 8 16 8s16-3.582 16-8M8 14c0-4.418 7.163-8 16-8s16 3.582 16 8m0 0v14m0-4c0 4.418-7.163 8-16 8S8 28.418 8 24m32 10v6m0 0v6m0-6h6m-6 0h-6"
+                />
+              </svg>
+            </button>
+          </Link>
         </div>
 
         {/* Project List */}
