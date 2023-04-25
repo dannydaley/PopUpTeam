@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 import axios from "axios";
 
 import "./App.css";
@@ -40,6 +41,10 @@ function App() {
 
     const [profile, setProfile] = useState(userData);
     const [account, setAccount] = useState(userData);
+
+    const isDesktop = useMediaQuery({
+        query: "(min-width: 1024px)",
+    });
 
     const [sender, setSender] = useState("");
 
@@ -102,6 +107,7 @@ function App() {
                 path="/directory"
                 element={
                     <CreativeDirectory
+                        isDesktop={isDesktop}
                         profile={profile}
                         setProfile={setProfile}
                         account={account}
@@ -110,10 +116,7 @@ function App() {
                     />
                 }
             />
-            <Route
-                path="/projects"
-                element={<Projects account={account} />}
-            />
+            <Route path="/projects" element={<Projects account={account} />} />
             <Route path="*" element={<Error />} />
             <Route path="/settings" element={<Settings account={account} setAccount={setAccount} />} />
             <Route

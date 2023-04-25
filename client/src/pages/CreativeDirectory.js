@@ -1,19 +1,14 @@
 import { useState } from "react";
-import { useMediaQuery } from "react-responsive";
 
 import SideBar from "../components/directory/SideBar";
 import Profile from "../components/directory/Profile";
 import DirectoryList from "../components/directory/DirectoryList";
 
 export default function CreativeDirectory(props) {
-    const isDesktop = useMediaQuery({
-        query: "(min-width: 1024px)",
-    });
+    const { isDesktop, profile, setProfile, account, setAccount, sender } = props;
 
     const [showDirectory, setShowDirectory] = useState(true);
     const [renderMessage, setRenderMessage] = useState(false);
-
-    const { profile, setProfile, account, setAccount, sender } = props;
 
     return (
         <div class="flex">
