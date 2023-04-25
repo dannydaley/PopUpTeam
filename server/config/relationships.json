@@ -1,0 +1,16 @@
+{
+    "relationships": [
+        {
+            "user1": "dannydaleyyy",
+            "user2": "JoshHaywood",
+            "isProject": false,
+            "role": null
+        },
+        {
+            "user1": "dannydaleyyy",
+            "user2": "popUpTeam",
+            "isProject": true,
+            "role": "Full Stack Developer"
+        }
+    ]
+}

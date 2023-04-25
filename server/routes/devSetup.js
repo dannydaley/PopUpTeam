@@ -52,6 +52,42 @@ router.get("/usersSetup", (req, res, next) => {
     res.send("user-db-done");
 });
 
+router.get("/relationshipsSetup", (req, res, next) => {
+    db.query(() => {
+        //delete the table if it exists..
+        db.query("DROP TABLE IF EXISTS relationships");
+        //recreate the relationships table
+        db.query(
+            "CREATE TABLE users (user1 varchar(255), user2 varchar(255), isProject bool , role varchar(255)",
+            (err, rows) => {
+                if (err) console.log(err);
+                console.log(rows);
+            }
+        );
+        //create array of relationships from the dummy data JSON file
+        let relationships = relationshipsJSON.relationships;
+        //insert each element in the array of objects into the relationships table in the database
+        realtionships.forEach((relationship) => {
+            // SQL query to run
+            db.query(
+                "INSERT INTO relationships (user1, user2, isProject, role) VALUES(?,?, ?, ?)",
+                // values passed in from current iteration of the relationships array
+                [
+                    relationship.user1,
+                    relationship.user2,
+                    relationship.isProject,
+                    relationship.role,
+                ],
+                (err) => {
+                    if (err) console.log(err);
+                }
+            );
+        });
+    });
+    // respond with success page
+    res.send("relationships-db-done");
+});
+
 router.get("/getAllUsers", (req, res, next) => {
     // grab all user data
     db.query("SELECT * FROM users", [], (err, userData) => {
@@ -63,6 +99,20 @@ router.get("/getAllUsers", (req, res, next) => {
         }
         // respond with userData on success
         res.send(userData);
+    });
+});
+
+router.get("/getAllRelationships", (req, res, next) => {
+    // grab all relationship data
+    db.query("SELECT * FROM relationships", [], (err, relationshipData) => {
+        // if error
+        if (err) {
+            // respond with error status and error message
+            res.status(500).send(err.message);
+            return;
+        }
+        // respond with relationships on success
+        res.send(relationshipData);
     });
 });
 
