@@ -61,15 +61,17 @@ app.use(session);
 
 const kanbanServer = require("./kanban-server/routes/index");
 const authRoutes = require("./routes/auth");
-const searchRoutes = require("./routes/search");
+const directoryRoutes = require("./routes/directory");
 const messageRoutes = require("./routes/messages");
 const settingsRoutes = require("./routes/settings");
+const projectRoutes = require("./routes/projects");
 
 //Routes
-app.use("/auth", authRoutes); //Login and register routes
-app.use("/search", searchRoutes); //Search routes
-app.use("/messages", messageRoutes); //Message routes
+app.use("/auth", authRoutes); 
+app.use("/directory", directoryRoutes)
+app.use("/messages", messageRoutes); 
 app.use("/settings", settingsRoutes);
+app.use("/projects", projectRoutes);
 
 //kanban routes
 app.use("/kanban-server", kanbanServer);
