@@ -101,9 +101,9 @@ function MobileNavigation(props) {
                                 Pricing
                             </NavLink>
                         </div>
-                        <NavLink href="/about">
+                        {/* <NavLink href="/about">
                             About
-                        </NavLink>
+                        </NavLink> */}
                         <NavLink href="/become-a-creative">
                             Become a creative
                         </NavLink>
@@ -154,9 +154,9 @@ export default function Header(props) {
                                     Pricing
                                 </NavLink>
                             </div>
-                            <NavLink href="/about">
+                            {/* <NavLink href="/about">
                                 About
-                            </NavLink>
+                            </NavLink> */}
                             <NavLink href="/become-a-creative">
                                 Become a creative
                             </NavLink>

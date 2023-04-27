@@ -3,7 +3,7 @@ import Container from '../Container';
 
 export default function Hero() {
     return (
-        <Container className="pt-20 pb-16 text-center lg:pt-32">
+        <Container className="pt-20 mb-10 pb-20 text-center lg:pt-24">
             <h1 className="mx-auto max-w-4xl font-display text-5xl font-medium tracking-tight text-slate-900 sm:text-7xl">
                 Building a team{' '}
                 <span className="relative whitespace-nowrap text-blue-600">
@@ -27,7 +27,7 @@ export default function Hero() {
                 <Button href="/business-register">Build your team today</Button>
                 
                 {/* POP UP VIDEO HERE */}
-                <Button
+                {/* <Button
                     href=""
                     variant="outline"
                 >
@@ -38,9 +38,9 @@ export default function Hero() {
                         <path d="m9.997 6.91-7.583 3.447A1 1 0 0 1 1 9.447V2.553a1 1 0 0 1 1.414-.91L9.997 5.09c.782.355.782 1.465 0 1.82Z" />
                     </svg>
                     <span className="ml-3">Watch video</span>
-                </Button>
+                </Button> */}
             </div>
-            <div className="mt-36 lg:mt-44">
+            {/* <div className="mt-36 lg:mt-44">
                 <p className="font-display text-base text-slate-900">
                     Trusted by companies small and large
                 </p>
@@ -68,7 +68,7 @@ export default function Hero() {
                         </li>
                     ))}
                 </ul>
-            </div>
+            </div> */}
         </Container>
     );
 };
