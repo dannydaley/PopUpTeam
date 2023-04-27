@@ -70,7 +70,7 @@ export default function Projects(props) {
                 setProject={setProject}
             />
 
-            <ProjectOverview project={project} />
+            <ProjectOverview project={project} projectList={projectList} />
         </div>
     );
 }

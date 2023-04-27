@@ -1,7 +1,0 @@
-Louis - do market research specialty
-
-Josh - do front end user profile research and start thinking about user mockups
-
-Yordan - project setup and construct database connection
-
-Me - build users database and pre write queries
