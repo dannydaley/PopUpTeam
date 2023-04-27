@@ -11,12 +11,7 @@ export default function Projects(props) {
   const [showProjects, setShowProjects] = useState(true);
 
   const [projectList, setProjectList] = useState([]);
-  const [project, setProject] = useState({
-    leader: "",
-    title: "",
-    description: "",
-    createdAt: "",
-  });
+  const [project, setProject] = useState({});
 
   // Format creation date
   useEffect(() => {

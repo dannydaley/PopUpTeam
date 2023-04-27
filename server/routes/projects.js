@@ -4,13 +4,13 @@ const db = require("../config/db");
 
 // Get all projects user has created
 router.get("/created", (req, res) => {
-  const email = req.session.userData.email;
+  const name = req.session.userData.firstName + " " + req.session.userData.lastName;
   const getProjects = `SELECT * FROM Projects WHERE leader = ?`;
 
-  db.query(getProjects, [email], (err, res) => {
+  db.query(getProjects, [name], (err, rows) => {
     if (err) throw err;
 
-    res.send(res);
+    res.send(rows);
   });
 });
 

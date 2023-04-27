@@ -52,9 +52,9 @@ export default function ProjectOverview(props) {
 
               <div>
                 <div className="font-semibold text-gray-700">{project.leader}</div>
-                <div className="text-sm text-gray-400 hover:text-gray-700 hover:underline hover:cursor-pointer">
-                  JohnDoe@example.com
-                </div>
+                <a href={`mailto:${project.leader_email}`} className="text-sm text-gray-400 hover:text-gray-700 hover:underline hover:cursor-pointer">
+                  {project.leader_email}
+                </a>
               </div>
             </div>
           </div>
