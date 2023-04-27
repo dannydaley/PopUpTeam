@@ -20,6 +20,9 @@ export default function ProjectList(props) {
 
   projectList.sort((a, b) => (a.name > b.name ? 1 : -1)); // Sort projects alphabetically
 
+  const [showCreated, setShowCreated] = useState(true);
+  const [showPartOf, setShowPartOf] = useState(false);
+
   const [projects, setProjects] = useState(projectList);
 
   // Filter results based on search input
@@ -97,26 +100,74 @@ export default function ProjectList(props) {
               </Link>
             </div>
 
-            {/* Project List */}
-            <div className="mt-6 overflow-y-auto">
-              {projects.map((project) => (
-                <div
-                  key={project.name}
-                  onClick={() => {!isDesktop && setShowProjects(false)}}
-                  className="mx-2 p-4 border-t border-gray-200"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="text-sm font-medium text-gray-500">
-                      {project.name}
-                    </div>
+            {/* Project Lists */}
+            <div
+              onClick={() => setShowCreated(!showCreated)}
+              className="mt-6 mb-4 mx-5 text-sm hover:cursor-pointer "
+            >
+              Created by you
+            </div>
 
-                    <div className="text-xs font-medium text-gray-300">
-                      - {project.role}
+            {showCreated && (
+              <div className="overflow-y-auto">
+                {projects.map((project, index) => (
+                  <div
+                    key={project.name}
+                    onClick={() => {
+                      !isDesktop && setShowProjects(false);
+                    }}
+                    className={`mx-2 p-4 border-t border-gray-200 ${
+                      index === projects.length - 1 ? "border-b" : ""
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="text-sm font-medium text-gray-500">
+                        {project.name}
+                      </div>
+
+                      <div className="text-xs font-medium text-gray-300">
+                        - {project.role}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            )}
+
+            <div
+              onClick={() => setShowPartOf(!showPartOf)}
+              className={`py-4 px-5 text-sm border-t hover:cursor-pointer ${
+                !showPartOf ? "border-b" : ""
+              }`}
+            >
+              Projects your part of
             </div>
+
+            {showPartOf && (
+              <div className="overflow-y-auto">
+                {projects.map((project, index) => (
+                  <div
+                    key={project.name}
+                    onClick={() => {
+                      !isDesktop && setShowProjects(false);
+                    }}
+                    className={`mx-2 p-4 border-t border-gray-200 ${
+                      index === projects.length - 1 ? "border-b" : ""
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="text-sm font-medium text-gray-500">
+                        {project.name}
+                      </div>
+
+                      <div className="text-xs font-medium text-gray-300">
+                        - {project.role}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
