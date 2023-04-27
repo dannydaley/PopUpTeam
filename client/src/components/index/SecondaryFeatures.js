@@ -5,10 +5,10 @@ import Container from '../Container';
 
 const features = [
     {
-        name: 'Reporting',
-        summary: 'Stay on top of things with always up-to-date reporting features.',
+        name: 'Project Management',
+        summary: 'Stay on top of things with always up-to-date management features.',
         description:
-            'DESCRIPTION TO BE ADDED',
+            '',
         image: '../images/screenshots/profit-loss.png',
         icon: function ReportingIcon() {
             return (
@@ -36,11 +36,11 @@ const features = [
         },
     },
     {
-        name: 'Task Management',
+        name: 'Create your project',
         summary:
             'Keep tasks organised on our built in Kanban board.',
         description:
-            'DESCRIPTION TO BE ADDED',
+            '',
         image: '../images/screenshots/inventory.png',
         icon: function InventoryIcon() {
             return (
@@ -64,11 +64,11 @@ const features = [
         },
     },
     {
-        name: 'Creatives',
+        name: 'Hire exceptional talent',
         summary:
             'Organize all of your creatives, developers, and invoices in one place.',
         description:
-            'DESCRIPTION TO BE ADDED',
+            '',
         image: '../images/screenshots/contacts.png',
         icon: function ContactsIcon() {
             return (
