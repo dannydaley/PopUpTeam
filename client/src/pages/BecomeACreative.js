@@ -54,7 +54,7 @@ export default function BecomeACreative(props) {
           </div>
 
           {/* Logo Cloud */}
-          <div className="bg-gray-100">
+          {/* <div className="bg-gray-100">
             <div className="mx-auto max-w-7xl py-16 px-4 sm:px-6 lg:px-8">
               <p className="text-center text-base font-semibold text-gray-500">
                 Trusted by local businesses near you
@@ -89,7 +89,7 @@ export default function BecomeACreative(props) {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Alternating Feature Sections */}
           <div className="relative overflow-hidden pt-16 pb-32">
@@ -122,7 +122,7 @@ export default function BecomeACreative(props) {
                     <blockquote>
                       <div>
                         <p className="text-base text-gray-500">
-                          &ldquo;QUOTE GOES HERE"
+                          &ldquo;The best part about PopUpTeam is every time I build a new project I can use the same developers I have worked with in the past and also use new ones."
                         </p>
                       </div>
                       <footer className="mt-3">
