@@ -29,7 +29,7 @@ export default function Home(props) {
       
       <>
         <Hero />
-        <PrimaryFeatures />
+        {/* <PrimaryFeatures /> */}
         <SecondaryFeatures />
         <CallToAction />
         <Testimonials />
