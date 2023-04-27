@@ -11,7 +11,29 @@ export default function Projects(props) {
   const [showProjects, setShowProjects] = useState(true);
 
   const [projectList, setProjectList] = useState([]);
+  const [project, setProject] = useState({
+    leader: "",
+    title: "",
+    description: "",
+    createdAt: "",
+  });
 
+  // Format creation date
+  useEffect(() => {
+    const date = new Date();
+    const formattedDate = date.toLocaleDateString('en-US', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    }).replace(/\//g, '-');
+
+    setProject(prevState => ({
+      ...prevState,
+      createdAt: formattedDate
+    }));
+  }, []);
+
+  // Get all created projects
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_SERVER + "/projects/created")
@@ -34,9 +56,12 @@ export default function Projects(props) {
         setShowProjects={setShowProjects}
         projectList={projectList}
         setProjectList={setProjectList}
+        setProject={setProject}
       />
 
-      <ProjectOverview />
+      <ProjectOverview 
+        project={project}
+      />
     </div>
   );
 };

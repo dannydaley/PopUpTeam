@@ -10,6 +10,7 @@ export default function ProjectList(props) {
     setShowProjects,
     projectList,
     setProjectList,
+    setProject,
   } = props;
 
   projectList.sort((a, b) => (a.title > b.title ? 1 : -1)); // Sort projects alphabetically
@@ -30,7 +31,7 @@ export default function ProjectList(props) {
         project.title.toLowerCase().includes(searchValue)
       );
       setProjectList(filteredProjects);
-    }
+    };
   };
 
   return (
@@ -104,6 +105,7 @@ export default function ProjectList(props) {
                     key={index}
                     onClick={() => {
                       !isDesktop && setShowProjects(false);
+                      setProject(project);
                     }}
                     className={`mx-2 p-4 border-t border-gray-200 ${
                       index === projectList.length - 1 ? "border-b" : ""
@@ -139,6 +141,7 @@ export default function ProjectList(props) {
                     key={index}
                     onClick={() => {
                       !isDesktop && setShowProjects(false);
+                      setProject(project);
                     }}
                     className={`mx-2 p-4 border-t border-gray-200 ${
                       index === projectList.length - 1 ? "border-b" : ""

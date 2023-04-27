@@ -1,6 +1,16 @@
 import MemberCards from "../directory/MemberCards";
 
-export default function ProjectOverview() {
+export default function ProjectOverview(props) {
+  const { project } = props;
+
+  // Format creation date
+  const date = new Date(project.createdAt);
+  const formattedDate = date.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  }).replace(/\//g, "-");
+
   return (
     <div className="w-full">
       <div className="relative h-32 w-full object-cover lg:h-48 bg-gray-5a0">
@@ -11,7 +21,7 @@ export default function ProjectOverview() {
             alt="Project logo"
           />
           <h1 className="truncate text-2xl font-bold text-gray-900">
-            Project name
+            {project.title}
           </h1>
         </div>
       </div>
@@ -23,13 +33,7 @@ export default function ProjectOverview() {
         <h2 className="mt-8 text-base font-bold text-gray-700">Overview</h2>
 
         <p className="mt-2.5 text-sm text-gray-500">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-          congue vitae nisl vestibulum imperdiet. Etiam ut quam sollicitudin,
-          sodales tortor non, vulputate tellus. Phasellus vitae justo ac nulla
-          vulputate placerat vel vitae nunc. Etiam iaculis, leo id vulputate
-          congue, neque enim luctus nibh, et ullamcorper mauris odio non nunc.
-          Integer in justo ex. Integer id nibh in tellus bibendum accumsan id eu
-          lacus.
+          {project.description}
         </p>
 
         <div className="mt-8 flex flex-col sm:flex-row lg:flex-col xl:flex-row w-full space-y-8 sm:space-y-0 lg:space-y-8 xl:space-y-0">
@@ -47,7 +51,7 @@ export default function ProjectOverview() {
               />
 
               <div>
-                <div className="font-semibold text-gray-700">John Doe</div>
+                <div className="font-semibold text-gray-700">{project.leader}</div>
                 <div className="text-sm text-gray-400 hover:text-gray-700 hover:underline hover:cursor-pointer">
                   JohnDoe@example.com
                 </div>
@@ -58,10 +62,10 @@ export default function ProjectOverview() {
           {/* Completion date */}
           <div className="w-1/2">
             <h2 className="text-base font-bold text-gray-700">
-              Expected completion
+              Created
             </h2>
 
-            <div className="mt-1.5 text-gray-500">00/00/0000</div>
+            <div className="mt-1.5 text-gray-500">{formattedDate}</div>
           </div>
         </div>
 
