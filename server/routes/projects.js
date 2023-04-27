@@ -2,6 +2,18 @@ const express = require("express");
 const router = express.Router();
 const db = require("../config/db");
 
+// Get all projects user has created
+router.get("/created", (req, res) => {
+  const email = req.session.userData.email;
+  const getProjects = `SELECT * FROM Projects WHERE leader = ?`;
+
+  db.query(getProjects, [email], (err, res) => {
+    if (err) throw err;
+
+    res.send(res);
+  });
+});
+
 router.post("/getProjects", (req, res, next) => {
   let username = req.body;
   db.query(

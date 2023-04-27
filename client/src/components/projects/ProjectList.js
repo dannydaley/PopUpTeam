@@ -3,27 +3,19 @@ import { Link } from "react-router-dom";
 
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 
-const projectList = [
-  { name: "Project A", role: "Lorem ipsum" },
-  { name: "Project B", role: "Lorem ipsum" },
-  { name: "Project C", role: "Lorem ipsum" },
-  { name: "Project 1", role: "Lorem ipsum" },
-  { name: "Project 2", role: "Lorem ipsum" },
-  { name: "Project 3", role: "Lorem ipsum" },
-  { name: "Project D", role: "Lorem ipsum" },
-  { name: "Project E", role: "Lorem ipsum" },
-  { name: "Project F", role: "Lorem ipsum" },
-];
-
 export default function ProjectList(props) {
-  const { isDesktop, showProjects, setShowProjects } = props;
+  const {
+    isDesktop,
+    showProjects,
+    setShowProjects,
+    projectList,
+    setProjectList,
+  } = props;
 
-  projectList.sort((a, b) => (a.name > b.name ? 1 : -1)); // Sort projects alphabetically
+  projectList.sort((a, b) => (a.title > b.title ? 1 : -1)); // Sort projects alphabetically
 
   const [showCreated, setShowCreated] = useState(true);
   const [showPartOf, setShowPartOf] = useState(false);
-
-  const [projects, setProjects] = useState(projectList);
 
   // Filter results based on search input
   const handleSearch = (e) => {
@@ -31,13 +23,13 @@ export default function ProjectList(props) {
 
     // If search bar is empty, display all projects
     if (searchValue.length === 0) {
-      setProjects(projectList);
+      setProjectList(projectList);
     } else {
       // Else, filter projects based on search input
       const filteredProjects = projectList.filter((project) =>
-        project.name.toLowerCase().includes(searchValue)
+        project.title.toLowerCase().includes(searchValue)
       );
-      setProjects(filteredProjects);
+      setProjectList(filteredProjects);
     }
   };
 
@@ -63,10 +55,7 @@ export default function ProjectList(props) {
                   Search
                 </label>
                 <div className="relative rounded-md shadow-sm">
-                  <div
-                    onClick={() => handleSearch()}
-                    className="absolute inset-y-0 left-0 flex items-center pl-3 hover:cursor-pointer"
-                  >
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 hover:cursor-pointer">
                     <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
                   </div>
                   <input
@@ -110,19 +99,19 @@ export default function ProjectList(props) {
 
             {showCreated && (
               <div className="overflow-y-auto">
-                {projects.map((project, index) => (
+                {projectList.map((project, index) => (
                   <div
-                    key={project.name}
+                    key={index}
                     onClick={() => {
                       !isDesktop && setShowProjects(false);
                     }}
                     className={`mx-2 p-4 border-t border-gray-200 ${
-                      index === projects.length - 1 ? "border-b" : ""
+                      index === projectList.length - 1 ? "border-b" : ""
                     }`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="text-sm font-medium text-gray-500">
-                        {project.name}
+                        {project.title}
                       </div>
 
                       <div className="text-xs font-medium text-gray-300">
@@ -145,19 +134,19 @@ export default function ProjectList(props) {
 
             {showPartOf && (
               <div className="overflow-y-auto">
-                {projects.map((project, index) => (
+                {projectList.map((project, index) => (
                   <div
-                    key={project.name}
+                    key={index}
                     onClick={() => {
                       !isDesktop && setShowProjects(false);
                     }}
                     className={`mx-2 p-4 border-t border-gray-200 ${
-                      index === projects.length - 1 ? "border-b" : ""
+                      index === projectList.length - 1 ? "border-b" : ""
                     }`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="text-sm font-medium text-gray-500">
-                        {project.name}
+                        {project.title}
                       </div>
 
                       <div className="text-xs font-medium text-gray-300">
