@@ -12,19 +12,13 @@ Presentation - https://falmouthac-my.sharepoint.com/:p:/g/personal/lw254830_falm
 
 - [PopUpTeam](#popupteam)
   - [Contents](#contents)
-  - [Main Features](#main-features)
   - [Repository Layout](#repository-layout)
     - [Main](#main)
     - [Documentation](#documentation)
   - [Installation](#installation)
     - [Prerequisites](#prerequisites)
     - [User Guide](#user-guide)
-  - [Commit Message Key](#commit-message-key)
-
-## Main Features
-
-** Features here **
-
+    
 ## Repository Layout
 
 ### Main
@@ -103,16 +97,3 @@ This branch contains:
 
 10. Finally enter the local URL (http:localhost:3000) into your web browser. Database functionality can be found (http:localhost:3000/dev)
     Additional if you wish to view the database outside of the source code enter the information found in 'server/config/db.js' into mySQLworkbench as a new connection in the same format it appears here.
-
-## Commit Message Key
-
-** If any words used in the commit log used before the content of the message are unfamilar refer to this key **
-
-- feat: A feature that has been added.
-- fix: Bug fix.
-- docs: Changes relating to documentation.
-- style: Formatting, missing code, white space (This doesnt apply to CSS.)
-- refactor: Maintainabilty or a functions method has been altered.
-- dep: Dependancies added to the project.
-- chore: Miscellaneous such as altering assets.
-- del: Deleted or removed unused code, files or other assets.
