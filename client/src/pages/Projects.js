@@ -13,21 +13,6 @@ export default function Projects(props) {
   const [projectList, setProjectList] = useState([]);
   const [project, setProject] = useState({});
 
-  // Format creation date
-  useEffect(() => {
-    const date = new Date();
-    const formattedDate = date.toLocaleDateString('en-US', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    }).replace(/\//g, '-');
-
-    setProject(prevState => ({
-      ...prevState,
-      createdAt: formattedDate
-    }));
-  }, []);
-
   // Get all created projects
   useEffect(() => {
     axios
@@ -56,6 +41,7 @@ export default function Projects(props) {
 
       <ProjectOverview 
         project={project}
+        projectList={projectList}
       />
     </div>
   );
