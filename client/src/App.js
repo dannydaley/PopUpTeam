@@ -7,19 +7,17 @@ import "./App.css";
 import Home from "./pages/Index";
 import About from "./pages/About";
 import BecomeACreative from "./pages/BecomeACreative";
-import Settings from "./pages/Settings";
-import Dashboard from "./pages/Dashboard";
 
 import Login from "./pages/BusinessLogin";
 import Register from "./pages/BusinessRegister";
 
 import CreativeDirectory from "./pages/CreativeDirectory";
-import NewProject from "./pages/NewProject";
 import Projects from "./pages/Projects";
+import NewProject from "./pages/NewProject";
+import KanbanPage from "./pages/KanbanPage";
+import Settings from "./pages/Settings";
 
 import Error from "./pages/404";
-
-import KanbanPage from "./pages/KanbanPage";
 
 axios.defaults.withCredentials = true; // Allows axios to send cookies to the server
 
@@ -92,14 +90,12 @@ function App() {
         element={<BecomeACreative profile={account} />}
       />
 
-      {/* Authentication */}
       <Route
         path="/business-login"
         element={<Login account={account} setAccount={setAccount} />}
       />
       <Route path="/business-register" element={<Register />} />
 
-      {/* Directory */}
       <Route
         path="/directory"
         element={
@@ -113,26 +109,25 @@ function App() {
           />
         }
       />
+
       <Route
         path="/projects"
         element={<Projects isDesktop={isDesktop} account={account} />}
       />
-      <Route path="*" element={<Error />} />
-      <Route
-        path="/settings"
-        element={<Settings account={account} setAccount={setAccount} />}
-      />
-      <Route
-        path="/dashboard"
-        element={<Dashboard account={account} setAccount={setAccount} />}
-      />
+
       <Route
         path="/create-project"
         element={<NewProject account={account} />}
       />
 
-      {/* Kanban */}
       <Route path="/kanban" element={<KanbanPage account={account} />} />
+
+      <Route
+        path="/settings"
+        element={<Settings account={account} setAccount={setAccount} />}
+      />
+
+      <Route path="*" element={<Error />} />
     </Routes>
   );
 }
