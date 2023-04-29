@@ -9,7 +9,7 @@ const features = [
         summary: 'Stay on top of things with always up-to-date management features.',
         description:
             '',
-        image: '../images/screenshots/profit-loss.png',
+        image: '../images/Project.png',
         icon: function ReportingIcon() {
             return (
                 <>
@@ -41,7 +41,7 @@ const features = [
             'Keep tasks organised on our built in Kanban board.',
         description:
             '',
-        image: '../images/screenshots/inventory.png',
+        image: '../images/Kanban.png',
         icon: function InventoryIcon() {
             return (
                 <>
@@ -69,7 +69,7 @@ const features = [
             'Organize all of your creatives, developers, and invoices in one place.',
         description:
             '',
-        image: '../images/screenshots/contacts.png',
+        image: '../images/Directory.png',
         icon: function ContactsIcon() {
             return (
                 <>
